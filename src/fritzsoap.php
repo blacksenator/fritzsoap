@@ -12,21 +12,41 @@ namespace blacksenator\fritzsoap;
  **/
 
 use \SimpleXMLElement;
+use blacksenator\fbvalidateurl\fbvalidateurl;
 
 class fritzsoap
 {
-    private $ip;
+    private $url;
     private $user;
     private $password;
     private $client = null;
     private $errorCode;
     private $errorText;
 
-    public function __construct($ip, $user, $password)
+    /**
+     * initialization
+     *
+     * @param string $url
+     * @param string $user
+     * @param string $password
+     * @return void
+     */
+    public function __construct($url, $user, $password)
     {
-        $this->ip       = $ip;
-        $this->user     = $user;
+        $validator = new fbvalidateurl;
+        $this->url = $validator->getValidURL($url);
+        $this->user = $user;
         $this->password = $password;
+    }
+
+    /**
+     * get the validate URL
+     *
+     * @return array
+     */
+    public function getURL()
+    {
+        return $this->url;
     }
 
     /**
@@ -38,14 +58,18 @@ class fritzsoap
      */
     public function getClient($location, $service)
     {
-        if (!preg_match("/https/", $this->ip)) {
-           $port = '49000';
-        } else {
-           $port = '49443';
+        switch ($this->url['scheme']) {
+            case 'http':
+                $adress = 'http://' . $this->url['host'] . ':49000/upnp/control/' . $location;
+                break;
+
+            case 'https':
+                $adress = 'https://' . $this->url['host'] . ':49443/upnp/control/' . $location;
+                break;
         }
         $this->client = new \SoapClient(
                             null, [
-                                'location'   => $this->ip.":".$port."/upnp/control/".$location,
+                                'location'   => $adress,
                                 'uri'        => "urn:dslforum-org:service:".$service,
                                 'noroot'     => true,
                                 'login'      => $this->user,
