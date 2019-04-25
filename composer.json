@@ -1,7 +1,6 @@
 {
     "name": "blacksenator/fritzsoap",
     "type": "library",
-    "version": "1.0",
     "keywords": ["SOAP", "TR-064", "fritzbox"],
     "homepage": "https://github.com/blacksenator/fritzsoap",
     "description": "Manipulating FRITZ!Box phonebook data via TR-064 interface",
@@ -15,13 +14,11 @@
     ],
     "require": {
         "php": ">=7.0",
-        "blacksenator/fbvalidateurl": "dev-master#1.0"
+        "blacksenator/fbvalidateurl": "^1.0"
     },
     "autoload": {
         "psr-4": {
             "blacksenator\\fritzsoap\\": "src/"
         }
-    },
-    "minimum-stability": "dev",
-    "prefer-stable": true
+    }
 }
