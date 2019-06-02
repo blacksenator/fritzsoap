@@ -16,7 +16,8 @@ use blacksenator\fbvalidateurl\fbvalidateurl;
 
 class fritzsoap
 {
-    private $url;
+    private $url = [];
+    private $serverAdress;
     private $user;
     private $password;
     private $client = null;
@@ -40,13 +41,23 @@ class fritzsoap
     }
 
     /**
-     * get the validate URL
+     * get the validated URL parameters
      *
      * @return array
      */
     public function getURL()
     {
         return $this->url;
+    }
+
+    /**
+     * get the server adress
+     *
+     * @return string
+     */
+    public function getServerAdress()
+    {
+        return $this->serverAdress;
     }
 
     /**
@@ -58,19 +69,18 @@ class fritzsoap
      */
     public function getClient($location, $service)
     {
-        switch ($this->url['scheme']) {
-            case 'http':
-                $adress = 'http://' . $this->url['host'] . ':49000/upnp/control/' . $location;
-                break;
-
-            case 'https':
-                $adress = 'https://' . $this->url['host'] . ':49443/upnp/control/' . $location;
-                break;
+        if ($this->url['scheme'] == 'http') {
+            $this->serverAdress = 'http://' . $this->url['host'] . ':49000/upnp/control/' . $location;
+        } elseif ($this->url['scheme'] == 'https') {
+            $this->serverAdress = 'https://' . $this->url['host'] . ':49443/upnp/control/' . $location;
+        } else {
+            error_log ('Could not assamble valid server adress!');
         }
+
         $this->client = new \SoapClient(
                             null, [
-                                'location'   => $adress,
-                                'uri'        => "urn:dslforum-org:service:".$service,
+                                'location'   => $this->serverAdress,
+                                'uri'        => 'urn:dslforum-org:service:' . $service,
                                 'noroot'     => true,
                                 'login'      => $this->user,
                                 'password'   => $this->password,
@@ -96,7 +106,7 @@ class fritzsoap
      * get a list of phonebooks implemented on the FRITZ!Box
      * requires a client of location 'x_contact' and service 'X_AVM-DE_OnTel:1'
      *
-     * @return string|void list of phonebook index like '0,1,2,3' or
+     * @return array|void list of phonebook indices like '0,1,2,3' or
      *                     402 (Invalid arguments Any)
      *                     820 (Internal Error)
      */
@@ -237,7 +247,7 @@ class fritzsoap
      *                              </contact>
      *                          </Envelope>
      */
-    function newContact($name, $number, $type) : SimpleXMLElement
+    protected function newContact($name, $number, $type) : SimpleXMLElement
     {
         $envelope = new simpleXMLElement('<Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope"></Envelope>');
 
