@@ -14,7 +14,7 @@
     ],
     "require": {
         "php": ">=7.0",
-        "blacksenator/fbvalidateurl": "^1.1"
+        "blacksenator/fbvalidateurl": "^1.2"
     },
     "autoload": {
         "psr-4": {
