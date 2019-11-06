@@ -381,7 +381,7 @@ class fritzsoap
         $envelope = new simpleXMLElement('<Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope"></Envelope>');
 
         $contact = $envelope->addChild('contact');
-        $contact->addChild('carddav_uid');
+
         $contact->addChild('category', '0');
 
         $person = $contact->addChild('person');
@@ -402,7 +402,6 @@ class fritzsoap
         $features->addAttribute('doorphone', '0');
 
         $contact->addChild('mod_time', (string)time());
-        $contact->addChild('uniqueid');
 
         return $envelope;
     }
