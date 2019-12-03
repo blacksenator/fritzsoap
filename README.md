@@ -11,6 +11,7 @@ With the instantiation of the class, **all available services of the addressed F
 The service parameters and available actions are provided in a compressed form as XML and can be output with `getServiceDescription()`.
 
 Example output:
+
 <img src="assets/services_xml.jpg"/>
 
 The matching SOAP client only needs to be called with the name of the services `<services name = "...">` and gets the correct location and uri from this XML.
