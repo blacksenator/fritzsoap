@@ -6,7 +6,7 @@ namespace blacksenator\fritzsoap;
   * The class provides functions to read and manipulate
   * data via TR-064 interface on FRITZ!Box router from AVM:
   * - phonebook related data (mostly)
-  * - network (mesh) data (currently just on)
+  * - network (mesh) data (currently just one realized)
   * - to be continued...
   *
   * With the instantiation of the class, all available
@@ -122,7 +122,7 @@ class fritzsoap
                 $actions = $services->addChild('actions');
                 foreach ($actionsDesc as $actionDesc) {
                     $action = $actions->addChild('action', (string)$actionDesc->name);
-                    /* this maximum detailed view is currently not necessary (but executable)
+                    /* the following more detailed view is currently not necessary (but executable)
                      * so, if you want to use it: comment the line above and uncomment the following
                      */
                     /*
