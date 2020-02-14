@@ -6,7 +6,7 @@ namespace blacksenator\fritzsoap;
   * The class provides functions to read and manipulate
   * data via TR-064 interface on FRITZ!Box router from AVM:
   * - phonebook related data (mostly)
-  * - network (mesh) data (currently just one realized)
+  * - network (mesh) data (currently just one)
   * - to be continued...
   *
   * With the instantiation of the class, all available
@@ -39,7 +39,7 @@ use blacksenator\fbvalidateurl\fbvalidateurl;
 
 class fritzsoap
 {
-    const SERVICE_DESCRIPTIONS = [         // https://boxmatrix.info/wiki/XML-Files
+    const SERVICE_DESCRIPTIONS = [         // see: https://boxmatrix.info/wiki/XML-Files ('*desc.xml (static)')
         'tr64desc.xml',
         'igddesc.xml',
         'avmnexusdesc.xml',
@@ -66,7 +66,7 @@ class fritzsoap
     private $errorText;
 
     /**
-     * initialization
+     * instantiation
      *
      * @param string $url
      * @param string $user
@@ -196,11 +196,12 @@ class fritzsoap
     /**
      * get a new SOAP client
      *
-     * @param string $location  TR-064 area (https://avm.de/service/schnittstellen/)
-     * @param string $service   TR-064 service (https://avm.de/service/schnittstellen/)
+     * @see https://avm.de/service/schnittstellen
+     *
+     * @param string $name of service
      * @return void
      */
-    public function getClient($name)
+    public function getClient(string $name)
     {
         $parameter = $this->services->xpath("//services[@name='$name']");
         $location = (string)$parameter[0]->location;
@@ -223,11 +224,34 @@ class fritzsoap
      * error information into $this->errorCode and $this->errorText
      *
      * @param object $result
+     * @return void
      */
     private function getErrorData($result)
     {
         $this->errorCode = isset($result->detail->UPnPError->errorCode) ? $result->detail->UPnPError->errorCode : $result->faultcode;
         $this->errorText = isset($result->detail->UPnPError->errorDescription) ? $result->detail->UPnPError->errorDescription : $result->faultstring;
+    }
+
+    /**
+     * get info of service
+     *
+     * please note:
+     * currently only the x_tam service has an input parameter ('NewIndex')
+     * to call this function for this particular service
+     * the value of $inParam has to be ['NewIndex' => 0] or ['NewIndex' => 1]
+     * depending on which answering machine you want the information from
+     *
+     * @param array $inParam
+     * @return array $result
+     */
+    public function getInfo(array $inParam = [])
+    {
+        reset($inParam);             // set ponter to first element -> 7.3: array_key_first()
+        $param = key($inParam);
+        $value = $inParam[$param];
+        $result = $this->client->GetInfo(new \SoapParam($value, $param));
+
+        return $result;
     }
 
     /**
@@ -269,7 +293,7 @@ class fritzsoap
      *                                713 (Invalid array index)
      *                                820 (Internal Error)
      */
-    public function getPhonebook($phoneBookID = 0)
+    public function getPhonebook(int $phoneBookID = 0)
     {
         $result = $this->client->GetPhonebook(new \SoapParam($phoneBookID, 'NewPhonebookID'));
         if (is_soap_fault($result)) {
@@ -288,12 +312,12 @@ class fritzsoap
      * requires a client of 'x_contact'
      *
      * @param string $name
-     * @param integer $phoneBookID
+     * @param int $phoneBookID
      * @return void|string null or
      *                     402 (Invalid arguments)
      *                     820 (Internal Error)
      */
-    public function addPhonebook($name, $phoneBookID = null)
+    public function addPhonebook(string $name, int $phoneBookID = null)
     {
         $result = $this->client->AddPhonebook(
                     new \SoapParam($name, 'NewPhonebookName'),
@@ -381,7 +405,7 @@ class fritzsoap
         $envelope = new simpleXMLElement('<Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope"></Envelope>');
 
         $contact = $envelope->addChild('contact');
-
+        $contact->addChild('carddav_uid');
         $contact->addChild('category', '0');
 
         $person = $contact->addChild('person');
@@ -402,6 +426,7 @@ class fritzsoap
         $features->addAttribute('doorphone', '0');
 
         $contact->addChild('mod_time', (string)time());
+        $contact->addChild('uniqueid');
 
         return $envelope;
     }
@@ -454,6 +479,17 @@ class fritzsoap
         $xml = new SimpleXMLElement('<?xml version="1.0"?><data></data>');
 
         return $this->arrayToXML($meshListArray, $xml);
+    }
+
+    /**
+     * get a XML list of ...
+     *
+     * @return SimpleXMLElement
+     */
+    public function getFileLinkListPath()
+    {
+        $result = $this->client->GetFilelinkListPath();
+        return file_get_contents($this->serverAdress . $result);
     }
 
     /**
