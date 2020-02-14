@@ -246,10 +246,14 @@ class fritzsoap
      */
     public function getInfo(array $inParam = [])
     {
-        reset($inParam);             // set ponter to first element -> 7.3: array_key_first()
-        $param = key($inParam);
-        $value = $inParam[$param];
-        $result = $this->client->GetInfo(new \SoapParam($value, $param));
+        if (empty($inParam)) {
+            $result = $this->client->GetInfo();
+        } else {
+            reset($inParam);             // set ponter to first element -> 7.3: array_key_first()
+            $param = key($inParam);
+            $value = $inParam[$param];
+            $result = $this->client->GetInfo(new \SoapParam($value, $param));
+        }
 
         return $result;
     }
