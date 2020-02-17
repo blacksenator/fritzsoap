@@ -3,34 +3,38 @@
 namespace blacksenator\fritzsoap;
 
 /**
-  * The class provides functions to read and manipulate
-  * data via TR-064 interface on FRITZ!Box router from AVM:
-  * - phonebook related data (mostly)
-  * - network (mesh) data (currently just one)
-  * - to be continued...
+  * The class provides the base functions to read and
+  * manipulate data via TR-064 interface on FRITZ!Box
+  * router from AVM:
   *
-  * With the instantiation of the class, all available
-  * services of the addressed FRITZ!Box are determined.
+  * With the instantiation of this class or descendants,
+  * all available services of the addressed FRITZ!Box
+  * are determined automatically.
   * The service parameters and available actions are
   * provided in a compressed form as XML and can be output
   * with getServiceDescription().
   * The matching SOAP client only needs to be called with
-  * the name of the services <services name = "..."> and
-  * gets the correct location and uri from the XML
-  * (see getFritzBoxServices() for details)
+  * the name of the services <services name = "..."> as
+  * class name and gets the correct location and uri from
+  * the XML (see getFritzBoxServices() for details)
   *
-  * Example:
-  * $fritzbox = new fritzsoap($url, $user, $password);
-  * // if you wanna know your avalaible services:
-  * $services = $fritzbox->getServiceDescription();
-  * $services->asXML('services.xml');
-  * // after you got the name (if you do not already know it):
-  * $fritzbox->getClient('hosts');
-  * // function names are usually equal to actions:
-  * $meshList = $fritzbox->getMeshListPath();
+  * Example (get your avalaible services)
+  *   $fritzbox = new x_contact($url, $user, $password);
+  *   $services = $fritzbox->getServiceDescription();
+  *   $services->asXML('services.xml');
+  *
+  * Example (get info of a service):
+  *   $fritzbox = new x_voip($url, $user, $password);
+  *   $fritzbox->getClient();
+  *   $info = $fritzbox->getInfo()
+  *
+  * Example (get list of network devices)
+  *   $fritzbox = new hosts($url, $user, $password);
+  *   $fritzbox->getClient();
+  *   $meshList = $fritzbox->getMeshListPath();
   *
   * @author Volker Püschel <knuffy@anasco.de>
-  * @copyright Volker Püschel 2019
+  * @copyright Volker Püschel 2020
   * @license MIT
  **/
 
@@ -58,12 +62,12 @@ class fritzsoap
     private $services;
 
     private $url = [];
-    private $serverAdress;
     private $user;
     private $password;
-    private $client = null;
-    private $errorCode;
-    private $errorText;
+    public $serverAdress;
+    public $client = null;
+    public $errorCode;
+    public $errorText;
 
     /**
      * instantiation
@@ -107,7 +111,7 @@ class fritzsoap
      *
      * @return SimpleXMLElement
      */
-    private function getFritzBoxServices() : SimpleXMLElement
+    private function getFritzBoxServices(): SimpleXMLElement
     {
         $tr064 = new SimpleXMLElement('<tr064 />');
         foreach (self::SERVICE_DESCRIPTIONS as $description) {
@@ -151,7 +155,7 @@ class fritzsoap
      * @param string $node
      * @return array
      */
-    private function getServiceXML(string $xmlFile, string $node)
+    private function getServiceXML(string $xmlFile, string $node): array
     {
         $result = [];
         $xml = @simplexml_load_file($xmlFile);
@@ -168,7 +172,7 @@ class fritzsoap
      *
      * @return SimpleXMLElement
      */
-    public function getServiceDescription() : SimpleXMLElement
+    public function getServiceDescription(): SimpleXMLElement
     {
         return $this->services;
     }
@@ -178,7 +182,7 @@ class fritzsoap
      *
      * @return array
      */
-    public function getURL()
+    public function getURL(): array
     {
         return $this->url;
     }
@@ -188,7 +192,7 @@ class fritzsoap
      *
      * @return string
      */
-    public function getServerAdress()
+    public function getServerAdress(): string
     {
         return $this->serverAdress;
     }
@@ -201,21 +205,22 @@ class fritzsoap
      * @param string $name of service
      * @return void
      */
-    public function getClient(string $name)
+    public function getClient()
     {
-        $parameter = $this->services->xpath("//services[@name='$name']");
+        $class = get_class($this);
+        $className = str_replace('blacksenator\\fritzsoap\\', '', $class);
+        $parameter = $this->services->xpath("//services[@name='$className']");
         $location = (string)$parameter[0]->location;
         $service = (string)$parameter[0]->service;
-        $this->client = new \SoapClient(
-            null, [
-                'location'   => $this->serverAdress . $location,
-                'uri'        => $service,
-                'noroot'     => true,
-                'login'      => $this->user,
-                'password'   => $this->password,
-                'trace'      => true,
-                'exceptions' => false
-            ]);
+        $this->client = new \SoapClient(null, [
+            'location'   => $this->serverAdress . $location,
+            'uri'        => $service,
+            'noroot'     => true,
+            'login'      => $this->user,
+            'password'   => $this->password,
+            'trace'      => true,
+            'exceptions' => false
+        ]);
     }
 
     /**
@@ -226,274 +231,10 @@ class fritzsoap
      * @param object $result
      * @return void
      */
-    private function getErrorData($result)
+    public function getErrorData($result)
     {
         $this->errorCode = isset($result->detail->UPnPError->errorCode) ? $result->detail->UPnPError->errorCode : $result->faultcode;
         $this->errorText = isset($result->detail->UPnPError->errorDescription) ? $result->detail->UPnPError->errorDescription : $result->faultstring;
-    }
-
-    /**
-     * get info of service
-     *
-     * please note:
-     * currently only the x_tam service has an input parameter ('NewIndex')
-     * to call this function for this particular service
-     * the value of $inParam has to be ['NewIndex' => 0] or ['NewIndex' => 1]
-     * depending on which answering machine you want the information from
-     *
-     * @param array $inParam
-     * @return array $result
-     */
-    public function getInfo(array $inParam = [])
-    {
-        if (empty($inParam)) {
-            $result = $this->client->GetInfo();
-        } else {
-            reset($inParam);             // set ponter to first element -> 7.3: array_key_first()
-            $param = key($inParam);
-            $value = $inParam[$param];
-            $result = $this->client->GetInfo(new \SoapParam($value, $param));
-        }
-
-        return $result;
-    }
-
-    /**
-     * get a list of phonebooks implemented on the FRITZ!Box
-     * requires a client of 'x_contact'
-     *
-     * @return array|void list of phonebook indices like '0,1,2,3' or
-     *                     402 (Invalid arguments Any)
-     *                     820 (Internal Error)
-     */
-    public function getPhonebookList()
-    {
-        $result = $this->client->GetPhonebookList();
-        if (is_soap_fault($result)) {
-            $errorData = $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not access to phonebooks on FRITZ!Box", $this->errorCode, $this->errorText));
-            return;
-        }
-        return $result;
-    }
-
-    /**
-     * delivers the content of a designated phonebook
-     * requires a client of 'x_contact'
-     *
-     * The following URL parameters are also supported but not coded yet:
-     * Parameter name    Type          Remarks
-     * ---------------------------------------------------------------------------------------
-     * pbid              number        Phonebook ID
-     * max               number        maximum number of entries in call list, default 999
-     * sid               hex-string    Session ID for authentication
-     * timestamp         number        value from timestamp tag, to get the phonebook content
-     *                                 only if last modification was made after this timestamp
-     * tr064sid          string        Session ID for authentication (obsolete)
-     *
-     * @param int $phoneBookID
-     * @return SimpleXMLElement|void  phonebook or
-     *                                402 (Invalid arguments)
-     *                                713 (Invalid array index)
-     *                                820 (Internal Error)
-     */
-    public function getPhonebook(int $phoneBookID = 0)
-    {
-        $result = $this->client->GetPhonebook(new \SoapParam($phoneBookID, 'NewPhonebookID'));
-        if (is_soap_fault($result)) {
-            $errorData = $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not get the phonebook %s", $this->errorCode, $this->errorText, $phoneBookID));
-            return;
-        }
-        $phonebook = simplexml_load_file($result['NewPhonebookURL']);
-        $phonebook->asXML();
-
-        return $phonebook;
-    }
-
-    /**
-     * add a new entry in the designated phonebook
-     * requires a client of 'x_contact'
-     *
-     * @param string $name
-     * @param int $phoneBookID
-     * @return void|string null or
-     *                     402 (Invalid arguments)
-     *                     820 (Internal Error)
-     */
-    public function addPhonebook(string $name, int $phoneBookID = null)
-    {
-        $result = $this->client->AddPhonebook(
-                    new \SoapParam($name, 'NewPhonebookName'),
-                    new \SoapParam($phoneBookID, 'NewPhonebookExtraID'));
-        if (is_soap_fault($result)) {
-            $errorData = $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not add the new phonebook %s", $this->errorCode, $this->errorText, $name));
-            return;
-        }
-
-        return $result;
-    }
-
-    /**
-     * deletes a designated phonebook
-     * requires a client of 'x_contact'
-     *
-     * @param int $phoneBookID
-     * @return string|void null or
-     *                     402 (Invalid arguments)
-     *                     713 (Invalid array index)
-     *                     820 (Internal Error)
-     */
-    public function deletePhonebook($phoneBookID)
-    {
-        $result = $this->client->DeletePhonebook(new \SoapParam($phoneBookID, 'NewPhonebookID'));
-        if (is_soap_fault($result)) {
-            $errorData = $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not delete the phonebook with index %s", $this->errorCode, $this->errorText, $phoneBookID));
-            return;
-        }
-
-        return $result;
-    }
-
-    /**
-     * add an new entry in the designated phonebook
-     * requires a client of 'x_contact'
-     *
-     * @param SimpleXMLElement $entry
-     * @param int $phoneBookID
-     * @return string|void null or
-     *                     402 (Invalid arguments)
-     *                     600 (Argument invalid)
-     *                     713 (Invalid array index)
-     *                     820 (Internal Error)
-     */
-    public function setPhonebookEntry(SimpleXMLElement $entry, $phoneBookID = 0)
-    {
-        $result = $this->client->SetPhonebookEntry(
-                    new \SoapParam($phoneBookID, 'NewPhonebookID'),
-                    new \SoapParam($entry, 'NewPhonebookEntryData'),
-                    new \SoapParam(null, 'NewPhonebookEntryID'));
-        if (is_soap_fault($result)) {
-            $errorData = $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not add the new entry to the phonebook with index %s", $this->errorCode, $this->errorText, $phoneBookID));
-            return;
-        }
-
-        return $result;
-    }
-
-    /**
-     * get a xml contact structure for AVMs TR-064 interface
-     * example minimal structur:
-     * <?xml version="1.0"?>
-     * <Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope">
-     *     <contact>
-     *         <person>
-     *             <realName>$caller</realName>
-     *         </person>
-     *         <telephony>
-     *             <number id="0" type=$type>$number</number>
-     *         </telephony>
-     *     </contact>
-     * </Envelope>
-     *
-     * @param string $name
-     * @param string $number
-     * @param string $type phone type (home, work, mobile, fax_work)
-     * @return SimpleXMLElement SOAP envelope
-     */
-    public function newContact($name, $number, $type) : SimpleXMLElement
-    {
-        $envelope = new simpleXMLElement('<Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope"></Envelope>');
-
-        $contact = $envelope->addChild('contact');
-        $contact->addChild('carddav_uid');
-        $contact->addChild('category', '0');
-
-        $person = $contact->addChild('person');
-        $person->addChild('realName', $name);
-
-        $telephony = $contact->addChild('telephony');
-        $telephony->addAttribute('nid', '1');
-
-        $phone = $telephony->addChild('number', $number);
-        $phone->addAttribute('type', $type);
-        $phone->addAttribute('prio', '0');
-        $phone->addAttribute('id', '0');
-
-        $contact->addChild('services');
-        $contact->addChild('setup');
-
-        $features = $contact->addChild('features');
-        $features->addAttribute('doorphone', '0');
-
-        $contact->addChild('mod_time', (string)time());
-        $contact->addChild('uniqueid');
-
-        return $envelope;
-    }
-
-    /**
-     * dial a number
-     * requires a client of 'x_voip'
-     * precondition: you must activate "Wählhilfe" in your FRITZ!Box:
-     * Telefonie -> Telefonbuch -> Wählhilfe -> Wählhilfe verwenden
-     *
-     * @param string $number
-     * @return void
-     */
-    public function dialNumber($number)
-    {
-        $result = $this->client->{'X_AVM-DE_DialNumber'}(new \SoapParam($number, 'NewX_AVM-DE_PhoneNumber'));
-        if (is_soap_fault($result)) {
-            $errorData = $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not dial the number %s", $this->errorCode, $this->errorText, $number));
-        }
-    }
-
-    /**
-     * Disconnect the dialling process
-     * requires a client of 'x_voip'
-     * precondition: you must activate "Wählhilfe" in your FRITZ!Box:
-     * Telefonie -> Telefonbuch -> Wählhilfe -> Wählhilfe verwenden
-     *
-     * @return void
-     */
-    public function hangUp()
-    {
-        $result = $this->client->{'X_AVM-DE_DialHangup'}();
-        if (is_soap_fault($result)) {
-            $errorData = $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not hang up", $this->errorCode, $this->errorText));
-        }
-    }
-
-    /**
-     * get a XML list of connected devices to the network
-     * requires a client of 'hosts'
-     *
-     * @return SimpleXMLElement
-     */
-    public function getMeshListPath()
-    {
-        $result = $this->client->{'X_AVM-DE_GetMeshListPath'}();
-        $meshListArray = json_decode(file_get_contents($this->serverAdress . $result), true);
-        $xml = new SimpleXMLElement('<?xml version="1.0"?><data></data>');
-
-        return $this->arrayToXML($meshListArray, $xml);
-    }
-
-    /**
-     * get a XML list of ...
-     *
-     * @return SimpleXMLElement
-     */
-    public function getFileLinkListPath()
-    {
-        $result = $this->client->GetFilelinkListPath();
-        return file_get_contents($this->serverAdress . $result);
     }
 
     /**
@@ -504,7 +245,7 @@ class fritzsoap
      * @param SimpleXMLElement $xmlData
      * @return SimpleXMLElement $xmlData
      */
-    private function arrayToXML($data, &$xmlData)
+    protected function arrayToXML($data, &$xmlData)
     {
         foreach ($data as $key => $value) {
             if (is_numeric($key)) {
