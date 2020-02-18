@@ -35,12 +35,12 @@ Base of this generation are the service description xml files of my FRITZ!Box 74
 
 ### Completion
 
-Round about 5% of the actions are reviewed coding is finished ready to use. If so, you will find in the class header comment:
-`THIS FILE IS AUTOMATIC ASSEMBLED BUT PARTLY REVIEWED!` - in all other cases: `THIS FILE IS AUTOMATIC ASSEMBLED!`
+Round about 5% of the actions are reviewed and coding is ready to use. If so, you will find in the class header comment:
+`THIS FILE IS AUTOMATIC ASSEMBLED BUT PARTLY REVIEWED!`
+In all other cases:
+`THIS FILE IS AUTOMATIC ASSEMBLED!`
 
-You will see if a function coding has been checked when you look at the comments - in all other cases untouched functions are looking like this:
-
-Example of an unreviewed function (from `x_homeauto.php`):
+You will see if a function coding has been checked, when you look at the comments. In all other cases untouched functions are looking like the following example of an unreviewed function (from `x_homeauto.php`):
 
 ```PHP
 /**
@@ -94,32 +94,42 @@ Automatic generation has also identified 14 services that are not officially doc
 
 You can install it through Composer:
 
-    "require": {
-        "blacksenator/fritzsoap": "^2.0"
-    },
+```JSON
+"require": {
+    "blacksenator/fritzsoap": "^2.0"
+},
+```
 
 or
 
-    git clone https://github.com/blacksenator/fritzsoap.git
+```console
+git clone https://github.com/blacksenator/fritzsoap.git
+```
 
 ## Usage
 Example if you wanna know your available services:
 
-    $fritzbox = new x_contact($url, $user, $password);
-    $services = $fritzbox->getServiceDescription();
-    $services->asXML('services.xml');
+```PHP
+$fritzbox = new x_contact($url, $user, $password);
+$services = $fritzbox->getServiceDescription();
+$services->asXML('services.xml');
+```
 
 Example to get a list of all your network devices:
 
-    $fritzbox = new hosts($url, $user, $password);
-    $fritzbox->getClient();
-    $meshList = $fritzbox->x_AVM_DE_GetMeshListPath();
+```PHP
+$fritzbox = new hosts($url, $user, $password);
+$fritzbox->getClient();
+$meshList = $fritzbox->x_AVM_DE_GetMeshListPath();
+```
 
 Example to dial a number (connected to one of your phone devices):
 
-    $fritzbox = new x_voip($url, $user, $password);
-    $fritzbox->getClient();
-    $fritzbox->x_AVM_DE_DialNumber('#9');
+```PHP
+$fritzbox = new x_voip($url, $user, $password);
+$fritzbox->getClient();
+$fritzbox->x_AVM_DE_DialNumber('#9');
+```
 
 ## License
 This script is released under MIT license.
