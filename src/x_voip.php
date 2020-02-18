@@ -589,7 +589,7 @@ class x_voip extends fritzsoap
      * @param string $number
      * @return void
      */
-    public function dx_AVM_DE_DialNumber($number)
+    public function x_AVM_DE_DialNumber($number)
     {
         $result = $this->client->{'X_AVM-DE_DialNumber'}(new \SoapParam($number, 'NewX_AVM-DE_PhoneNumber'));
         if (is_soap_fault($result)) {

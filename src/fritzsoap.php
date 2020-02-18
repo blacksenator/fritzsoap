@@ -31,7 +31,7 @@ namespace blacksenator\fritzsoap;
   * Example (get list of network devices)
   *   $fritzbox = new hosts($url, $user, $password);
   *   $fritzbox->getClient();
-  *   $meshList = $fritzbox->getMeshListPath();
+  *   $meshList = $fritzbox->x_AVM_DE_GetMeshListPath();
   *
   * @author Volker Püschel <knuffy@anasco.de>
   * @copyright Volker Püschel 2020
