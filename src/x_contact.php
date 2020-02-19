@@ -282,10 +282,10 @@ class x_contact extends fritzsoap
      * tr064sid          string        Session ID for authentication (obsolete)
      *
      * @param int $phoneBookID
-     * @return SimpleXMLElement|void  phonebook or
-     *                                402 (Invalid arguments)
-     *                                713 (Invalid array index)
-     *                                820 (Internal Error)
+     * @return SimpleXMLElement|bool phonebook or
+     *                               402 (Invalid arguments)
+     *                               713 (Invalid array index)
+     *                               820 (Internal Error)
      */
     public function getPhonebook(int $phoneBookID = 0)
     {
@@ -293,7 +293,7 @@ class x_contact extends fritzsoap
         if (is_soap_fault($result)) {
             $this->getErrorData($result);
             error_log(sprintf("Error: %s (%s)! Could not get the phonebook %s", $this->errorCode, $this->errorText, $phoneBookID));
-            return;
+            return false;
         }
         $phonebook = simplexml_load_file($result['NewPhonebookURL']);
         $phonebook->asXML();
@@ -401,20 +401,21 @@ class x_contact extends fritzsoap
      *
      * add an new entry in the designated phonebook
      *
-     * @param SimpleXMLElement $entry
+     * @param SimpleXMLElement $entry according newContact()
      * @param int $phoneBookID
+     * @param string $entryID <uniqueid> if you want to overwrite an existing contact
      * @return string|void null or
      *                     402 (Invalid arguments)
      *                     600 (Argument invalid)
      *                     713 (Invalid array index)
      *                     820 (Internal Error)
      */
-    public function setPhonebookEntry(SimpleXMLElement $entry, $phoneBookID = 0)
+    public function setPhonebookEntry(SimpleXMLElement $entry, int $phoneBookID = 0, string $entryID = '')
     {
         $result = $this->client->SetPhonebookEntry(
             new \SoapParam($phoneBookID, 'NewPhonebookID'),
-            new \SoapParam($entry, 'NewPhonebookEntryData'),
-            new \SoapParam(null, 'NewPhonebookEntryID')
+            new \SoapParam($entryID, 'NewPhonebookEntryID'),
+            new \SoapParam($entry, 'NewPhonebookEntryData')
         );
         if (is_soap_fault($result)) {
             $this->getErrorData($result);
@@ -427,7 +428,7 @@ class x_contact extends fritzsoap
 
     /**
      * get a xml contact structure for AVMs TR-064 interface
-     * example minimal structur:
+     * example for minimal structur:
      * <?xml version="1.0"?>
      * <Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope">
      *     <contact>
@@ -450,7 +451,6 @@ class x_contact extends fritzsoap
         $envelope = new simpleXMLElement('<Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope"></Envelope>');
 
         $contact = $envelope->addChild('contact');
-        $contact->addChild('carddav_uid');
         $contact->addChild('category', '0');
 
         $person = $contact->addChild('person');

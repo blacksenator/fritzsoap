@@ -202,7 +202,6 @@ class fritzsoap
      *
      * @see https://avm.de/service/schnittstellen
      *
-     * @param string $name of service
      * @return void
      */
     public function getClient()

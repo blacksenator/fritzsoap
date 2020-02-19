@@ -94,7 +94,7 @@ Automatic generation has also identified 14 services that are not officially doc
 
 You can install it through Composer:
 
-```JSON
+```js
 "require": {
     "blacksenator/fritzsoap": "^2.0"
 },
