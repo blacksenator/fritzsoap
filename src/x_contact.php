@@ -244,7 +244,7 @@ class x_contact extends fritzsoap
      *
      * out: NewPhonebookList
      *
-     * @return array|void list of phonebook indices like '0,1,2,3' or
+     * @return string|void list of phonebook indices like '0,1,2,3' or
      *                     402 (Invalid arguments Any)
      *                     820 (Internal Error)
      */
@@ -253,7 +253,7 @@ class x_contact extends fritzsoap
         $result = $this->client->GetPhonebookList();
         if (is_soap_fault($result)) {
             $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+            error_log(sprintf("Error: %s (%s)! Could not get list of phonebooks from FRITZ!Box", $this->errorCode, $this->errorText));
             return;
         }
 
