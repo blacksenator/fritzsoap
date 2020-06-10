@@ -159,7 +159,7 @@ class fritzsoap
     {
         $result = [];
         $file_headers = @get_headers($xmlFile);
-        if (substr($file_headers[0], -13) != '404 Not Found') {
+        if ($file_headers !== false && substr($file_headers[0], -13) != '404 Not Found') {
             $xml = @simplexml_load_file($xmlFile);
             if ($xml != false) {
                 $xml->registerXPathNamespace('fb', $xml->getNameSpaces(false)[""]);
