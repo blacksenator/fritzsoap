@@ -58,9 +58,7 @@ class fritzsoap
         'usbdesc.xml',
         ];
 
-    /** @var SimpleXMLElement */
     private $services;
-
     private $url = [];
     private $user;
     private $password;
@@ -88,14 +86,18 @@ class fritzsoap
         } elseif ($this->url['scheme'] == 'https') {
             $this->serverAdress = 'https://' . $this->url['host'] . ':49443';
         } else {
-            error_log ('Could not assamble valid server adress!');
+            throw new \Exception ('Could not assemble valid server address!');
         }
         $this->services = $this->getFritzBoxServices();
+        if ($this->services === false) {
+            throw new \Exception ('SOAP services could not be determined!');
+        }
     }
 
     /**
      * get all available services and their actions from the FRITZ!Box
      * in a condenzed XML:
+     *
      *  <?xml version="1.0"?>
      *  <tr064>
      *      <services name = "x_contact">
@@ -109,20 +111,20 @@ class fritzsoap
      *      ...
      *  </tr064>
      *
-     * @return SimpleXMLElement
+     * @return SimpleXMLElement|bool
      */
-    private function getFritzBoxServices(): SimpleXMLElement
+    private function getFritzBoxServices()
     {
         $tr064 = new SimpleXMLElement('<tr064 />');
         foreach (self::SERVICE_DESCRIPTIONS as $description) {
-            $serviceHeaders = $this->getServiceXML($this->serverAdress . '/' . $description, 'service');
+            $serviceHeaders = $this->getDescriptionXML($this->serverAdress . '/' . $description, 'service');
             foreach ($serviceHeaders as $serviceHeader) {
                 $services = $tr064->addChild('services');
                 $name = explode('/', $serviceHeader->controlURL);
                 $services->addAttribute('name', $name[3]);
                 $services->addChild('service', (string)$serviceHeader->serviceType);
                 $services->addChild('location', (string)$serviceHeader->controlURL);
-                $actionsDesc = $this->getServiceXML($this->serverAdress . $serviceHeader->SCPDURL, 'action');
+                $actionsDesc = $this->getDescriptionXML($this->serverAdress . $serviceHeader->SCPDURL, 'action');
                 $actions = $services->addChild('actions');
                 foreach ($actionsDesc as $actionDesc) {
                     $action = $actions->addChild('action', (string)$actionDesc->name);
@@ -144,6 +146,10 @@ class fritzsoap
                 }
             }
         }
+        $result = $tr064->xpath('//services');
+        if (!count($result)) {
+            return false;
+        }
 
         return $tr064;
     }
@@ -155,13 +161,16 @@ class fritzsoap
      * @param string $node
      * @return array
      */
-    private function getServiceXML(string $xmlFile, string $node): array
+    private function getDescriptionXML(string $xmlFile, string $node): array
     {
         $result = [];
-        $xml = @simplexml_load_file($xmlFile);
-        if ($xml != false) {
-            $xml->registerXPathNamespace('fb', $xml->getNameSpaces(false)[""]);
-            $result = $xml->xpath("//fb:$node");
+        $fileHeaders = @get_headers($xmlFile);
+        if (!strpos($fileHeaders[0], '404') && $fileHeaders !== false) {
+            $xml = @simplexml_load_file($xmlFile);
+            if ($xml !== false) {
+                $xml->registerXPathNamespace('fb', $xml->getNameSpaces(false)[""]);
+                $result = $xml->xpath("//fb:$node");
+            }
         }
 
         return $result;
@@ -209,6 +218,10 @@ class fritzsoap
         $class = get_class($this);
         $className = str_replace('blacksenator\\fritzsoap\\', '', $class);
         $parameter = $this->services->xpath("//services[@name='$className']");
+        if (!count($parameter)) {
+            $message = sprintf('No service parameters for %s available!', $className);
+            throw new \Exception ($message);
+        }
         $location = (string)$parameter[0]->location;
         $service = (string)$parameter[0]->service;
         $this->client = new \SoapClient(null, [
@@ -238,7 +251,8 @@ class fritzsoap
 
     /**
      * converting an array to XML
-     * top voted answer to https://stackoverflow.com/questions/1397036/how-to-convert-array-to-simplexml
+     * currently used in hosts.php and possibly in the future in other classes
+     * @see top voted answer to https://stackoverflow.com/questions/1397036/how-to-convert-array-to-simplexml
      *
      * @param array $data
      * @param SimpleXMLElement $xmlData
