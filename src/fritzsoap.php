@@ -158,10 +158,13 @@ class fritzsoap
     private function getServiceXML(string $xmlFile, string $node): array
     {
         $result = [];
-        $xml = @simplexml_load_file($xmlFile);
-        if ($xml != false) {
-            $xml->registerXPathNamespace('fb', $xml->getNameSpaces(false)[""]);
-            $result = $xml->xpath("//fb:$node");
+        $file_headers = @get_headers($xmlFile);
+        if (substr($file_headers[0], -13) != '404 Not Found') {
+            $xml = @simplexml_load_file($xmlFile);
+            if ($xml != false) {
+                $xml->registerXPathNamespace('fb', $xml->getNameSpaces(false)[""]);
+                $result = $xml->xpath("//fb:$node");
+            }
         }
 
         return $result;
