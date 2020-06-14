@@ -1,4 +1,5 @@
 /composer.lock
 /test.php
+/auto/
 /vendor/
 /src/classgenerator.php

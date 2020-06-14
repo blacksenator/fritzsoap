@@ -4,7 +4,9 @@ namespace blacksenator\fritzsoap;
 
 /**
 * The class provides functions to read and manipulate
-* data via TR-064 interface on FRITZ!Box router from AVM
+* data via TR-064 interface on FRITZ!Box router from AVM.
+* No documentation available!
+* @see: https://avm.de/service/schnittstellen/
 *
 * With the instantiation of the class, all available
 * services of the addressed FRITZ!Box are determined.
@@ -29,23 +31,41 @@ namespace blacksenator\fritzsoap;
 
 use blacksenator\fritzsoap\fritzsoap;
 
-class Control extends fritzsoap
+class Control7 extends fritzsoap
 {
     /**
-     * scanInfo
+     * isAuthorized
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: StartTime
-     * out: EndTime
-     * out: AudioFiles
-     * out: MovieFiles
-     * out: ImageFiles
+     * in: DeviceID
+     * out: Result
      *
      */
-    public function scanInfo()
+    public function isAuthorized()
     {
-        $result = $this->client->ScanInfo();
+        $result = $this->client->IsAuthorized();
+        if (is_soap_fault($result)) {
+            $this->getErrorData($result);
+            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+            return;
+        }
+
+        return $result;
+    }
+
+    /**
+     * isValidated
+     *
+     * automatically generated; complete coding if necessary!
+     *
+     * in: DeviceID
+     * out: Result
+     *
+     */
+    public function isValidated()
+    {
+        $result = $this->client->IsValidated();
         if (is_soap_fault($result)) {
             $this->getErrorData($result);
             error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));

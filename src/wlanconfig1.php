@@ -64,7 +64,6 @@ class wlanconfig1 extends fritzsoap
      * out: NewChannel
      * out: NewSSID
      * out: NewBeaconType
-     * out: NewX_AVM-DE_PossibleBeaconTypes
      * out: NewMACAddressControlEnabled
      * out: NewStandard
      * out: NewBSSID
@@ -356,7 +355,6 @@ class wlanconfig1 extends fritzsoap
      * automatically generated; complete coding if necessary!
      *
      * out: NewBeaconType
-     * out: NewX_AVM-DE_PossibleBeaconTypes
      *
      */
     public function getBeaconType()
@@ -777,6 +775,8 @@ class wlanconfig1 extends fritzsoap
      * automatically generated; complete coding if necessary!
      *
      * in: NewX_AVM-DE_WPSMode
+     * in: NewX_AVM-DE_WPSClientPIN
+     * out: NewX_AVM-DE_WPSAPPIN
      * out: NewX_AVM-DE_WPSStatus
      *
      */
@@ -803,36 +803,6 @@ class wlanconfig1 extends fritzsoap
     public function x_AVM_DE_SetWLANGlobalEnable()
     {
         $result = $this->client->{'X_AVM-DE_SetWLANGlobalEnable'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
-            return;
-        }
-
-        return $result;
-    }
-
-    /**
-     * x_AVM_DE_GetWLANConnectionInfo
-     *
-     * automatically generated; complete coding if necessary!
-     *
-     * out: NewAssociatedDeviceMACAddress
-     * out: NewSSID
-     * out: NewBSSID
-     * out: NewBeaconType
-     * out: NewChannel
-     * out: NewStandard
-     * out: NewX_AVM-DE_SignalStrength
-     * out: NewX_AVM-DE_Speed
-     * out: NewX_AVM-DE_SpeedRX
-     * out: NewX_AVM-DE_SpeedMax
-     * out: NewX_AVM-DE_SpeedRXMax
-     *
-     */
-    public function x_AVM_DE_GetWLANConnectionInfo()
-    {
-        $result = $this->client->{'X_AVM-DE_GetWLANConnectionInfo'}();
         if (is_soap_fault($result)) {
             $this->getErrorData($result);
             error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));

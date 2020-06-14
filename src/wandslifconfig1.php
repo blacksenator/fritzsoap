@@ -4,7 +4,9 @@ namespace blacksenator\fritzsoap;
 
 /**
 * The class provides functions to read and manipulate
-* data via TR-064 interface on FRITZ!Box router from AVM
+* data via TR-064 interface on FRITZ!Box router from AVM:
+* according to:
+* @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/wandslifconfigSCPD.pdf
 *
 * With the instantiation of the class, all available
 * services of the addressed FRITZ!Box are determined.
@@ -115,50 +117,6 @@ class wandslifconfig1 extends fritzsoap
     public function x_AVM_DE_GetDSLDiagnoseInfo()
     {
         $result = $this->client->{'X_AVM-DE_GetDSLDiagnoseInfo'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
-            return;
-        }
-
-        return $result;
-    }
-
-    /**
-     * x_AVM_DE_GetDSLInfo
-     *
-     * automatically generated; complete coding if necessary!
-     *
-     * out: NewSNRGds
-     * out: NewSNRGus
-     * out: NewSNRpsds
-     * out: NewSNRpsus
-     * out: NewSNRMTds
-     * out: NewSNRMTus
-     * out: NewLATNds
-     * out: NewLATNus
-     * out: NewFECErrors
-     * out: NewCRCErrors
-     * out: NewLinkStatus
-     * out: NewModulationType
-     * out: NewCurrentProfile
-     * out: NewUpstreamCurrRate
-     * out: NewDownstreamCurrRate
-     * out: NewUpstreamMaxRate
-     * out: NewDownstreamMaxRate
-     * out: NewUpstreamNoiseMargin
-     * out: NewDownstreamNoiseMargin
-     * out: NewUpstreamAttenuation
-     * out: NewDownstreamAttenuation
-     * out: NewATURVendor
-     * out: NewATURCountry
-     * out: NewUpstreamPower
-     * out: NewDownstreamPower
-     *
-     */
-    public function x_AVM_DE_GetDSLInfo()
-    {
-        $result = $this->client->{'X_AVM-DE_GetDSLInfo'}();
         if (is_soap_fault($result)) {
             $this->getErrorData($result);
             error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));

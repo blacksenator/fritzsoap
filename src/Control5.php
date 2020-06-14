@@ -4,7 +4,9 @@ namespace blacksenator\fritzsoap;
 
 /**
 * The class provides functions to read and manipulate
-* data via TR-064 interface on FRITZ!Box router from AVM
+* data via TR-064 interface on FRITZ!Box router from AVM.
+* No documentation available!
+* @see: https://avm.de/service/schnittstellen/
 *
 * With the instantiation of the class, all available
 * services of the addressed FRITZ!Box are determined.
@@ -29,19 +31,19 @@ namespace blacksenator\fritzsoap;
 
 use blacksenator\fritzsoap\fritzsoap;
 
-class x_hostfilter extends fritzsoap
+class Control5 extends fritzsoap
 {
     /**
-     * markTicket
+     * getSearchCapabilities
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: NewTicketID
+     * out: SearchCaps
      *
      */
-    public function markTicket()
+    public function getSearchCapabilities()
     {
-        $result = $this->client->MarkTicket();
+        $result = $this->client->GetSearchCapabilities();
         if (is_soap_fault($result)) {
             $this->getErrorData($result);
             error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
@@ -52,17 +54,16 @@ class x_hostfilter extends fritzsoap
     }
 
     /**
-     * getTicketIDStatus
+     * getSortCapabilities
      *
      * automatically generated; complete coding if necessary!
      *
-     * in: NewTicketID
-     * out: NewTicketIDStatus
+     * out: SortCaps
      *
      */
-    public function getTicketIDStatus()
+    public function getSortCapabilities()
     {
-        $result = $this->client->GetTicketIDStatus();
+        $result = $this->client->GetSortCapabilities();
         if (is_soap_fault($result)) {
             $this->getErrorData($result);
             error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
@@ -73,15 +74,74 @@ class x_hostfilter extends fritzsoap
     }
 
     /**
-     * discardAllTickets
+     * getSystemUpdateID
      *
      * automatically generated; complete coding if necessary!
      *
+     * out: Id
      *
      */
-    public function discardAllTickets()
+    public function getSystemUpdateID()
     {
-        $result = $this->client->DiscardAllTickets();
+        $result = $this->client->GetSystemUpdateID();
+        if (is_soap_fault($result)) {
+            $this->getErrorData($result);
+            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+            return;
+        }
+
+        return $result;
+    }
+
+    /**
+     * browse
+     *
+     * automatically generated; complete coding if necessary!
+     *
+     * in: ObjectID
+     * in: BrowseFlag
+     * in: Filter
+     * in: StartingIndex
+     * in: RequestedCount
+     * in: SortCriteria
+     * out: Result
+     * out: NumberReturned
+     * out: TotalMatches
+     * out: UpdateID
+     *
+     */
+    public function browse()
+    {
+        $result = $this->client->Browse();
+        if (is_soap_fault($result)) {
+            $this->getErrorData($result);
+            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+            return;
+        }
+
+        return $result;
+    }
+
+    /**
+     * search
+     *
+     * automatically generated; complete coding if necessary!
+     *
+     * in: ContainerID
+     * in: SearchCriteria
+     * in: Filter
+     * in: StartingIndex
+     * in: RequestedCount
+     * in: SortCriteria
+     * out: Result
+     * out: NumberReturned
+     * out: TotalMatches
+     * out: UpdateID
+     *
+     */
+    public function search()
+    {
+        $result = $this->client->Search();
         if (is_soap_fault($result)) {
             $this->getErrorData($result);
             error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));

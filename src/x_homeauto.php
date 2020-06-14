@@ -39,10 +39,6 @@ class x_homeauto extends fritzsoap
      * automatically generated; complete coding if necessary!
      *
      * out: NewAllowedCharsAIN
-     * out: NewMaxCharsAIN
-     * out: NewMinCharsAIN
-     * out: NewMaxCharsDeviceName
-     * out: NewMinCharsDeviceName
      *
      */
     public function getInfo()
@@ -147,27 +143,6 @@ class x_homeauto extends fritzsoap
     public function getSpecificDeviceInfos()
     {
         $result = $this->client->GetSpecificDeviceInfos();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
-            return;
-        }
-
-        return $result;
-    }
-
-    /**
-     * setDeviceName
-     *
-     * automatically generated; complete coding if necessary!
-     *
-     * in: NewAIN
-     * in: NewDeviceName
-     *
-     */
-    public function setDeviceName()
-    {
-        $result = $this->client->SetDeviceName();
         if (is_soap_fault($result)) {
             $this->getErrorData($result);
             error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));

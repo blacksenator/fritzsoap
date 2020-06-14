@@ -31,19 +31,23 @@ namespace blacksenator\fritzsoap;
 
 use blacksenator\fritzsoap\fritzsoap;
 
-class avmnexus extends fritzsoap
+class Control4 extends fritzsoap
 {
     /**
-     * getNexusPort
+     * scanInfo
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: NewNexusPort
+     * out: StartTime
+     * out: EndTime
+     * out: AudioFiles
+     * out: MovieFiles
+     * out: ImageFiles
      *
      */
-    public function getNexusPort()
+    public function scanInfo()
     {
-        $result = $this->client->GetNexusPort();
+        $result = $this->client->ScanInfo();
         if (is_soap_fault($result)) {
             $this->getErrorData($result);
             error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));

@@ -31,19 +31,21 @@ namespace blacksenator\fritzsoap;
 
 use blacksenator\fritzsoap\fritzsoap;
 
-class avmnexus extends fritzsoap
+class l2tpv3 extends fritzsoap
 {
     /**
-     * getNexusPort
+     * getInfo
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: NewNexusPort
+     * out: ServerIP
+     * out: ServerInstanceId
+     * out: RemoteEndIds
      *
      */
-    public function getNexusPort()
+    public function getInfo()
     {
-        $result = $this->client->GetNexusPort();
+        $result = $this->client->GetInfo();
         if (is_soap_fault($result)) {
             $this->getErrorData($result);
             error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));

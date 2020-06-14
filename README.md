@@ -14,10 +14,10 @@ The services and actions are provided in a compressed form as XML and can be out
 
 Example output:
 
-<img src="assets/services_xml.jpg"/>
+![alt text](assets/services_xml.jpg "overview of services and actions")
 
 The matching SOAP client only needs to be called with the instantiation of its class and gets automatically the correct **location** and **uri** from this XML.
-So you just need to know what **action** you need and in what **service** it is provided. Than  you know which class you need to instantiate - that is the difficult part!
+So you just need to know what **action** you need and in what **service** it is provided. Than  you know which class you need to instantiate - **that is the difficult part**!
 For reference, it is highly recommended to consult the [information AVM provides for interfaces](https://avm.de/service/schnittstellen/)!
 
 If no coding has been done for your desired action in this class - which is probably the case - the existing examples (see [Completion](#completion)) should show how easy it is to code a function for your desired action (**contributions to extend this class are highly appreciated!**).
@@ -71,24 +71,29 @@ public function setSwitch()
 To facilitate the completion of this creation take a look at the finished functions to transfer the use of the input and output parameters and to adjust the return of the function (`x_contact.php` is the most productive source at the moment).
 
 Just one example to show the usage of input parameters:
+
 ```PHP
 $result = $this->client->AddPhonebook(
     new \SoapParam($name, 'NewPhonebookName'),
     new \SoapParam($phoneBookID, 'NewPhonebookExtraID')
 );
 ```
+
 But as I said before:
+
 * it is highly recommended to consult the information [AVM provides for interfaces](https://avm.de/service/schnittstellen/) -  even if **the documentation offered there is horrible and has a number of errors!**
 * contributions are highly appreciated. Share your enhancements! With your PR, everyone benefits from further completion!
 
 ### Ghosts
 
-Automatic generation has also identified 14 services that are not officially documented by AVM. I suspect these are interfaces for DSL/Cable providers. Accordingly, these classes have no link to the reference document in the class comment.
+Automatic generation has also originate services that are not or not clearly documented by AVM. Accordingly, these classes have **no link to a reference document in the class comment!**
+
+This group includes the >Control< services, of which I found seven with different locations and uri. The services are therefore mapped accordingly in the classes Control1 to Control7. **With the concept of this library, the use of these actions is not (yet) possible** (the Voigt-Kampff test has not yet been implemented)! **If you want to use these undocumented actions, you have to intervene in the program with code change!**
 
 ## Requirements
 
-  * PHP 7.0
-  * Composer (follow the installation guide at https://getcomposer.org/download/)
+* PHP 7.0
+* Composer (follow the installation guide at <https://getcomposer.org/download/)>
 
 ## Installation
 
@@ -96,7 +101,7 @@ You can install it through Composer:
 
 ```js
 "require": {
-    "blacksenator/fritzsoap": "^2.0"
+    "blacksenator/fritzsoap": "^2.2"
 },
 ```
 
@@ -107,6 +112,7 @@ git clone https://github.com/blacksenator/fritzsoap.git
 ```
 
 ## Usage
+
 Example if you wanna know your available services:
 
 ```PHP
@@ -132,7 +138,9 @@ $fritzbox->x_AVM_DE_DialNumber('#9');
 ```
 
 ## License
+
 This script is released under MIT license.
 
-## Authors
-Copyright (c) 2019 Volker Püschel
+## Author
+
+Copyright (c) 2019, 2020 Volker Püschel

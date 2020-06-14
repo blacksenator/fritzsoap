@@ -43,25 +43,29 @@ use blacksenator\fbvalidateurl\fbvalidateurl;
 
 class fritzsoap
 {
-    const SERVICE_DESCRIPTIONS = [         // see: https://boxmatrix.info/wiki/XML-Files ('*desc.xml (static)')
-        'tr64desc.xml',
-        'igddesc.xml',
-        'avmnexusdesc.xml',
-        'fboxdesc.xml',
+    const SERVICE_DESCRIPTIONS = [          // see: https://boxmatrix.info/wiki/XML-Files ('*desc.xml (static)')
+        'aura.xml',                         // found on my 7490 OS7.12
+        'tr64desc.xml',                     // found on my 7490 OS7.12
+        'igddesc.xml',                      // found on my 7490 OS7.12
+        'avmnexusdesc.xml',                 // found on my 7490 OS7.12
+        'fboxdesc.xml',                     // found on my 7490 OS7.12
         'GPMDevDesc.xml',
-        'igd2desc.xml',
+        'igd2desc.xml',                     // found on my 7490 OS7.12
+        'l2tpv3.xml',                       // found on my 7490 OS7.12
         'MediaRendererDevDesc.xml',
-        'MediaServerDevDesc.xml',
+        'MediaServerDevDesc.xml',           // found on my 7490 OS7.12
+        'MediaServerDevDesc-xbox.xml',      // found on my 7490 OS7.12
         'onlinestoredesc.xml',
         'satipdesc.xml',
         'TMediaCenterDevDesc.xml',
         'usbdesc.xml',
         ];
+    const ANOMALY = 'Control';
 
-    private $services;
     private $url = [];
     private $user;
     private $password;
+    protected $services;
     public $serverAdress;
     public $client = null;
     public $errorCode;
@@ -105,15 +109,17 @@ class fritzsoap
      *         <location>/upnp/control/x_contact</location>
      *         <actions>
      *             <action>GetInfo</action>
+     *                 ... (optional if $detailed = true)
      *             <action>...</action>
      *          </actions>
      *      </services>
      *      ...
      *  </tr064>
      *
+     * @param bool $detailed
      * @return SimpleXMLElement|bool
      */
-    private function getFritzBoxServices()
+    protected function getFritzBoxServices($detailed = false)
     {
         $tr064 = new SimpleXMLElement('<tr064 />');
         foreach (self::SERVICE_DESCRIPTIONS as $description) {
@@ -127,22 +133,20 @@ class fritzsoap
                 $actionsDesc = $this->getDescriptionXML($this->serverAdress . $serviceHeader->SCPDURL, 'action');
                 $actions = $services->addChild('actions');
                 foreach ($actionsDesc as $actionDesc) {
-                    $action = $actions->addChild('action', (string)$actionDesc->name);
-                    /* the following more detailed view is currently not necessary (but executable)
-                     * so, if you want to use it: comment the line above and uncomment the following
-                     */
-                    /*
-                    $action = $actions->addChild('action');
-                    $action->addAttribute('name', (string)$actionDesc->name);
-                    if (!property_exists($actionDesc, 'argumentList')) {
-                        continue;
+                    if (!$detailed) {
+                        $action = $actions->addChild('action', (string)$actionDesc->name);
+                    } else {
+                        $action = $actions->addChild('action');
+                        $action->addAttribute('name', (string)$actionDesc->name);
+                        if (!property_exists($actionDesc, 'argumentList')) {
+                            continue;
+                        }
+                        foreach ($actionDesc->argumentList->argument as $attribute) {
+                            $argument = $action->addChild('argument', (string)$attribute->name);
+                            $argument->addAttribute('direction', (string)$attribute->direction);
+                            $argument->addAttribute('relatedStateVariable', (string)$attribute->relatedStateVariable);
+                        }
                     }
-                    foreach ($actionDesc->argumentList->argument as $attribute) {
-                        $argument = $action->addChild('argument', (string)$attribute->name);
-                        $argument->addAttribute('direction', (string)$attribute->direction);
-                        $argument->addAttribute('relatedStateVariable', (string)$attribute->relatedStateVariable);
-                    }
-                    */
                 }
             }
         }
@@ -156,6 +160,10 @@ class fritzsoap
 
     /**
      * get searched node from description XML
+     *
+     * the node is related to the kind of description file:
+     * "*DESC.xml" = "service" defines the services and their related SCPD-file
+     * "*SCPD.xml" = "action" defines the actions and their related variables
      *
      * @param string $xmlFile
      * @param string $node
@@ -217,6 +225,10 @@ class fritzsoap
     {
         $class = get_class($this);
         $className = str_replace('blacksenator\\fritzsoap\\', '', $class);
+        if (substr($className, 0, 7) === self::ANOMALY) {               // Control1, Control2, ...
+            $message = sprintf('No service parameters for %s(%s) can be assigned!', $className, self::ANOMALY);
+            throw new \Exception ($message);
+        }
         $parameter = $this->services->xpath("//services[@name='$className']");
         if (!count($parameter)) {
             $message = sprintf('No service parameters for %s available!', $className);

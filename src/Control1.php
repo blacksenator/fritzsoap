@@ -31,20 +31,19 @@ namespace blacksenator\fritzsoap;
 
 use blacksenator\fritzsoap\fritzsoap;
 
-class WANIPv6Firewall1 extends fritzsoap
+class Control1 extends fritzsoap
 {
     /**
-     * getFirewallStatus
+     * getSearchCapabilities
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: FirewallEnabled
-     * out: InboundPinholeAllowed
+     * out: SearchCaps
      *
      */
-    public function getFirewallStatus()
+    public function getSearchCapabilities()
     {
-        $result = $this->client->GetFirewallStatus();
+        $result = $this->client->GetSearchCapabilities();
         if (is_soap_fault($result)) {
             $this->getErrorData($result);
             error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
@@ -55,21 +54,16 @@ class WANIPv6Firewall1 extends fritzsoap
     }
 
     /**
-     * getOutboundPinholeTimeout
+     * getSortCapabilities
      *
      * automatically generated; complete coding if necessary!
      *
-     * in: RemoteHost
-     * in: RemotePort
-     * in: InternalClient
-     * in: InternalPort
-     * in: Protocol
-     * out: OutboundPinholeTimeout
+     * out: SortCaps
      *
      */
-    public function getOutboundPinholeTimeout()
+    public function getSortCapabilities()
     {
-        $result = $this->client->GetOutboundPinholeTimeout();
+        $result = $this->client->GetSortCapabilities();
         if (is_soap_fault($result)) {
             $this->getErrorData($result);
             error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
@@ -80,22 +74,16 @@ class WANIPv6Firewall1 extends fritzsoap
     }
 
     /**
-     * addPinhole
+     * getSystemUpdateID
      *
      * automatically generated; complete coding if necessary!
      *
-     * in: RemoteHost
-     * in: RemotePort
-     * in: InternalClient
-     * in: InternalPort
-     * in: Protocol
-     * in: LeaseTime
-     * out: UniqueID
+     * out: Id
      *
      */
-    public function addPinhole()
+    public function getSystemUpdateID()
     {
-        $result = $this->client->AddPinhole();
+        $result = $this->client->GetSystemUpdateID();
         if (is_soap_fault($result)) {
             $this->getErrorData($result);
             error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
@@ -106,17 +94,25 @@ class WANIPv6Firewall1 extends fritzsoap
     }
 
     /**
-     * updatePinhole
+     * browse
      *
      * automatically generated; complete coding if necessary!
      *
-     * in: UniqueID
-     * in: NewLeaseTime
+     * in: ObjectID
+     * in: BrowseFlag
+     * in: Filter
+     * in: StartingIndex
+     * in: RequestedCount
+     * in: SortCriteria
+     * out: Result
+     * out: NumberReturned
+     * out: TotalMatches
+     * out: UpdateID
      *
      */
-    public function updatePinhole()
+    public function browse()
     {
-        $result = $this->client->UpdatePinhole();
+        $result = $this->client->Browse();
         if (is_soap_fault($result)) {
             $this->getErrorData($result);
             error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
@@ -127,58 +123,25 @@ class WANIPv6Firewall1 extends fritzsoap
     }
 
     /**
-     * deletePinhole
+     * search
      *
      * automatically generated; complete coding if necessary!
      *
-     * in: UniqueID
+     * in: ContainerID
+     * in: SearchCriteria
+     * in: Filter
+     * in: StartingIndex
+     * in: RequestedCount
+     * in: SortCriteria
+     * out: Result
+     * out: NumberReturned
+     * out: TotalMatches
+     * out: UpdateID
      *
      */
-    public function deletePinhole()
+    public function search()
     {
-        $result = $this->client->DeletePinhole();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
-            return;
-        }
-
-        return $result;
-    }
-
-    /**
-     * getPinholePackets
-     *
-     * automatically generated; complete coding if necessary!
-     *
-     * in: UniqueID
-     * out: PinholePackets
-     *
-     */
-    public function getPinholePackets()
-    {
-        $result = $this->client->GetPinholePackets();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
-            return;
-        }
-
-        return $result;
-    }
-
-    /**
-     * checkPinholeWorking
-     *
-     * automatically generated; complete coding if necessary!
-     *
-     * in: UniqueID
-     * out: IsWorking
-     *
-     */
-    public function checkPinholeWorking()
-    {
-        $result = $this->client->CheckPinholeWorking();
+        $result = $this->client->Search();
         if (is_soap_fault($result)) {
             $this->getErrorData($result);
             error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));

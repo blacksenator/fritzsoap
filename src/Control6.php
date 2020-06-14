@@ -31,19 +31,67 @@ namespace blacksenator\fritzsoap;
 
 use blacksenator\fritzsoap\fritzsoap;
 
-class avmnexus extends fritzsoap
+class Control6 extends fritzsoap
 {
     /**
-     * getNexusPort
+     * getProtocolInfo
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: NewNexusPort
+     * out: Source
+     * out: Sink
      *
      */
-    public function getNexusPort()
+    public function getProtocolInfo()
     {
-        $result = $this->client->GetNexusPort();
+        $result = $this->client->GetProtocolInfo();
+        if (is_soap_fault($result)) {
+            $this->getErrorData($result);
+            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+            return;
+        }
+
+        return $result;
+    }
+
+    /**
+     * getCurrentConnectionIDs
+     *
+     * automatically generated; complete coding if necessary!
+     *
+     * out: ConnectionIDs
+     *
+     */
+    public function getCurrentConnectionIDs()
+    {
+        $result = $this->client->GetCurrentConnectionIDs();
+        if (is_soap_fault($result)) {
+            $this->getErrorData($result);
+            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+            return;
+        }
+
+        return $result;
+    }
+
+    /**
+     * getCurrentConnectionInfo
+     *
+     * automatically generated; complete coding if necessary!
+     *
+     * in: ConnectionID
+     * out: RcsID
+     * out: AVTransportID
+     * out: ProtocolInfo
+     * out: PeerConnectionManager
+     * out: PeerConnectionID
+     * out: Direction
+     * out: Status
+     *
+     */
+    public function getCurrentConnectionInfo()
+    {
+        $result = $this->client->GetCurrentConnectionInfo();
         if (is_soap_fault($result)) {
             $this->getErrorData($result);
             error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
