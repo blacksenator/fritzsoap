@@ -401,7 +401,7 @@ class x_contact extends fritzsoap
      *
      * add an new entry in the designated phonebook
      *
-     * @param SimpleXMLElement $entry according newContact()
+     * @param string $entry according newContact()
      * @param int $phoneBookID
      * @param string $entryID <uniqueid> if you want to overwrite an existing contact
      * @return string|void null or
@@ -410,7 +410,7 @@ class x_contact extends fritzsoap
      *                     713 (Invalid array index)
      *                     820 (Internal Error)
      */
-    public function setPhonebookEntry(SimpleXMLElement $entry, int $phoneBookID = 0, string $entryID = '')
+    public function setPhonebookEntry(string $entry, int $phoneBookID = 0, string $entryID = '')
     {
         $result = $this->client->SetPhonebookEntry(
             new \SoapParam($phoneBookID, 'NewPhonebookID'),
@@ -427,10 +427,10 @@ class x_contact extends fritzsoap
     }
 
     /**
-     * get a xml contact structure for AVMs TR-064 interface
-     * example for minimal structur:
-     * <?xml version="1.0"?>
-     * <Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope">
+     * get a xml contact structure:
+     *
+     * <?xml version="1.0" encoding="utf-8"?>
+     * <entry">
      *     <contact>
      *         <person>
      *             <realName>$caller</realName>
@@ -439,16 +439,16 @@ class x_contact extends fritzsoap
      *             <number id="0" type=$type>$number</number>
      *         </telephony>
      *     </contact>
-     * </Envelope>
+     * </entry>
      *
      * @param string $name
      * @param string $number
      * @param string $type phone type (home, work, mobile, fax_work)
-     * @return SimpleXMLElement SOAP envelope
+     * @return string XML
      */
-    public function newContact($name, $number, $type) : SimpleXMLElement
+    public function newContact($name, $number, $type): string
     {
-        $envelope = new simpleXMLElement('<Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope"></Envelope>');
+        $envelope = new simpleXMLElement('<?xml version="1.0" encoding="utf-8"?><entry />');
 
         $contact = $envelope->addChild('contact');
         $contact->addChild('category', '0');
@@ -473,7 +473,7 @@ class x_contact extends fritzsoap
         $contact->addChild('mod_time', (string)time());
         $contact->addChild('uniqueid');
 
-        return $envelope;
+        return $envelope->asXML();
     }
 
     /**
