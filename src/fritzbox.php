@@ -25,7 +25,7 @@ namespace blacksenator\fritzsoap;
 * +++++++++++++++++++++++++++++++++++++++++++++++++++++
 *
 * @author Volker Püschel <knuffy@anasco.de>
-* @copyright Volker Püschel 2020
+* @copyright Volker Püschel 2021
 * @license MIT
 **/
 
@@ -45,9 +45,7 @@ class fritzbox extends fritzsoap
     public function setLogParam()
     {
         $result = $this->client->SetLogParam();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -66,9 +64,7 @@ class fritzbox extends fritzsoap
     public function getMaclist()
     {
         $result = $this->client->GetMaclist();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 

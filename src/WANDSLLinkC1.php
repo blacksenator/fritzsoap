@@ -25,7 +25,7 @@ namespace blacksenator\fritzsoap;
 * +++++++++++++++++++++++++++++++++++++++++++++++++++++
 *
 * @author Volker Püschel <knuffy@anasco.de>
-* @copyright Volker Püschel 2020
+* @copyright Volker Püschel 2021
 * @license MIT
 **/
 
@@ -44,9 +44,7 @@ class WANDSLLinkC1 extends fritzsoap
     public function setDSLLinkType()
     {
         $result = $this->client->SetDSLLinkType();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -65,9 +63,7 @@ class WANDSLLinkC1 extends fritzsoap
     public function getDSLLinkInfo()
     {
         $result = $this->client->GetDSLLinkInfo();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -85,9 +81,7 @@ class WANDSLLinkC1 extends fritzsoap
     public function getAutoConfig()
     {
         $result = $this->client->GetAutoConfig();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -105,9 +99,7 @@ class WANDSLLinkC1 extends fritzsoap
     public function getModulationType()
     {
         $result = $this->client->GetModulationType();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -125,9 +117,7 @@ class WANDSLLinkC1 extends fritzsoap
     public function setDestinationAddress()
     {
         $result = $this->client->SetDestinationAddress();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -145,9 +135,7 @@ class WANDSLLinkC1 extends fritzsoap
     public function getDestinationAddress()
     {
         $result = $this->client->GetDestinationAddress();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -165,9 +153,7 @@ class WANDSLLinkC1 extends fritzsoap
     public function setATMEncapsulation()
     {
         $result = $this->client->SetATMEncapsulation();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -185,9 +171,7 @@ class WANDSLLinkC1 extends fritzsoap
     public function getATMEncapsulation()
     {
         $result = $this->client->GetATMEncapsulation();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -205,9 +189,7 @@ class WANDSLLinkC1 extends fritzsoap
     public function setFCSPreserved()
     {
         $result = $this->client->SetFCSPreserved();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -225,9 +207,7 @@ class WANDSLLinkC1 extends fritzsoap
     public function getFCSPreserved()
     {
         $result = $this->client->GetFCSPreserved();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 

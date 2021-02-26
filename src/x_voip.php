@@ -25,7 +25,7 @@ namespace blacksenator\fritzsoap;
 * +++++++++++++++++++++++++++++++++++++++++++++++++++++
 *
 * @author Volker Püschel <knuffy@anasco.de>
-* @copyright Volker Püschel 2020
+* @copyright Volker Püschel 2021
 * @license MIT
 **/
 
@@ -64,9 +64,7 @@ class x_voip extends fritzsoap
     public function getInfoEx()
     {
         $result = $this->client->GetInfoEx();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -90,9 +88,7 @@ class x_voip extends fritzsoap
     public function x_AVM_DE_AddVoIPAccount()
     {
         $result = $this->client->{'X_AVM-DE_AddVoIPAccount'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -116,9 +112,7 @@ class x_voip extends fritzsoap
     public function x_AVM_DE_GetVoIPAccount()
     {
         $result = $this->client->{'X_AVM-DE_GetVoIPAccount'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -136,9 +130,7 @@ class x_voip extends fritzsoap
     public function x_AVM_DE_DelVoIPAccount()
     {
         $result = $this->client->{'X_AVM-DE_DelVoIPAccount'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -156,9 +148,7 @@ class x_voip extends fritzsoap
     public function getInfo(): array
     {
         $result = $this->client->GetInfo();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not get info from FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not get info from FRITZ!Box')) {
             return [];
         }
 
@@ -177,9 +167,7 @@ class x_voip extends fritzsoap
     public function setConfig()
     {
         $result = $this->client->SetConfig();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -197,9 +185,7 @@ class x_voip extends fritzsoap
     public function getMaxVoIPNumbers()
     {
         $result = $this->client->GetMaxVoIPNumbers();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -217,9 +203,7 @@ class x_voip extends fritzsoap
     public function getExistingVoIPNumbers()
     {
         $result = $this->client->GetExistingVoIPNumbers();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -237,9 +221,7 @@ class x_voip extends fritzsoap
     public function x_AVM_DE_GetNumberOfClients()
     {
         $result = $this->client->{'X_AVM-DE_GetNumberOfClients'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -262,9 +244,7 @@ class x_voip extends fritzsoap
     public function x_AVM_DE_GetClient()
     {
         $result = $this->client->{'X_AVM-DE_GetClient'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -289,9 +269,7 @@ class x_voip extends fritzsoap
     public function x_AVM_DE_GetClient2()
     {
         $result = $this->client->{'X_AVM-DE_GetClient2'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -312,9 +290,7 @@ class x_voip extends fritzsoap
     public function x_AVM_DE_SetClient()
     {
         $result = $this->client->{'X_AVM-DE_SetClient'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -336,9 +312,7 @@ class x_voip extends fritzsoap
     public function x_AVM_DE_SetClient2()
     {
         $result = $this->client->{'X_AVM-DE_SetClient2'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -366,9 +340,7 @@ class x_voip extends fritzsoap
     public function x_AVM_DE_GetClient3()
     {
         $result = $this->client->{'X_AVM-DE_GetClient3'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -397,9 +369,7 @@ class x_voip extends fritzsoap
     public function x_AVM_DE_GetClientByClientId()
     {
         $result = $this->client->{'X_AVM-DE_GetClientByClientId'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -423,9 +393,7 @@ class x_voip extends fritzsoap
     public function x_AVM_DE_SetClient3()
     {
         $result = $this->client->{'X_AVM-DE_SetClient3'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -450,9 +418,7 @@ class x_voip extends fritzsoap
     public function x_AVM_DE_SetClient4()
     {
         $result = $this->client->{'X_AVM-DE_SetClient4'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -470,9 +436,7 @@ class x_voip extends fritzsoap
     public function x_AVM_DE_GetClients()
     {
         $result = $this->client->{'X_AVM-DE_GetClients'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -490,9 +454,7 @@ class x_voip extends fritzsoap
     public function x_AVM_DE_GetNumberOfNumbers()
     {
         $result = $this->client->{'X_AVM-DE_GetNumberOfNumbers'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -510,9 +472,7 @@ class x_voip extends fritzsoap
     public function x_AVM_DE_GetNumbers()
     {
         $result = $this->client->{'X_AVM-DE_GetNumbers'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -530,9 +490,7 @@ class x_voip extends fritzsoap
     public function x_AVM_DE_DeleteClient()
     {
         $result = $this->client->{'X_AVM-DE_DeleteClient'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -550,9 +508,7 @@ class x_voip extends fritzsoap
     public function x_AVM_DE_DialGetConfig()
     {
         $result = $this->client->{'X_AVM-DE_DialGetConfig'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -570,9 +526,7 @@ class x_voip extends fritzsoap
     public function x_AVM_DE_DialSetConfig()
     {
         $result = $this->client->{'X_AVM-DE_DialSetConfig'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -592,10 +546,7 @@ class x_voip extends fritzsoap
     public function x_AVM_DE_DialNumber($number)
     {
         $result = $this->client->{'X_AVM-DE_DialNumber'}(new \SoapParam($number, 'NewX_AVM-DE_PhoneNumber'));
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not dial the number %s", $this->errorCode, $this->errorText, $number));
-        }
+        $this->errorHandling($result, sprintf("Could not dial the number %s", $number));
     }
 
     /**
@@ -610,10 +561,7 @@ class x_voip extends fritzsoap
     public function x_AVM_DE_DialHangup()
     {
         $result = $this->client->{'X_AVM-DE_DialHangup'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not hang up", $this->errorCode, $this->errorText));
-        }
+        $this->errorHandling($result, 'Could not hang up');
     }
 
     /**
@@ -628,9 +576,7 @@ class x_voip extends fritzsoap
     public function x_AVM_DE_GetPhonePort()
     {
         $result = $this->client->{'X_AVM-DE_GetPhonePort'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -649,9 +595,7 @@ class x_voip extends fritzsoap
     public function x_AVM_DE_SetDelayedCallNotification()
     {
         $result = $this->client->{'X_AVM-DE_SetDelayedCallNotification'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -669,9 +613,7 @@ class x_voip extends fritzsoap
     public function getVoIPCommonCountryCode()
     {
         $result = $this->client->GetVoIPCommonCountryCode();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -690,9 +632,7 @@ class x_voip extends fritzsoap
     public function x_AVM_DE_GetVoIPCommonCountryCode()
     {
         $result = $this->client->{'X_AVM-DE_GetVoIPCommonCountryCode'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -710,9 +650,7 @@ class x_voip extends fritzsoap
     public function setVoIPCommonCountryCode()
     {
         $result = $this->client->SetVoIPCommonCountryCode();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -731,9 +669,7 @@ class x_voip extends fritzsoap
     public function x_AVM_DE_SetVoIPCommonCountryCode()
     {
         $result = $this->client->{'X_AVM-DE_SetVoIPCommonCountryCode'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -752,9 +688,7 @@ class x_voip extends fritzsoap
     public function getVoIPEnableCountryCode()
     {
         $result = $this->client->GetVoIPEnableCountryCode();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -773,9 +707,7 @@ class x_voip extends fritzsoap
     public function setVoIPEnableCountryCode()
     {
         $result = $this->client->SetVoIPEnableCountryCode();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -793,9 +725,7 @@ class x_voip extends fritzsoap
     public function getVoIPCommonAreaCode()
     {
         $result = $this->client->GetVoIPCommonAreaCode();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -814,9 +744,7 @@ class x_voip extends fritzsoap
     public function x_AVM_DE_GetVoIPCommonAreaCode()
     {
         $result = $this->client->{'X_AVM-DE_GetVoIPCommonAreaCode'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -834,9 +762,7 @@ class x_voip extends fritzsoap
     public function setVoIPCommonAreaCode()
     {
         $result = $this->client->SetVoIPCommonAreaCode();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -855,9 +781,7 @@ class x_voip extends fritzsoap
     public function x_AVM_DE_SetVoIPCommonAreaCode()
     {
         $result = $this->client->{'X_AVM-DE_SetVoIPCommonAreaCode'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -876,9 +800,7 @@ class x_voip extends fritzsoap
     public function getVoIPEnableAreaCode()
     {
         $result = $this->client->GetVoIPEnableAreaCode();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -897,9 +819,7 @@ class x_voip extends fritzsoap
     public function setVoIPEnableAreaCode()
     {
         $result = $this->client->SetVoIPEnableAreaCode();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -922,9 +842,7 @@ class x_voip extends fritzsoap
     public function x_AVM_DE_GetAlarmClock()
     {
         $result = $this->client->{'X_AVM-DE_GetAlarmClock'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -943,9 +861,7 @@ class x_voip extends fritzsoap
     public function x_AVM_DE_SetAlarmClockEnable()
     {
         $result = $this->client->{'X_AVM-DE_SetAlarmClockEnable'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -963,9 +879,7 @@ class x_voip extends fritzsoap
     public function x_AVM_DE_GetNumberOfAlarmClocks()
     {
         $result = $this->client->{'X_AVM-DE_GetNumberOfAlarmClocks'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 

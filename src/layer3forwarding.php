@@ -25,7 +25,7 @@ namespace blacksenator\fritzsoap;
 * +++++++++++++++++++++++++++++++++++++++++++++++++++++
 *
 * @author Volker Püschel <knuffy@anasco.de>
-* @copyright Volker Püschel 2020
+* @copyright Volker Püschel 2021
 * @license MIT
 **/
 
@@ -44,9 +44,7 @@ class layer3forwarding extends fritzsoap
     public function setDefaultConnectionService()
     {
         $result = $this->client->SetDefaultConnectionService();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -64,9 +62,7 @@ class layer3forwarding extends fritzsoap
     public function getDefaultConnectionService()
     {
         $result = $this->client->GetDefaultConnectionService();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -84,9 +80,7 @@ class layer3forwarding extends fritzsoap
     public function getForwardNumberOfEntries()
     {
         $result = $this->client->GetForwardNumberOfEntries();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -111,9 +105,7 @@ class layer3forwarding extends fritzsoap
     public function addForwardingEntry()
     {
         $result = $this->client->AddForwardingEntry();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -134,9 +126,7 @@ class layer3forwarding extends fritzsoap
     public function deleteForwardingEntry()
     {
         $result = $this->client->DeleteForwardingEntry();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -163,9 +153,7 @@ class layer3forwarding extends fritzsoap
     public function getSpecificForwardingEntry()
     {
         $result = $this->client->GetSpecificForwardingEntry();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -193,9 +181,7 @@ class layer3forwarding extends fritzsoap
     public function getGenericForwardingEntry()
     {
         $result = $this->client->GetGenericForwardingEntry();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -217,9 +203,7 @@ class layer3forwarding extends fritzsoap
     public function setForwardingEntryEnable()
     {
         $result = $this->client->SetForwardingEntryEnable();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 

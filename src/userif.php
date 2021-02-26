@@ -25,7 +25,7 @@ namespace blacksenator\fritzsoap;
 * +++++++++++++++++++++++++++++++++++++++++++++++++++++
 *
 * @author Volker Püschel <knuffy@anasco.de>
-* @copyright Volker Püschel 2020
+* @copyright Volker Püschel 2021
 * @license MIT
 **/
 
@@ -52,9 +52,7 @@ class userif extends fritzsoap
     public function getInfo()
     {
         $result = $this->client->GetInfo();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -72,9 +70,7 @@ class userif extends fritzsoap
     public function x_AVM_DE_CheckUpdate()
     {
         $result = $this->client->{'X_AVM-DE_CheckUpdate'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -93,9 +89,7 @@ class userif extends fritzsoap
     public function x_AVM_DE_DoUpdate()
     {
         $result = $this->client->{'X_AVM-DE_DoUpdate'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -114,9 +108,7 @@ class userif extends fritzsoap
     public function x_AVM_DE_DoPrepareCGI()
     {
         $result = $this->client->{'X_AVM-DE_DoPrepareCGI'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -135,9 +127,7 @@ class userif extends fritzsoap
     public function x_AVM_DE_DoManualUpdate()
     {
         $result = $this->client->{'X_AVM-DE_DoManualUpdate'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -160,9 +150,7 @@ class userif extends fritzsoap
     public function x_AVM_DE_GetInternationalConfig()
     {
         $result = $this->client->{'X_AVM-DE_GetInternationalConfig'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -182,9 +170,7 @@ class userif extends fritzsoap
     public function x_AVM_DE_SetInternationalConfig()
     {
         $result = $this->client->{'X_AVM-DE_SetInternationalConfig'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -207,9 +193,7 @@ class userif extends fritzsoap
     public function x_AVM_DE_GetInfo()
     {
         $result = $this->client->{'X_AVM-DE_GetInfo'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -227,9 +211,7 @@ class userif extends fritzsoap
     public function x_AVM_DE_SetConfig()
     {
         $result = $this->client->{'X_AVM-DE_SetConfig'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 

@@ -25,7 +25,7 @@ namespace blacksenator\fritzsoap;
 * +++++++++++++++++++++++++++++++++++++++++++++++++++++
 *
 * @author Volker Püschel <knuffy@anasco.de>
-* @copyright Volker Püschel 2020
+* @copyright Volker Püschel 2021
 * @license MIT
 **/
 
@@ -44,9 +44,7 @@ class wlanconfig1 extends fritzsoap
     public function setEnable()
     {
         $result = $this->client->SetEnable();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -80,9 +78,7 @@ class wlanconfig1 extends fritzsoap
     public function getInfo()
     {
         $result = $this->client->GetInfo();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -106,9 +102,7 @@ class wlanconfig1 extends fritzsoap
     public function setConfig()
     {
         $result = $this->client->SetConfig();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -131,9 +125,7 @@ class wlanconfig1 extends fritzsoap
     public function setSecurityKeys()
     {
         $result = $this->client->SetSecurityKeys();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -156,9 +148,7 @@ class wlanconfig1 extends fritzsoap
     public function getSecurityKeys()
     {
         $result = $this->client->GetSecurityKeys();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -176,9 +166,7 @@ class wlanconfig1 extends fritzsoap
     public function setDefaultWEPKeyIndex()
     {
         $result = $this->client->SetDefaultWEPKeyIndex();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -196,9 +184,7 @@ class wlanconfig1 extends fritzsoap
     public function getDefaultWEPKeyIndex()
     {
         $result = $this->client->GetDefaultWEPKeyIndex();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -217,9 +203,7 @@ class wlanconfig1 extends fritzsoap
     public function setBasBeaconSecurityProperties()
     {
         $result = $this->client->SetBasBeaconSecurityProperties();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -238,9 +222,7 @@ class wlanconfig1 extends fritzsoap
     public function getBasBeaconSecurityProperties()
     {
         $result = $this->client->GetBasBeaconSecurityProperties();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -259,9 +241,7 @@ class wlanconfig1 extends fritzsoap
     public function getStatistics()
     {
         $result = $this->client->GetStatistics();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -280,9 +260,7 @@ class wlanconfig1 extends fritzsoap
     public function getPacketStatistics()
     {
         $result = $this->client->GetPacketStatistics();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -300,9 +278,7 @@ class wlanconfig1 extends fritzsoap
     public function getBSSID()
     {
         $result = $this->client->GetBSSID();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -320,9 +296,7 @@ class wlanconfig1 extends fritzsoap
     public function getSSID()
     {
         $result = $this->client->GetSSID();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -340,9 +314,7 @@ class wlanconfig1 extends fritzsoap
     public function setSSID()
     {
         $result = $this->client->SetSSID();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -360,9 +332,7 @@ class wlanconfig1 extends fritzsoap
     public function getBeaconType()
     {
         $result = $this->client->GetBeaconType();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -380,9 +350,7 @@ class wlanconfig1 extends fritzsoap
     public function setBeaconType()
     {
         $result = $this->client->SetBeaconType();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -401,9 +369,7 @@ class wlanconfig1 extends fritzsoap
     public function getChannelInfo()
     {
         $result = $this->client->GetChannelInfo();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -421,9 +387,7 @@ class wlanconfig1 extends fritzsoap
     public function setChannel()
     {
         $result = $this->client->SetChannel();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -441,9 +405,7 @@ class wlanconfig1 extends fritzsoap
     public function getBeaconAdvertisement()
     {
         $result = $this->client->GetBeaconAdvertisement();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -461,9 +423,7 @@ class wlanconfig1 extends fritzsoap
     public function setBeaconAdvertisement()
     {
         $result = $this->client->SetBeaconAdvertisement();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -481,9 +441,7 @@ class wlanconfig1 extends fritzsoap
     public function getTotalAssociations()
     {
         $result = $this->client->GetTotalAssociations();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -506,9 +464,7 @@ class wlanconfig1 extends fritzsoap
     public function getGenericAssociatedDeviceInfo()
     {
         $result = $this->client->GetGenericAssociatedDeviceInfo();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -530,9 +486,7 @@ class wlanconfig1 extends fritzsoap
     public function getSpecificAssociatedDeviceInfo()
     {
         $result = $this->client->GetSpecificAssociatedDeviceInfo();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -554,9 +508,7 @@ class wlanconfig1 extends fritzsoap
     public function x_AVM_DE_GetSpecificAssociatedDeviceInfoByIp()
     {
         $result = $this->client->{'X_AVM-DE_GetSpecificAssociatedDeviceInfoByIp'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -574,9 +526,7 @@ class wlanconfig1 extends fritzsoap
     public function x_AVM_DE_GetWLANDeviceListPath()
     {
         $result = $this->client->{'X_AVM-DE_GetWLANDeviceListPath'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -594,9 +544,7 @@ class wlanconfig1 extends fritzsoap
     public function x_AVM_DE_SetStickSurfEnable()
     {
         $result = $this->client->{'X_AVM-DE_SetStickSurfEnable'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -614,9 +562,7 @@ class wlanconfig1 extends fritzsoap
     public function x_AVM_DE_GetIPTVOptimized()
     {
         $result = $this->client->{'X_AVM-DE_GetIPTVOptimized'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -634,9 +580,7 @@ class wlanconfig1 extends fritzsoap
     public function x_AVM_DE_SetIPTVOptimized()
     {
         $result = $this->client->{'X_AVM-DE_SetIPTVOptimized'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -655,9 +599,7 @@ class wlanconfig1 extends fritzsoap
     public function x_AVM_DE_GetNightControl()
     {
         $result = $this->client->{'X_AVM-DE_GetNightControl'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -683,9 +625,7 @@ class wlanconfig1 extends fritzsoap
     public function x_AVM_DE_GetWLANHybridMode()
     {
         $result = $this->client->{'X_AVM-DE_GetWLANHybridMode'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -711,9 +651,7 @@ class wlanconfig1 extends fritzsoap
     public function x_AVM_DE_SetWLANHybridMode()
     {
         $result = $this->client->{'X_AVM-DE_SetWLANHybridMode'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -739,9 +677,7 @@ class wlanconfig1 extends fritzsoap
     public function x_AVM_DE_GetWLANExtInfo()
     {
         $result = $this->client->{'X_AVM-DE_GetWLANExtInfo'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -760,9 +696,7 @@ class wlanconfig1 extends fritzsoap
     public function x_AVM_DE_GetWPSInfo()
     {
         $result = $this->client->{'X_AVM-DE_GetWPSInfo'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -783,9 +717,7 @@ class wlanconfig1 extends fritzsoap
     public function x_AVM_DE_SetWPSConfig()
     {
         $result = $this->client->{'X_AVM-DE_SetWPSConfig'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -803,9 +735,7 @@ class wlanconfig1 extends fritzsoap
     public function x_AVM_DE_SetWLANGlobalEnable()
     {
         $result = $this->client->{'X_AVM-DE_SetWLANGlobalEnable'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 

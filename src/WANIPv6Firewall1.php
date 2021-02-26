@@ -25,7 +25,7 @@ namespace blacksenator\fritzsoap;
 * +++++++++++++++++++++++++++++++++++++++++++++++++++++
 *
 * @author Volker Püschel <knuffy@anasco.de>
-* @copyright Volker Püschel 2020
+* @copyright Volker Püschel 2021
 * @license MIT
 **/
 
@@ -45,9 +45,7 @@ class WANIPv6Firewall1 extends fritzsoap
     public function getFirewallStatus()
     {
         $result = $this->client->GetFirewallStatus();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -70,9 +68,7 @@ class WANIPv6Firewall1 extends fritzsoap
     public function getOutboundPinholeTimeout()
     {
         $result = $this->client->GetOutboundPinholeTimeout();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -96,9 +92,7 @@ class WANIPv6Firewall1 extends fritzsoap
     public function addPinhole()
     {
         $result = $this->client->AddPinhole();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -117,9 +111,7 @@ class WANIPv6Firewall1 extends fritzsoap
     public function updatePinhole()
     {
         $result = $this->client->UpdatePinhole();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -137,9 +129,7 @@ class WANIPv6Firewall1 extends fritzsoap
     public function deletePinhole()
     {
         $result = $this->client->DeletePinhole();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -158,9 +148,7 @@ class WANIPv6Firewall1 extends fritzsoap
     public function getPinholePackets()
     {
         $result = $this->client->GetPinholePackets();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -179,9 +167,7 @@ class WANIPv6Firewall1 extends fritzsoap
     public function checkPinholeWorking()
     {
         $result = $this->client->CheckPinholeWorking();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 

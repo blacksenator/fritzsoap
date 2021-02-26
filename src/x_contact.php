@@ -25,7 +25,7 @@ namespace blacksenator\fritzsoap;
 * +++++++++++++++++++++++++++++++++++++++++++++++++++++
 *
 * @author Volker Püschel <knuffy@anasco.de>
-* @copyright Volker Püschel 2020
+* @copyright Volker Püschel 2021
 * @license MIT
 **/
 
@@ -50,10 +50,8 @@ class x_contact extends fritzsoap
     public function getInfo()
     {
         $result = $this->client->GetInfo();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not get info from FRITZ!Box", $this->errorCode, $this->errorText));
-            return [];
+        if ($this->errorHandling($result, 'Could not get info from FRITZ!Box')) {
+            return;
         }
 
         return $result;
@@ -70,9 +68,7 @@ class x_contact extends fritzsoap
     public function setEnable()
     {
         $result = $this->client->SetEnable();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -95,9 +91,7 @@ class x_contact extends fritzsoap
     public function setConfig()
     {
         $result = $this->client->SetConfig();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -122,9 +116,7 @@ class x_contact extends fritzsoap
     public function getInfoByIndex()
     {
         $result = $this->client->GetInfoByIndex();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -143,9 +135,7 @@ class x_contact extends fritzsoap
     public function setEnableByIndex()
     {
         $result = $this->client->SetEnableByIndex();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -169,9 +159,7 @@ class x_contact extends fritzsoap
     public function setConfigByIndex()
     {
         $result = $this->client->SetConfigByIndex();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -189,9 +177,7 @@ class x_contact extends fritzsoap
     public function deleteByIndex()
     {
         $result = $this->client->DeleteByIndex();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -209,9 +195,7 @@ class x_contact extends fritzsoap
     public function getNumberOfEntries()
     {
         $result = $this->client->GetNumberOfEntries();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -228,9 +212,7 @@ class x_contact extends fritzsoap
     public function getCallList()
     {
         $result = $this->client->GetCallList();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not receive the call list from FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not receive the call list from FRITZ!Box')) {
             return;
         }
         $callList = file_get_contents($result);
@@ -251,9 +233,7 @@ class x_contact extends fritzsoap
     public function getPhonebookList()
     {
         $result = $this->client->GetPhonebookList();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not get list of phonebooks from FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not get list of phonebooks from FRITZ!Box')) {
             return;
         }
 
@@ -282,7 +262,7 @@ class x_contact extends fritzsoap
      * tr064sid          string        Session ID for authentication (obsolete)
      *
      * @param int $phoneBookID
-     * @return SimpleXMLElement|bool phonebook or
+     * @return SimpleXMLElement|bool $phonebook or
      *                               402 (Invalid arguments)
      *                               713 (Invalid array index)
      *                               820 (Internal Error)
@@ -290,9 +270,7 @@ class x_contact extends fritzsoap
     public function getPhonebook(int $phoneBookID = 0)
     {
         $result = $this->client->GetPhonebook(new \SoapParam($phoneBookID, 'NewPhonebookID'));
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not get the phonebook %s", $this->errorCode, $this->errorText, $phoneBookID));
+        if ($this->errorHandling($result, sprintf("Could not get the phonebook %s", $phoneBookID))) {
             return false;
         }
         $phonebook = simplexml_load_file($result['NewPhonebookURL']);
@@ -319,9 +297,7 @@ class x_contact extends fritzsoap
             new \SoapParam($name, 'NewPhonebookName'),
             new \SoapParam($phoneBookID, 'NewPhonebookExtraID')
         );
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not add the new phonebook %s", $this->errorCode, $this->errorText, $name));
+        if ($this->errorHandling($result, sprintf("Could not add the new phonebook %s", $name))) {
             return;
         }
 
@@ -343,9 +319,7 @@ class x_contact extends fritzsoap
     public function deletePhonebook($phoneBookID)
     {
         $result = $this->client->DeletePhonebook(new \SoapParam($phoneBookID, 'NewPhonebookID'));
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not delete the phonebook with index %s", $this->errorCode, $this->errorText, $phoneBookID));
+        if ($this->errorHandling($result, sprintf("Could not delete the phonebook with index %s", $phoneBookID))) {
             return;
         }
 
@@ -365,9 +339,7 @@ class x_contact extends fritzsoap
     public function getPhonebookEntry()
     {
         $result = $this->client->GetPhonebookEntry();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -387,9 +359,7 @@ class x_contact extends fritzsoap
     public function getPhonebookEntryUID()
     {
         $result = $this->client->GetPhonebookEntryUID();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -417,9 +387,7 @@ class x_contact extends fritzsoap
             new \SoapParam($entryID, 'NewPhonebookEntryID'),
             new \SoapParam($entry, 'NewPhonebookEntryData')
         );
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not add the new entry to the phonebook with index %s", $this->errorCode, $this->errorText, $phoneBookID));
+        if ($this->errorHandling($result, sprintf("Could not add the new entry to the phonebook %s", $phoneBookID))) {
             return;
         }
 
@@ -489,9 +457,7 @@ class x_contact extends fritzsoap
     public function setPhonebookEntryUID()
     {
         $result = $this->client->SetPhonebookEntryUID();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -510,9 +476,7 @@ class x_contact extends fritzsoap
     public function deletePhonebookEntry()
     {
         $result = $this->client->DeletePhonebookEntry();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -531,9 +495,7 @@ class x_contact extends fritzsoap
     public function deletePhonebookEntryUID()
     {
         $result = $this->client->DeletePhonebookEntryUID();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -552,9 +514,7 @@ class x_contact extends fritzsoap
     public function getCallBarringEntry()
     {
         $result = $this->client->GetCallBarringEntry();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -573,9 +533,7 @@ class x_contact extends fritzsoap
     public function getCallBarringEntryByNum()
     {
         $result = $this->client->GetCallBarringEntryByNum();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -593,9 +551,7 @@ class x_contact extends fritzsoap
     public function getCallBarringList()
     {
         $result = $this->client->GetCallBarringList();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -614,9 +570,7 @@ class x_contact extends fritzsoap
     public function setCallBarringEntry()
     {
         $result = $this->client->SetCallBarringEntry();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -634,9 +588,7 @@ class x_contact extends fritzsoap
     public function deleteCallBarringEntryUID()
     {
         $result = $this->client->DeleteCallBarringEntryUID();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -654,9 +606,7 @@ class x_contact extends fritzsoap
     public function getDECTHandsetList()
     {
         $result = $this->client->GetDECTHandsetList();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -676,9 +626,7 @@ class x_contact extends fritzsoap
     public function getDECTHandsetInfo()
     {
         $result = $this->client->GetDECTHandsetInfo();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -697,9 +645,7 @@ class x_contact extends fritzsoap
     public function setDECTHandsetPhonebook()
     {
         $result = $this->client->SetDECTHandsetPhonebook();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -717,9 +663,7 @@ class x_contact extends fritzsoap
     public function getNumberOfDeflections()
     {
         $result = $this->client->GetNumberOfDeflections();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -744,9 +688,7 @@ class x_contact extends fritzsoap
     public function getDeflection()
     {
         $result = $this->client->GetDeflection();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -764,9 +706,7 @@ class x_contact extends fritzsoap
     public function getDeflections()
     {
         $result = $this->client->GetDeflections();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -785,9 +725,7 @@ class x_contact extends fritzsoap
     public function setDeflectionEnable()
     {
         $result = $this->client->SetDeflectionEnable();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 

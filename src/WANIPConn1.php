@@ -25,7 +25,7 @@ namespace blacksenator\fritzsoap;
 * +++++++++++++++++++++++++++++++++++++++++++++++++++++
 *
 * @author Volker Püschel <knuffy@anasco.de>
-* @copyright Volker Püschel 2020
+* @copyright Volker Püschel 2021
 * @license MIT
 **/
 
@@ -44,9 +44,7 @@ class WANIPConn1 extends fritzsoap
     public function setConnectionType()
     {
         $result = $this->client->SetConnectionType();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -65,9 +63,7 @@ class WANIPConn1 extends fritzsoap
     public function getConnectionTypeInfo()
     {
         $result = $this->client->GetConnectionTypeInfo();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -84,9 +80,7 @@ class WANIPConn1 extends fritzsoap
     public function requestConnection()
     {
         $result = $this->client->RequestConnection();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -103,9 +97,7 @@ class WANIPConn1 extends fritzsoap
     public function requestTermination()
     {
         $result = $this->client->RequestTermination();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -122,9 +114,7 @@ class WANIPConn1 extends fritzsoap
     public function forceTermination()
     {
         $result = $this->client->ForceTermination();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -142,9 +132,7 @@ class WANIPConn1 extends fritzsoap
     public function setAutoDisconnectTime()
     {
         $result = $this->client->SetAutoDisconnectTime();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -162,9 +150,7 @@ class WANIPConn1 extends fritzsoap
     public function setIdleDisconnectTime()
     {
         $result = $this->client->SetIdleDisconnectTime();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -182,9 +168,7 @@ class WANIPConn1 extends fritzsoap
     public function setWarnDisconnectDelay()
     {
         $result = $this->client->SetWarnDisconnectDelay();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -204,9 +188,7 @@ class WANIPConn1 extends fritzsoap
     public function getStatusInfo()
     {
         $result = $this->client->GetStatusInfo();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -224,9 +206,7 @@ class WANIPConn1 extends fritzsoap
     public function getAutoDisconnectTime()
     {
         $result = $this->client->GetAutoDisconnectTime();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -244,9 +224,7 @@ class WANIPConn1 extends fritzsoap
     public function getIdleDisconnectTime()
     {
         $result = $this->client->GetIdleDisconnectTime();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -264,9 +242,7 @@ class WANIPConn1 extends fritzsoap
     public function getWarnDisconnectDelay()
     {
         $result = $this->client->GetWarnDisconnectDelay();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -285,9 +261,7 @@ class WANIPConn1 extends fritzsoap
     public function getNATRSIPStatus()
     {
         $result = $this->client->GetNATRSIPStatus();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -313,9 +287,7 @@ class WANIPConn1 extends fritzsoap
     public function getGenericPortMappingEntry()
     {
         $result = $this->client->GetGenericPortMappingEntry();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -340,9 +312,7 @@ class WANIPConn1 extends fritzsoap
     public function getSpecificPortMappingEntry()
     {
         $result = $this->client->GetSpecificPortMappingEntry();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -367,9 +337,7 @@ class WANIPConn1 extends fritzsoap
     public function addPortMapping()
     {
         $result = $this->client->AddPortMapping();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -389,9 +357,7 @@ class WANIPConn1 extends fritzsoap
     public function deletePortMapping()
     {
         $result = $this->client->DeletePortMapping();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -409,9 +375,7 @@ class WANIPConn1 extends fritzsoap
     public function getExternalIPAddress()
     {
         $result = $this->client->GetExternalIPAddress();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -432,9 +396,7 @@ class WANIPConn1 extends fritzsoap
     public function x_AVM_DE_GetExternalIPv6Address()
     {
         $result = $this->client->X_AVM_DE_GetExternalIPv6Address();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -455,9 +417,7 @@ class WANIPConn1 extends fritzsoap
     public function x_AVM_DE_GetIPv6Prefix()
     {
         $result = $this->client->X_AVM_DE_GetIPv6Prefix();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -476,9 +436,7 @@ class WANIPConn1 extends fritzsoap
     public function x_AVM_DE_GetDNSServer()
     {
         $result = $this->client->X_AVM_DE_GetDNSServer();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -499,9 +457,7 @@ class WANIPConn1 extends fritzsoap
     public function x_AVM_DE_GetIPv6DNSServer()
     {
         $result = $this->client->X_AVM_DE_GetIPv6DNSServer();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -522,9 +478,7 @@ class WANIPConn1 extends fritzsoap
     public function deletePortMappingRange()
     {
         $result = $this->client->DeletePortMappingRange();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -547,9 +501,7 @@ class WANIPConn1 extends fritzsoap
     public function getListOfPortMappings()
     {
         $result = $this->client->GetListOfPortMappings();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -575,9 +527,7 @@ class WANIPConn1 extends fritzsoap
     public function addAnyPortMapping()
     {
         $result = $this->client->AddAnyPortMapping();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 

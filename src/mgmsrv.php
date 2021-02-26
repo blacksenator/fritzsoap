@@ -25,7 +25,7 @@ namespace blacksenator\fritzsoap;
 * +++++++++++++++++++++++++++++++++++++++++++++++++++++
 *
 * @author Volker Püschel <knuffy@anasco.de>
-* @copyright Volker Püschel 2020
+* @copyright Volker Püschel 2021
 * @license MIT
 **/
 
@@ -53,9 +53,7 @@ class mgmsrv extends fritzsoap
     public function getInfo()
     {
         $result = $this->client->GetInfo();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -73,9 +71,7 @@ class mgmsrv extends fritzsoap
     public function setManagementServerURL()
     {
         $result = $this->client->SetManagementServerURL();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -93,9 +89,7 @@ class mgmsrv extends fritzsoap
     public function setManagementServerUsername()
     {
         $result = $this->client->SetManagementServerUsername();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -113,9 +107,7 @@ class mgmsrv extends fritzsoap
     public function setManagementServerPassword()
     {
         $result = $this->client->SetManagementServerPassword();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -135,9 +127,7 @@ class mgmsrv extends fritzsoap
     public function setPeriodicInform()
     {
         $result = $this->client->SetPeriodicInform();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -156,9 +146,7 @@ class mgmsrv extends fritzsoap
     public function setConnectionRequestAuthentication()
     {
         $result = $this->client->SetConnectionRequestAuthentication();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -176,9 +164,7 @@ class mgmsrv extends fritzsoap
     public function setUpgradeManagement()
     {
         $result = $this->client->SetUpgradeManagement();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -196,9 +182,7 @@ class mgmsrv extends fritzsoap
     public function x_SetTR069Enable()
     {
         $result = $this->client->X_SetTR069Enable();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -216,9 +200,7 @@ class mgmsrv extends fritzsoap
     public function x_AVM_DE_GetTR069FirmwareDownloadEnabled()
     {
         $result = $this->client->{'X_AVM-DE_GetTR069FirmwareDownloadEnabled'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -236,9 +218,7 @@ class mgmsrv extends fritzsoap
     public function x_AVM_DE_SetTR069FirmwareDownloadEnabled()
     {
         $result = $this->client->{'X_AVM-DE_SetTR069FirmwareDownloadEnabled'}();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 

@@ -25,7 +25,7 @@ namespace blacksenator\fritzsoap;
 * +++++++++++++++++++++++++++++++++++++++++++++++++++++
 *
 * @author Volker Püschel <knuffy@anasco.de>
-* @copyright Volker Püschel 2020
+* @copyright Volker Püschel 2021
 * @license MIT
 **/
 
@@ -47,9 +47,7 @@ class WANCommonIFC1 extends fritzsoap
     public function getCommonLinkProperties()
     {
         $result = $this->client->GetCommonLinkProperties();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -67,9 +65,7 @@ class WANCommonIFC1 extends fritzsoap
     public function getTotalBytesSent()
     {
         $result = $this->client->GetTotalBytesSent();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -87,9 +83,7 @@ class WANCommonIFC1 extends fritzsoap
     public function getTotalBytesReceived()
     {
         $result = $this->client->GetTotalBytesReceived();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -107,9 +101,7 @@ class WANCommonIFC1 extends fritzsoap
     public function getTotalPacketsSent()
     {
         $result = $this->client->GetTotalPacketsSent();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -127,9 +119,7 @@ class WANCommonIFC1 extends fritzsoap
     public function getTotalPacketsReceived()
     {
         $result = $this->client->GetTotalPacketsReceived();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -163,9 +153,7 @@ class WANCommonIFC1 extends fritzsoap
     public function getAddonInfos()
     {
         $result = $this->client->GetAddonInfos();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -183,9 +171,7 @@ class WANCommonIFC1 extends fritzsoap
     public function x_AVM_DE_GetDsliteStatus()
     {
         $result = $this->client->X_AVM_DE_GetDsliteStatus();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -205,9 +191,7 @@ class WANCommonIFC1 extends fritzsoap
     public function x_AVM_DE_GetIPTVInfos()
     {
         $result = $this->client->X_AVM_DE_GetIPTVInfos();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 

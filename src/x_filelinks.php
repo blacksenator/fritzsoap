@@ -25,7 +25,7 @@ namespace blacksenator\fritzsoap;
 * +++++++++++++++++++++++++++++++++++++++++++++++++++++
 *
 * @author Volker Püschel <knuffy@anasco.de>
-* @copyright Volker Püschel 2020
+* @copyright Volker Püschel 2021
 * @license MIT
 **/
 
@@ -45,9 +45,7 @@ class x_filelinks extends fritzsoap
     public function getNumberOfFilelinkEntries()
     {
         $result = $this->client->GetNumberOfFilelinkEntries();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -75,9 +73,7 @@ class x_filelinks extends fritzsoap
     public function getGenericFilelinkEntry()
     {
         $result = $this->client->GetGenericFilelinkEntry();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -104,9 +100,7 @@ class x_filelinks extends fritzsoap
     public function getSpecificFilelinkEntry()
     {
         $result = $this->client->GetSpecificFilelinkEntry();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -127,9 +121,7 @@ class x_filelinks extends fritzsoap
     public function newFilelinkEntry()
     {
         $result = $this->client->NewFilelinkEntry();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -149,9 +141,7 @@ class x_filelinks extends fritzsoap
     public function setFilelinkEntry()
     {
         $result = $this->client->SetFilelinkEntry();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -169,9 +159,7 @@ class x_filelinks extends fritzsoap
     public function deleteFilelinkEntry()
     {
         $result = $this->client->DeleteFilelinkEntry();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -188,9 +176,7 @@ class x_filelinks extends fritzsoap
     public function getFilelinkListPath()
     {
         $result = $this->client->GetFilelinkListPath();
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! Could not receive the file link list from FRITZ!Box", $this->errorCode, $this->errorText));
+        if ($this->errorHandling($result, 'Could not receive the file link list from FRITZ!Box')) {
             return;
         }
 
