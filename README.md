@@ -125,7 +125,7 @@ You can install it through Composer:
 
 ```js
 "require": {
-    "blacksenator/fritzsoap": "^2.2"
+    "blacksenator/fritzsoap": "^2.4"
 },
 ```
 
