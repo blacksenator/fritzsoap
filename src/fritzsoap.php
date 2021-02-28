@@ -61,36 +61,39 @@ class fritzsoap
         ];
 
     const
+        FB_ADRESS       = 'fritz.box',
         SOAP_NOROOT     = true,
         SOAP_TRACE      = true,
         SOAP_EXCEPTIONS = false,
-        CLASS_ANOMALY   = 'Control';
+        CLASS_ANOMALY   = ['Control'];      // there are similar services Control1 to Control7
 
     private $url = [];
     private $user;
     private $password;
     private $serverAdress;
-    protected $services;
-    public $client = null;
-    public $errorCode;
-    public $errorText;
+    protected $services = null;
+    protected $client = null;
+    protected $errorCode;
+    protected $errorText;
 
     /**
      * instantiation
+     * credentials are optional for IGD services?
      *
      * @param string $url
      * @param string $user
      * @param string $password
+     * @param SimpleXMLElement $services
      * @return void
      */
-    public function __construct($url, $user, $password)
+    public function __construct($url, $user, $password, $services = null)
     {
         $validator = new fbvalidateurl;
         $this->url = $validator->getValidURL($url);
         $this->assembleServerAdress($this->url);
         $this->user = $user;
         $this->password = $password;
-        $this->services = $this->getFritzBoxServices();
+        $this->services = $services ?: $this->getFritzBoxServices();      // if possible only read once
         if ($this->services === false) {
             throw new \Exception ('SOAP services could not be determined!');
         }
@@ -239,32 +242,61 @@ class fritzsoap
      */
     public function getClient()
     {
-        $class = get_class($this);
-        $className = str_replace('blacksenator\\fritzsoap\\', '', $class);
-        if (substr($className, 0, 7) === self::CLASS_ANOMALY) {               // Control1, Control2, ...
-            $message = sprintf('No service parameters for %s(%s) can be assigned!', $className, self::CLASS_ANOMALY);
-            throw new \Exception ($message);
-        }
-        $parameter = $this->services->xpath("//services[@name='$className']");
-        if (!count($parameter)) {
-            $message = sprintf('No %s service parameters available on this FRITZ!Box!', $className);
-            throw new \Exception ($message);
-        }
-        $location = (string)$parameter[0]->location;
-        $service = (string)$parameter[0]->service;
+        $parameters = $this->getSOAPParameters($this->getClassName());
         $this->client = new \SoapClient(null, [
-            'location'   => $this->serverAdress . $location,
-            'uri'        => $service,
+            'location'   => $this->serverAdress . $parameters['location'],
+            'uri'        => $parameters['service'],
             'noroot'     => self::SOAP_NOROOT,
             'login'      => $this->user,
             'password'   => $this->password,
             'trace'      => self::SOAP_TRACE,
             'exceptions' => self::SOAP_EXCEPTIONS,
-        ]);
+            ]);
+    }
+
+    /**
+     * get the class name
+     *
+     * @return string $className
+     */
+    private function getClassName()
+    {
+        $class = get_class($this);
+        $className = str_replace('blacksenator\\fritzsoap\\', '', $class);
+        if (in_array(substr($className, 0, -1), self::CLASS_ANOMALY)) {     // Control1, Control2, ...
+            $message = sprintf('No service parameters for %s(%s) can be assigned!', $className, self::CLASS_ANOMALY);
+            throw new \Exception ($message);
+        }
+
+        return $className;
+    }
+
+    /**
+     * get the SOAP parameters of a service (eq. class)
+     * - location
+     * - service
+     *
+     * @param string $className
+     * @return array $parameter
+     */
+
+    private function getSOAPParameters($className)
+    {
+        $param = $this->services->xpath("//services[@name='$className']");
+        if (!count($param)) {
+            $message = sprintf('No %s service parameters available on this FRITZ!Box!', $className);
+            throw new \Exception ($message);
+        }
+
+        return [
+            'location' => (string)$param[0]->location,
+            'service'  => (string)$param[0]->service,
+            ];
     }
 
     /**
      * get SOAP error data
+     *
      * disassemble the soapfault object to get more detailed
      * error information into $this->errorCode and $this->errorText
      *
@@ -273,8 +305,8 @@ class fritzsoap
      */
     protected function getErrorData($result)
     {
-        $this->errorCode = isset($result->detail->UPnPError->errorCode) ? $result->detail->UPnPError->errorCode : $result->faultcode;
-        $this->errorText = isset($result->detail->UPnPError->errorDescription) ? $result->detail->UPnPError->errorDescription : $result->faultstring;
+        $this->errorCode = $result->detail->UPnPError->errorCode ?? $result->faultcode;
+        $this->errorText = $result->detail->UPnPError->errorDescription ?? $result->faultstring;
     }
 
     /**
@@ -288,7 +320,7 @@ class fritzsoap
      */
     protected function errorHandling($result, string $message = '')
     {
-        $msg = $message ?? 'Could not ... from/to FRITZ!Box';
+        $msg = $message ?? 'Could not ... from/to FRITZ!Box';           // we do not better know ...
 
         if (is_soap_fault($result)) {
             $this->getErrorData($result);
@@ -301,6 +333,7 @@ class fritzsoap
 
     /**
      * converting an array to XML
+     *
      * currently used in hosts.php and possibly in the future in other classes
      * @see top voted answer to https://stackoverflow.com/questions/1397036/how-to-convert-array-to-simplexml
      *
