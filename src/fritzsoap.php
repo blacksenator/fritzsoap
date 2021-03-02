@@ -147,6 +147,7 @@ class fritzsoap
                 $services = $tr064->addChild('services');
                 $name = explode('/', $serviceHeader->controlURL);
                 $services->addAttribute('name', $name[3]);
+                $services->addAttribute('origin', $description); //
                 $services->addChild('service', (string)$serviceHeader->serviceType);
                 $services->addChild('location', (string)$serviceHeader->controlURL);
                 $actionsDesc = $this->getDescriptionXML($this->serverAdress . $serviceHeader->SCPDURL, 'action');
@@ -157,6 +158,7 @@ class fritzsoap
                     } else {
                         $action = $actions->addChild('action');
                         $action->addAttribute('name', (string)$actionDesc->name);
+                        $action->addAttribute('origin', substr($serviceHeader->SCPDURL, 1)); //
                         if (!property_exists($actionDesc, 'argumentList')) {
                             continue;
                         }
@@ -206,11 +208,15 @@ class fritzsoap
     /**
      * get the determined services
      *
+     * returns the identified services or rereads
+     * if more details are required (time consuming!)
+     *
+     * @param bool $detailed
      * @return SimpleXMLElement
      */
-    public function getServiceDescription(): SimpleXMLElement
+    public function getServiceDescription($detailed = false): SimpleXMLElement
     {
-        return $this->services;
+        return $detailed ? $this->getFritzBoxServices(true) : $this->services;
     }
 
     /**

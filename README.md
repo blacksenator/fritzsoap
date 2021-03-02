@@ -139,10 +139,20 @@ git clone https://github.com/blacksenator/fritzsoap.git
 Example if you wanna get a file with your available services:
 
 ```PHP
-$fritzbox = new fritzsoap($url, $user, $password);
+require_once('vendor/autoload.php');
+
+use blacksenator\fritzsoap\x_contact;
+
+$fritzbox = new x_contact($url, $user, $password);
 $services = $fritzbox->getServiceDescription();
 $services->asXML('services.xml');
 ```
+
+**Hint:** The function `getServiceDescription()` is available in all classes!
+You can also get a more detailed structure with `getServiceDescription(true)`. In this case, the information from the FRITZ!Box is gathered again and all parameters of the actions are also output, as well as the file name of the XML from which the information originates.
+Example output:
+
+![alt text](assets/detail_xml.jpg "details about services and actions")
 
 Example to get a list of all your network devices:
 
