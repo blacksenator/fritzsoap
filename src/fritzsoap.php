@@ -61,7 +61,8 @@ class fritzsoap
         ];
 
     const
-        FB_ADRESS       = 'fritz.box',
+        HTTP_PORT       = '49000',
+        HTTPS_PORT      = '49443',
         SOAP_NOROOT     = true,
         SOAP_TRACE      = true,
         SOAP_EXCEPTIONS = false,
@@ -109,9 +110,9 @@ class fritzsoap
     private function assembleServerAdress(array $url)
     {
         if ($url['scheme'] == 'http') {
-            $this->serverAdress = 'http://' . $url['host'] . ':49000';
+            $this->serverAdress = 'http://' . $url['host'] . ':' . self::HTTP_PORT;
         } elseif ($this->url['scheme'] == 'https') {
-            $this->serverAdress = 'https://' . $url['host'] . ':49443';
+            $this->serverAdress = 'https://' . $url['host'] . ':' . self::HTTPS_PORT;
         } else {
             throw new \Exception ('Could not assemble valid server address!');
         }
@@ -147,7 +148,7 @@ class fritzsoap
                 $services = $tr064->addChild('services');
                 $name = explode('/', $serviceHeader->controlURL);
                 $services->addAttribute('name', $name[3]);
-                $services->addAttribute('origin', $description); //
+                $services->addAttribute('origin', $description);
                 $services->addChild('service', (string)$serviceHeader->serviceType);
                 $services->addChild('location', (string)$serviceHeader->controlURL);
                 $actionsDesc = $this->getDescriptionXML($this->serverAdress . $serviceHeader->SCPDURL, 'action');
@@ -158,7 +159,7 @@ class fritzsoap
                     } else {
                         $action = $actions->addChild('action');
                         $action->addAttribute('name', (string)$actionDesc->name);
-                        $action->addAttribute('origin', substr($serviceHeader->SCPDURL, 1)); //
+                        $action->addAttribute('origin', substr($serviceHeader->SCPDURL, 1));
                         if (!property_exists($actionDesc, 'argumentList')) {
                             continue;
                         }
