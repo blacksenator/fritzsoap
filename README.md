@@ -90,6 +90,7 @@ But as I said before:
 ### Ghosts
 
 Automatic generation has also originate services that are not or not clearly documented by AVM. Accordingly, these classes have **no link to a reference document in the class comment!**
+These presumably refer to specifications from  Open Connectivity Foundation (aka UPnP-Forum). But parsing that or keeping track of it manually is far beyond my capabilities.
 
 #### AURA (AVM USB Remote Access)
 
@@ -102,9 +103,9 @@ This group of ghosts includes the >Control< services, of which I found seven wit
 
 #### Other ghosts
 
-* any (has no actions)
+* any (has no actions - generic template?)
 * avmnexus
-* fritzbox
+* fritzbox (currently no longer available)
 * WANCommonIFC1
 * wancommonifconfig1
 * wandslifconfig1

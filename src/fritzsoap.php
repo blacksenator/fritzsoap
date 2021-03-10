@@ -71,7 +71,7 @@ class fritzsoap
     private $url = [];
     private $user;
     private $password;
-    private $serverAdress;
+    protected $serverAdress;
     protected $services = null;
     protected $client = null;
     protected $errorCode;
@@ -79,7 +79,7 @@ class fritzsoap
 
     /**
      * instantiation
-     * credentials are optional for IGD services?
+     * credentials are optional for UPnP services?
      *
      * @param string $url
      * @param string $user
@@ -141,6 +141,7 @@ class fritzsoap
      */
     protected function getFritzBoxServices($detailed = false)
     {
+        $stateTable = [];
         $tr064 = new SimpleXMLElement('<tr064 />');
         foreach (self::SERVICE_DESCRIPTIONS as $description) {
             $serviceHeaders = $this->getDescriptionXML($this->serverAdress . '/' . $description, 'service');
@@ -152,6 +153,10 @@ class fritzsoap
                 $services->addChild('service', (string)$serviceHeader->serviceType);
                 $services->addChild('location', (string)$serviceHeader->controlURL);
                 $actionsDesc = $this->getDescriptionXML($this->serverAdress . $serviceHeader->SCPDURL, 'action');
+                if ($detailed) {
+                    $stateVariables = $this->getDescriptionXML($this->serverAdress . $serviceHeader->SCPDURL, 'stateVariable');
+                    $stateTable = $this->getStateTable($stateVariables);
+                }
                 $actions = $services->addChild('actions');
                 foreach ($actionsDesc as $actionDesc) {
                     if (!$detailed) {
@@ -167,6 +172,7 @@ class fritzsoap
                             $argument = $action->addChild('argument', (string)$attribute->name);
                             $argument->addAttribute('direction', (string)$attribute->direction);
                             $argument->addAttribute('relatedStateVariable', (string)$attribute->relatedStateVariable);
+                            $argument->addAttribute('dataType', $stateTable[(string)$attribute->relatedStateVariable]);
                         }
                     }
                 }
@@ -201,6 +207,22 @@ class fritzsoap
                 $xml->registerXPathNamespace('fb', $xml->getNameSpaces(false)[""]);
                 $result = $xml->xpath("//fb:$node");
             }
+        }
+
+        return $result;
+    }
+
+    /**
+     * get the state table of the service(s) from XML
+     *
+     * @param array of SimpleXMLElement $stateVariables
+     * @return array
+     */
+    private function getStateTable($stateVariables)
+    {
+        $result = [];
+        foreach ($stateVariables as $stateVariable) {
+            $result[(string)$stateVariable->name] = (string)$stateVariable->dataType;
         }
 
         return $result;
