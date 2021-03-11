@@ -43,7 +43,7 @@ In all other cases:
 `THIS FILE IS AUTOMATIC ASSEMBLED!`
 if this class is still generic.
 
-If no coding has been done for your desired action in this class - which is probably the case - the existing examples should show how easy it is to complete the code of that function for your desired action (**contributions to extend this class are highly appreciated!**).
+If no coding has been reviewed for your desired action in this class - which is probably the case - the existing examples should show how easy it is to complete the code of that function for your desired action (**contributions to extend this class are highly appreciated!**).
 In about half of the cases (if there are no input parameters), it is sufficient to adapt the message for a possible error, since the actions mainly provide arrays with return values that can be further processed by the calling program.
 
 You will see if a function coding has been checked, when you look at the comments. In all other cases untouched functions are looking like the following example of an unreviewed function (from `x_homeauto.php`):
@@ -54,33 +54,27 @@ You will see if a function coding has been checked, when you look at the comment
  *
  * automatically generated; complete coding if necessary!
  *
- * in: NewAIN
- * in: NewSwitchState
+ * in: NewAIN (string)
+ * in: NewSwitchState (string)
  *
+ * @param string $aIN
+ * @param string $switchState
+ * @return void
  */
-public function setSwitch()
+public function setSwitch($aIN, $switchState)
 {
-    $result = $this->client->SetSwitch();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-    return $result;
+    $result = $this->client->SetSwitch(
+        new \SoapParam($aIN, 'NewAIN'),
+        new \SoapParam($switchState, 'NewSwitchState'));
+    if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        return;
+    }
 }
 ```
 
-You will find the input or output parameter (arguments) in the comment section of the function - if it has any.
+You will find the input or output parameter (arguments) in the comment section and in the function coding - if it has any.
 
-To facilitate the completion of this creation take a look at the finished functions to transfer the use of the input and output parameters and to adjust the return of the function (`x_contact.php` is the most productive source at the moment).
-
-Just one example to show the usage of input parameters:
-
-```PHP
-$result = $this->client->AddPhonebook(
-    new \SoapParam($name, 'NewPhonebookName'),
-    new \SoapParam($phoneBookID, 'NewPhonebookExtraID')
-);
-```
+To facilitate the completion of this creation take a look at the finished functions to adjust function arguments ans/or/the return of the function (e.g. `x_contact.php` is the most productive source at the moment).
 
 But as I said before:
 
@@ -90,7 +84,7 @@ But as I said before:
 ### Ghosts
 
 Automatic generation has also originate services that are not or not clearly documented by AVM. Accordingly, these classes have **no link to a reference document in the class comment!**
-These presumably refer to specifications from  Open Connectivity Foundation (aka UPnP-Forum). But parsing that or keeping track of it manually is far beyond my capabilities.
+These presumably refer to specifications from Open Connectivity Foundation (aka UPnP-Forum). But parsing that or keeping track of it manually is far beyond my capabilities.
 
 #### AURA (AVM USB Remote Access)
 
@@ -189,6 +183,13 @@ $classB = new x_contact($url, $user, $password, $services);
 $classB->getClient();
 $classB->getInfo();
 ```
+
+### Error handling
+
+If calling a class or its functions leads to an error, possible causes could be:
+
+* that the FRITZ! Box does not provide the service (general range of functions of the FRITZ! Box model)
+* the activation of certain functions in the FRITZ! Box (e.g. UPnP or USB remote access
 
 ## License
 

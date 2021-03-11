@@ -280,7 +280,7 @@ class fritzsoap
             'password'   => $this->password,
             'trace'      => self::SOAP_TRACE,
             'exceptions' => self::SOAP_EXCEPTIONS,
-            ]);
+        ]);
     }
 
     /**

@@ -25,7 +25,7 @@ namespace blacksenator\fritzsoap;
 * +++++++++++++++++++++++++++++++++++++++++++++++++++++
 *
 * @author Volker Püschel <knuffy@anasco.de>
-* @copyright Volker Püschel 2021
+* @copyright Volker Püschel 2019 - 2020
 * @license MIT
 **/
 

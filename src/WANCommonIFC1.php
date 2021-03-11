@@ -3,30 +3,30 @@
 namespace blacksenator\fritzsoap;
 
 /**
-* The class provides functions to read and manipulate
-* data via TR-064 interface on FRITZ!Box router from AVM:
-* according to:
-* @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/IGD1.pdf
-*
-* With the instantiation of the class, all available
-* services of the addressed FRITZ!Box are determined.
-* The service parameters and available actions are
-* provided in a compressed form as XML and can be output
-* with getServiceDescription().
-* The matching SOAP client only needs to be called with
-* the name of the services <services name = "..."> and
-* gets the correct location and uri from the XML
-* (see getFritzBoxServices() for details)
-*
-* +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
-* THIS FILE IS AUTOMATIC ASSEMBLED!
-* ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
-* CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
-* +++++++++++++++++++++++++++++++++++++++++++++++++++++
-*
-* @author Volker Püschel <knuffy@anasco.de>
-* @copyright Volker Püschel 2021
-* @license MIT
+ * The class provides functions to read and manipulate
+ * data via TR-064 interface on FRITZ!Box router from AVM.
+ * No documentation available!
+ * @see: https://avm.de/service/schnittstellen/
+ *
+ * With the instantiation of the class, all available
+ * services of the addressed FRITZ!Box are determined.
+ * The service parameters and available actions are
+ * provided in a compressed form as XML and can be output
+ * with getServiceDescription().
+ * The matching SOAP client only needs to be called with
+ * the name of the services <services name = "..."> and
+ * gets the correct location and uri from the XML
+ * (see getFritzBoxServices() for details)
+ *
+ * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
+ * THIS FILE IS AUTOMATIC ASSEMBLED!
+ * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
+ * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * @author Volker Püschel <knuffy@anasco.de>
+ * @copyright Volker Püschel 2019 - 2021
+ * @license MIT
 **/
 
 use blacksenator\fritzsoap\fritzsoap;
@@ -38,11 +38,12 @@ class WANCommonIFC1 extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: NewWANAccessType
-     * out: NewLayer1UpstreamMaxBitRate
-     * out: NewLayer1DownstreamMaxBitRate
-     * out: NewPhysicalLinkStatus
+     * out: NewWANAccessType (string)
+     * out: NewLayer1UpstreamMaxBitRate (ui4)
+     * out: NewLayer1DownstreamMaxBitRate (ui4)
+     * out: NewPhysicalLinkStatus (string)
      *
+     * @return array
      */
     public function getCommonLinkProperties()
     {
@@ -59,8 +60,9 @@ class WANCommonIFC1 extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: NewTotalBytesSent
+     * out: NewTotalBytesSent (ui4)
      *
+     * @return int
      */
     public function getTotalBytesSent()
     {
@@ -77,8 +79,9 @@ class WANCommonIFC1 extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: NewTotalBytesReceived
+     * out: NewTotalBytesReceived (ui4)
      *
+     * @return int
      */
     public function getTotalBytesReceived()
     {
@@ -95,8 +98,9 @@ class WANCommonIFC1 extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: NewTotalPacketsSent
+     * out: NewTotalPacketsSent (ui4)
      *
+     * @return int
      */
     public function getTotalPacketsSent()
     {
@@ -113,8 +117,9 @@ class WANCommonIFC1 extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: NewTotalPacketsReceived
+     * out: NewTotalPacketsReceived (ui4)
      *
+     * @return int
      */
     public function getTotalPacketsReceived()
     {
@@ -131,24 +136,25 @@ class WANCommonIFC1 extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: NewByteSendRate
-     * out: NewByteReceiveRate
-     * out: NewPacketSendRate
-     * out: NewPacketReceiveRate
-     * out: NewTotalBytesSent
-     * out: NewTotalBytesReceived
-     * out: NewAutoDisconnectTime
-     * out: NewIdleDisconnectTime
-     * out: NewDNSServer1
-     * out: NewDNSServer2
-     * out: NewVoipDNSServer1
-     * out: NewVoipDNSServer2
-     * out: NewUpnpControlEnabled
-     * out: NewRoutedBridgedModeBoth
-     * out: NewX_AVM_DE_TotalBytesSent64
-     * out: NewX_AVM_DE_TotalBytesReceived64
-     * out: NewX_AVM_DE_WANAccessType
+     * out: NewByteSendRate (ui4)
+     * out: NewByteReceiveRate (ui4)
+     * out: NewPacketSendRate (ui4)
+     * out: NewPacketReceiveRate (ui4)
+     * out: NewTotalBytesSent (ui4)
+     * out: NewTotalBytesReceived (ui4)
+     * out: NewAutoDisconnectTime (ui4)
+     * out: NewIdleDisconnectTime (ui4)
+     * out: NewDNSServer1 (string)
+     * out: NewDNSServer2 (string)
+     * out: NewVoipDNSServer1 (string)
+     * out: NewVoipDNSServer2 (string)
+     * out: NewUpnpControlEnabled (boolean)
+     * out: NewRoutedBridgedModeBoth (ui1)
+     * out: NewX_AVM_DE_TotalBytesSent64 (string)
+     * out: NewX_AVM_DE_TotalBytesReceived64 (string)
+     * out: NewX_AVM_DE_WANAccessType (string)
      *
+     * @return array
      */
     public function getAddonInfos()
     {
@@ -165,8 +171,9 @@ class WANCommonIFC1 extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: NewX_AVM_DE_DsliteStatus
+     * out: NewX_AVM_DE_DsliteStatus (boolean)
      *
+     * @return bool
      */
     public function x_AVM_DE_GetDsliteStatus()
     {
@@ -183,10 +190,11 @@ class WANCommonIFC1 extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: NewX_AVM_DE_IPTV_Enabled
-     * out: NewX_AVM_DE_IPTV_Provider
-     * out: NewX_AVM_DE_IPTV_URL
+     * out: NewX_AVM_DE_IPTV_Enabled (boolean)
+     * out: NewX_AVM_DE_IPTV_Provider (string)
+     * out: NewX_AVM_DE_IPTV_URL (string)
      *
+     * @return array
      */
     public function x_AVM_DE_GetIPTVInfos()
     {

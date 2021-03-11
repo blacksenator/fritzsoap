@@ -3,30 +3,30 @@
 namespace blacksenator\fritzsoap;
 
 /**
-* The class provides functions to read and manipulate
-* data via TR-064 interface on FRITZ!Box router from AVM:
-* according to:
-* @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/x_dectSCPD.pdf
-*
-* With the instantiation of the class, all available
-* services of the addressed FRITZ!Box are determined.
-* The service parameters and available actions are
-* provided in a compressed form as XML and can be output
-* with getServiceDescription().
-* The matching SOAP client only needs to be called with
-* the name of the services <services name = "..."> and
-* gets the correct location and uri from the XML
-* (see getFritzBoxServices() for details)
-*
-* +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
-* THIS FILE IS AUTOMATIC ASSEMBLED!
-* ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
-* CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
-* +++++++++++++++++++++++++++++++++++++++++++++++++++++
-*
-* @author Volker Püschel <knuffy@anasco.de>
-* @copyright Volker Püschel 2021
-* @license MIT
+ * The class provides functions to read and manipulate
+ * data via TR-064 interface on FRITZ!Box router from AVM:
+ * according to:
+ * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/x_dectSCPD.pdf
+ *
+ * With the instantiation of the class, all available
+ * services of the addressed FRITZ!Box are determined.
+ * The service parameters and available actions are
+ * provided in a compressed form as XML and can be output
+ * with getServiceDescription().
+ * The matching SOAP client only needs to be called with
+ * the name of the services <services name = "..."> and
+ * gets the correct location and uri from the XML
+ * (see getFritzBoxServices() for details)
+ *
+ * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
+ * THIS FILE IS AUTOMATIC ASSEMBLED!
+ * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
+ * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * @author Volker Püschel <knuffy@anasco.de>
+ * @copyright Volker Püschel 2019 - 2021
+ * @license MIT
 **/
 
 use blacksenator\fritzsoap\fritzsoap;
@@ -38,8 +38,9 @@ class x_dect extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: NewNumberOfEntries
+     * out: NewNumberOfEntries (ui2)
      *
+     * @return int
      */
     public function getNumberOfDectEntries()
     {
@@ -56,19 +57,22 @@ class x_dect extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * in: NewIndex
-     * out: NewID
-     * out: NewActive
-     * out: NewName
-     * out: NewModel
-     * out: NewUpdateAvailable
-     * out: NewUpdateSuccessful
-     * out: NewUpdateInfo
+     * in: NewIndex (ui2)
+     * out: NewID (string)
+     * out: NewActive (boolean)
+     * out: NewName (string)
+     * out: NewModel (string)
+     * out: NewUpdateAvailable (boolean)
+     * out: NewUpdateSuccessful (string)
+     * out: NewUpdateInfo (string)
      *
+     * @param int $index
+     * @return array
      */
-    public function getGenericDectEntry()
+    public function getGenericDectEntry($index)
     {
-        $result = $this->client->GetGenericDectEntry();
+        $result = $this->client->GetGenericDectEntry(
+            new \SoapParam($index, 'NewIndex'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
@@ -81,18 +85,21 @@ class x_dect extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * in: NewID
-     * out: NewActive
-     * out: NewName
-     * out: NewModel
-     * out: NewUpdateAvailable
-     * out: NewUpdateSuccessful
-     * out: NewUpdateInfo
+     * in: NewID (string)
+     * out: NewActive (boolean)
+     * out: NewName (string)
+     * out: NewModel (string)
+     * out: NewUpdateAvailable (boolean)
+     * out: NewUpdateSuccessful (string)
+     * out: NewUpdateInfo (string)
      *
+     * @param string $iD
+     * @return array
      */
-    public function getSpecificDectEntry()
+    public function getSpecificDectEntry($iD)
     {
-        $result = $this->client->GetSpecificDectEntry();
+        $result = $this->client->GetSpecificDectEntry(
+            new \SoapParam($iD, 'NewID'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
@@ -105,12 +112,15 @@ class x_dect extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * in: NewID
+     * in: NewID (string)
      *
+     * @param string $iD
+     * @return void
      */
-    public function dectDoUpdate()
+    public function dectDoUpdate($iD)
     {
-        $result = $this->client->DectDoUpdate();
+        $result = $this->client->DectDoUpdate(
+            new \SoapParam($iD, 'NewID'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
@@ -123,8 +133,9 @@ class x_dect extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: NewDectListPath
+     * out: NewDectListPath (string)
      *
+     * @return string
      */
     public function getDectListPath()
     {

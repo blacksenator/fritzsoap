@@ -3,30 +3,30 @@
 namespace blacksenator\fritzsoap;
 
 /**
-* The class provides functions to read and manipulate
-* data via TR-064 interface on FRITZ!Box router from AVM:
-* according to:
-* @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/wandslifconfigSCPD.pdf
-*
-* With the instantiation of the class, all available
-* services of the addressed FRITZ!Box are determined.
-* The service parameters and available actions are
-* provided in a compressed form as XML and can be output
-* with getServiceDescription().
-* The matching SOAP client only needs to be called with
-* the name of the services <services name = "..."> and
-* gets the correct location and uri from the XML
-* (see getFritzBoxServices() for details)
-*
-* +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
-* THIS FILE IS AUTOMATIC ASSEMBLED!
-* ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
-* CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
-* +++++++++++++++++++++++++++++++++++++++++++++++++++++
-*
-* @author Volker Püschel <knuffy@anasco.de>
-* @copyright Volker Püschel 2021
-* @license MIT
+ * The class provides functions to read and manipulate
+ * data via TR-064 interface on FRITZ!Box router from AVM.
+ * No documentation available!
+ * @see: https://avm.de/service/schnittstellen/
+ *
+ * With the instantiation of the class, all available
+ * services of the addressed FRITZ!Box are determined.
+ * The service parameters and available actions are
+ * provided in a compressed form as XML and can be output
+ * with getServiceDescription().
+ * The matching SOAP client only needs to be called with
+ * the name of the services <services name = "..."> and
+ * gets the correct location and uri from the XML
+ * (see getFritzBoxServices() for details)
+ *
+ * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
+ * THIS FILE IS AUTOMATIC ASSEMBLED!
+ * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
+ * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * @author Volker Püschel <knuffy@anasco.de>
+ * @copyright Volker Püschel 2019 - 2021
+ * @license MIT
 **/
 
 use blacksenator\fritzsoap\fritzsoap;
@@ -38,22 +38,23 @@ class wandslifconfig1 extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: NewEnable
-     * out: NewStatus
-     * out: NewDataPath
-     * out: NewUpstreamCurrRate
-     * out: NewDownstreamCurrRate
-     * out: NewUpstreamMaxRate
-     * out: NewDownstreamMaxRate
-     * out: NewUpstreamNoiseMargin
-     * out: NewDownstreamNoiseMargin
-     * out: NewUpstreamAttenuation
-     * out: NewDownstreamAttenuation
-     * out: NewATURVendor
-     * out: NewATURCountry
-     * out: NewUpstreamPower
-     * out: NewDownstreamPower
+     * out: NewEnable (boolean)
+     * out: NewStatus (string)
+     * out: NewDataPath (string)
+     * out: NewUpstreamCurrRate (i4)
+     * out: NewDownstreamCurrRate (ui4)
+     * out: NewUpstreamMaxRate (ui4)
+     * out: NewDownstreamMaxRate (ui4)
+     * out: NewUpstreamNoiseMargin (ui4)
+     * out: NewDownstreamNoiseMargin (ui4)
+     * out: NewUpstreamAttenuation (ui4)
+     * out: NewDownstreamAttenuation (ui4)
+     * out: NewATURVendor (string)
+     * out: NewATURCountry (string)
+     * out: NewUpstreamPower (ui2)
+     * out: NewDownstreamPower (ui2)
      *
+     * @return array
      */
     public function getInfo()
     {
@@ -70,22 +71,23 @@ class wandslifconfig1 extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: NewReceiveBlocks
-     * out: NewTransmitBlocks
-     * out: NewCellDelin
-     * out: NewLinkRetrain
-     * out: NewInitErrors
-     * out: NewInitTimeouts
-     * out: NewLossOfFraming
-     * out: NewErroredSecs
-     * out: NewSeverelyErroredSecs
-     * out: NewFECErrors
-     * out: NewATUCFECErrors
-     * out: NewHECErrors
-     * out: NewATUCHECErrors
-     * out: NewCRCErrors
-     * out: NewATUCCRCErrors
+     * out: NewReceiveBlocks (ui4)
+     * out: NewTransmitBlocks (ui4)
+     * out: NewCellDelin (ui4)
+     * out: NewLinkRetrain (ui4)
+     * out: NewInitErrors (ui4)
+     * out: NewInitTimeouts (ui4)
+     * out: NewLossOfFraming (ui4)
+     * out: NewErroredSecs (ui4)
+     * out: NewSeverelyErroredSecs (ui4)
+     * out: NewFECErrors (ui4)
+     * out: NewATUCFECErrors (ui4)
+     * out: NewHECErrors (ui4)
+     * out: NewATUCHECErrors (ui4)
+     * out: NewCRCErrors (ui4)
+     * out: NewATUCCRCErrors (ui4)
      *
+     * @return array
      */
     public function getStatisticsTotal()
     {
@@ -102,17 +104,61 @@ class wandslifconfig1 extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: NewX_AVM-DE_DSLDiagnoseState
-     * out: NewX_AVM-DE_CableNokDistance
-     * out: NewX_AVM-DE_DSLLastDiagnoseTime
-     * out: NewX_AVM-DE_DSLSignalLossTime
-     * out: NewX_AVM-DE_DSLActive
-     * out: NewX_AVM-DE_DSLSync
+     * out: NewX_AVM-DE_DSLDiagnoseState (string)
+     * out: NewX_AVM-DE_CableNokDistance (i4)
+     * out: NewX_AVM-DE_DSLLastDiagnoseTime (ui4)
+     * out: NewX_AVM-DE_DSLSignalLossTime (ui4)
+     * out: NewX_AVM-DE_DSLActive (boolean)
+     * out: NewX_AVM-DE_DSLSync (boolean)
      *
+     * @return array
      */
     public function x_AVM_DE_GetDSLDiagnoseInfo()
     {
         $result = $this->client->{'X_AVM-DE_GetDSLDiagnoseInfo'}();
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+            return;
+        }
+
+        return $result;
+    }
+
+    /**
+     * x_AVM_DE_GetDSLInfo
+     *
+     * automatically generated; complete coding if necessary!
+     *
+     * out: NewSNRGds (ui4)
+     * out: NewSNRGus (ui4)
+     * out: NewSNRpsds (string)
+     * out: NewSNRpsus (string)
+     * out: NewSNRMTds (ui4)
+     * out: NewSNRMTus (ui4)
+     * out: NewLATNds (string)
+     * out: NewLATNus (string)
+     * out: NewFECErrors (ui4)
+     * out: NewCRCErrors (ui4)
+     * out: NewLinkStatus (string)
+     * out: NewModulationType (string)
+     * out: NewCurrentProfile (string)
+     * out: NewUpstreamCurrRate (i4)
+     * out: NewDownstreamCurrRate (ui4)
+     * out: NewUpstreamMaxRate (ui4)
+     * out: NewDownstreamMaxRate (ui4)
+     * out: NewUpstreamNoiseMargin (ui4)
+     * out: NewDownstreamNoiseMargin (ui4)
+     * out: NewUpstreamAttenuation (ui4)
+     * out: NewDownstreamAttenuation (ui4)
+     * out: NewATURVendor (string)
+     * out: NewATURCountry (string)
+     * out: NewUpstreamPower (ui2)
+     * out: NewDownstreamPower (ui2)
+     *
+     * @return array
+     */
+    public function x_AVM_DE_GetDSLInfo()
+    {
+        $result = $this->client->{'X_AVM-DE_GetDSLInfo'}();
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }

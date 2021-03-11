@@ -6,7 +6,7 @@ namespace blacksenator\fritzsoap;
  * The class provides functions to read and manipulate
  * data via TR-064 interface on FRITZ!Box router from AVM:
  * according to:
- * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/lanconfigsecuritySCPD.pdf
+ * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/x_hostfilterSCPD.pdf
  *
  * With the instantiation of the class, all available
  * services of the addressed FRITZ!Box are determined.
@@ -31,102 +31,106 @@ namespace blacksenator\fritzsoap;
 
 use blacksenator\fritzsoap\fritzsoap;
 
-class lanconfigsecurity extends fritzsoap
+class x_hostfilter extends fritzsoap
 {
     /**
-     * getInfo
+     * markTicket
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: NewMaxCharsPassword (ui2)
-     * out: NewMinCharsPassword (ui2)
-     * out: NewAllowedCharsPassword (string)
-     *
-     * @return array
-     */
-    public function getInfo()
-    {
-        $result = $this->client->GetInfo();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
-    }
-
-    /**
-     * x_AVM_DE_GetCurrentUser
-     *
-     * automatically generated; complete coding if necessary!
-     *
-     * out: NewX_AVM-DE_CurrentUsername (string)
-     * out: NewX_AVM-DE_CurrentUserRights (string)
-     *
-     * @return array
-     */
-    public function x_AVM_DE_GetCurrentUser()
-    {
-        $result = $this->client->{'X_AVM-DE_GetCurrentUser'}();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
-    }
-
-    /**
-     * x_AVM_DE_GetAnonymousLogin
-     *
-     * automatically generated; complete coding if necessary!
-     *
-     * out: NewX_AVM-DE_AnonymousLoginEnabled (boolean)
-     * out: NewX_AVM-DE_ButtonLoginEnabled (boolean)
-     *
-     * @return array
-     */
-    public function x_AVM_DE_GetAnonymousLogin()
-    {
-        $result = $this->client->{'X_AVM-DE_GetAnonymousLogin'}();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
-    }
-
-    /**
-     * setConfigPassword
-     *
-     * automatically generated; complete coding if necessary!
-     *
-     * in: NewPassword (string)
-     *
-     * @param string $password
-     * @return void
-     */
-    public function setConfigPassword($password)
-    {
-        $result = $this->client->SetConfigPassword(
-            new \SoapParam($password, 'NewPassword'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
-    }
-
-    /**
-     * x_AVM_DE_GetUserList
-     *
-     * automatically generated; complete coding if necessary!
-     *
-     * out: NewX_AVM-DE_UserList (string)
+     * out: NewTicketID (string)
      *
      * @return string
      */
-    public function x_AVM_DE_GetUserList()
+    public function markTicket()
     {
-        $result = $this->client->{'X_AVM-DE_GetUserList'}();
+        $result = $this->client->MarkTicket();
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+            return;
+        }
+
+        return $result;
+    }
+
+    /**
+     * getTicketIDStatus
+     *
+     * automatically generated; complete coding if necessary!
+     *
+     * in: NewTicketID (string)
+     * out: NewTicketIDStatus (string)
+     *
+     * @param string $ticketID
+     * @return string
+     */
+    public function getTicketIDStatus($ticketID)
+    {
+        $result = $this->client->GetTicketIDStatus(
+            new \SoapParam($ticketID, 'NewTicketID'));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+            return;
+        }
+
+        return $result;
+    }
+
+    /**
+     * discardAllTickets
+     *
+     * automatically generated; complete coding if necessary!
+     *
+     * @return void
+     */
+    public function discardAllTickets()
+    {
+        $result = $this->client->DiscardAllTickets();
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+            return;
+        }
+
+        return $result;
+    }
+
+    /**
+     * disallowWANAccessByIP
+     *
+     * automatically generated; complete coding if necessary!
+     *
+     * in: NewIPv4Address (string)
+     * in: NewDisallow (boolean)
+     *
+     * @param string $iPv4Address
+     * @param bool $disallow
+     * @return void
+     */
+    public function disallowWANAccessByIP($iPv4Address, $disallow)
+    {
+        $result = $this->client->DisallowWANAccessByIP(
+            new \SoapParam($iPv4Address, 'NewIPv4Address'), 
+            new \SoapParam($disallow, 'NewDisallow'));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+            return;
+        }
+
+        return $result;
+    }
+
+    /**
+     * getWANAccessByIP
+     *
+     * automatically generated; complete coding if necessary!
+     *
+     * in: NewIPv4Address (string)
+     * out: NewDisallow (boolean)
+     * out: NewWANAccess (string)
+     *
+     * @param string $iPv4Address
+     * @return array
+     */
+    public function getWANAccessByIP($iPv4Address)
+    {
+        $result = $this->client->GetWANAccessByIP(
+            new \SoapParam($iPv4Address, 'NewIPv4Address'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }

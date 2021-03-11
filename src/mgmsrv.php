@@ -3,30 +3,30 @@
 namespace blacksenator\fritzsoap;
 
 /**
-* The class provides functions to read and manipulate
-* data via TR-064 interface on FRITZ!Box router from AVM:
-* according to:
-* @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/mgmsrvSCPD.pdf
-*
-* With the instantiation of the class, all available
-* services of the addressed FRITZ!Box are determined.
-* The service parameters and available actions are
-* provided in a compressed form as XML and can be output
-* with getServiceDescription().
-* The matching SOAP client only needs to be called with
-* the name of the services <services name = "..."> and
-* gets the correct location and uri from the XML
-* (see getFritzBoxServices() for details)
-*
-* +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
-* THIS FILE IS AUTOMATIC ASSEMBLED!
-* ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
-* CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
-* +++++++++++++++++++++++++++++++++++++++++++++++++++++
-*
-* @author Volker Püschel <knuffy@anasco.de>
-* @copyright Volker Püschel 2021
-* @license MIT
+ * The class provides functions to read and manipulate
+ * data via TR-064 interface on FRITZ!Box router from AVM:
+ * according to:
+ * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/mgmsrvSCPD.pdf
+ *
+ * With the instantiation of the class, all available
+ * services of the addressed FRITZ!Box are determined.
+ * The service parameters and available actions are
+ * provided in a compressed form as XML and can be output
+ * with getServiceDescription().
+ * The matching SOAP client only needs to be called with
+ * the name of the services <services name = "..."> and
+ * gets the correct location and uri from the XML
+ * (see getFritzBoxServices() for details)
+ *
+ * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
+ * THIS FILE IS AUTOMATIC ASSEMBLED!
+ * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
+ * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * @author Volker Püschel <knuffy@anasco.de>
+ * @copyright Volker Püschel 2019 - 2021
+ * @license MIT
 **/
 
 use blacksenator\fritzsoap\fritzsoap;
@@ -38,17 +38,18 @@ class mgmsrv extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: NewURL
-     * out: NewUsername
-     * out: NewPeriodicInformEnable
-     * out: NewPeriodicInformInterval
-     * out: NewPeriodicInformTime
-     * out: NewParameterKey
-     * out: NewParameterHash
-     * out: NewConnectionRequestURL
-     * out: NewConnectionRequestUsername
-     * out: NewUpgradesManaged
+     * out: NewURL (string)
+     * out: NewUsername (string)
+     * out: NewPeriodicInformEnable (boolean)
+     * out: NewPeriodicInformInterval (ui4)
+     * out: NewPeriodicInformTime (dateTime)
+     * out: NewParameterKey (string)
+     * out: NewParameterHash (string)
+     * out: NewConnectionRequestURL (string)
+     * out: NewConnectionRequestUsername (string)
+     * out: NewUpgradesManaged (boolean)
      *
+     * @return array
      */
     public function getInfo()
     {
@@ -65,12 +66,15 @@ class mgmsrv extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * in: NewURL
+     * in: NewURL (string)
      *
+     * @param string $uRL
+     * @return void
      */
-    public function setManagementServerURL()
+    public function setManagementServerURL($uRL)
     {
-        $result = $this->client->SetManagementServerURL();
+        $result = $this->client->SetManagementServerURL(
+            new \SoapParam($uRL, 'NewURL'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
@@ -83,12 +87,15 @@ class mgmsrv extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * in: NewUsername
+     * in: NewUsername (string)
      *
+     * @param string $username
+     * @return void
      */
-    public function setManagementServerUsername()
+    public function setManagementServerUsername($username)
     {
-        $result = $this->client->SetManagementServerUsername();
+        $result = $this->client->SetManagementServerUsername(
+            new \SoapParam($username, 'NewUsername'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
@@ -101,12 +108,15 @@ class mgmsrv extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * in: NewPassword
+     * in: NewPassword (string)
      *
+     * @param string $password
+     * @return void
      */
-    public function setManagementServerPassword()
+    public function setManagementServerPassword($password)
     {
-        $result = $this->client->SetManagementServerPassword();
+        $result = $this->client->SetManagementServerPassword(
+            new \SoapParam($password, 'NewPassword'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
@@ -119,14 +129,21 @@ class mgmsrv extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * in: NewPeriodicInformEnable
-     * in: NewPeriodicInformInterval
-     * in: NewPeriodicInformTime
+     * in: NewPeriodicInformEnable (boolean)
+     * in: NewPeriodicInformInterval (ui4)
+     * in: NewPeriodicInformTime (dateTime)
      *
+     * @param bool $periodicInformEnable
+     * @param int $periodicInformInterval
+     * @param string $periodicInformTime
+     * @return void
      */
-    public function setPeriodicInform()
+    public function setPeriodicInform($periodicInformEnable, $periodicInformInterval, $periodicInformTime)
     {
-        $result = $this->client->SetPeriodicInform();
+        $result = $this->client->SetPeriodicInform(
+            new \SoapParam($periodicInformEnable, 'NewPeriodicInformEnable'), 
+            new \SoapParam($periodicInformInterval, 'NewPeriodicInformInterval'), 
+            new \SoapParam($periodicInformTime, 'NewPeriodicInformTime'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
@@ -139,13 +156,18 @@ class mgmsrv extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * in: NewConnectionRequestUsername
-     * in: NewConnectionRequestPassword
+     * in: NewConnectionRequestUsername (string)
+     * in: NewConnectionRequestPassword (string)
      *
+     * @param string $connectionRequestUsername
+     * @param string $connectionRequestPassword
+     * @return void
      */
-    public function setConnectionRequestAuthentication()
+    public function setConnectionRequestAuthentication($connectionRequestUsername, $connectionRequestPassword)
     {
-        $result = $this->client->SetConnectionRequestAuthentication();
+        $result = $this->client->SetConnectionRequestAuthentication(
+            new \SoapParam($connectionRequestUsername, 'NewConnectionRequestUsername'), 
+            new \SoapParam($connectionRequestPassword, 'NewConnectionRequestPassword'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
@@ -158,12 +180,15 @@ class mgmsrv extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * in: NewUpgradesManaged
+     * in: NewUpgradesManaged (boolean)
      *
+     * @param bool $upgradesManaged
+     * @return void
      */
-    public function setUpgradeManagement()
+    public function setUpgradeManagement($upgradesManaged)
     {
-        $result = $this->client->SetUpgradeManagement();
+        $result = $this->client->SetUpgradeManagement(
+            new \SoapParam($upgradesManaged, 'NewUpgradesManaged'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
@@ -176,12 +201,15 @@ class mgmsrv extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * in: NewTR069Enabled
+     * in: NewTR069Enabled (boolean)
      *
+     * @param bool $tR069Enabled
+     * @return void
      */
-    public function x_SetTR069Enable()
+    public function x_SetTR069Enable($tR069Enabled)
     {
-        $result = $this->client->X_SetTR069Enable();
+        $result = $this->client->X_SetTR069Enable(
+            new \SoapParam($tR069Enabled, 'NewTR069Enabled'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
@@ -194,8 +222,9 @@ class mgmsrv extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: NewTR069FirmwareDownloadEnabled
+     * out: NewTR069FirmwareDownloadEnabled (boolean)
      *
+     * @return bool
      */
     public function x_AVM_DE_GetTR069FirmwareDownloadEnabled()
     {
@@ -212,12 +241,15 @@ class mgmsrv extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * in: NewTR069FirmwareDownloadEnabled
+     * in: NewTR069FirmwareDownloadEnabled (boolean)
      *
+     * @param bool $tR069FirmwareDownloadEnabled
+     * @return void
      */
-    public function x_AVM_DE_SetTR069FirmwareDownloadEnabled()
+    public function x_AVM_DE_SetTR069FirmwareDownloadEnabled($tR069FirmwareDownloadEnabled)
     {
-        $result = $this->client->{'X_AVM-DE_SetTR069FirmwareDownloadEnabled'}();
+        $result = $this->client->{'X_AVM-DE_SetTR069FirmwareDownloadEnabled'}(
+            new \SoapParam($tR069FirmwareDownloadEnabled, 'NewTR069FirmwareDownloadEnabled'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }

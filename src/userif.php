@@ -3,30 +3,30 @@
 namespace blacksenator\fritzsoap;
 
 /**
-* The class provides functions to read and manipulate
-* data via TR-064 interface on FRITZ!Box router from AVM:
-* according to:
-* @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/userifSCPD.pdf
-*
-* With the instantiation of the class, all available
-* services of the addressed FRITZ!Box are determined.
-* The service parameters and available actions are
-* provided in a compressed form as XML and can be output
-* with getServiceDescription().
-* The matching SOAP client only needs to be called with
-* the name of the services <services name = "..."> and
-* gets the correct location and uri from the XML
-* (see getFritzBoxServices() for details)
-*
-* +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
-* THIS FILE IS AUTOMATIC ASSEMBLED!
-* ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
-* CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
-* +++++++++++++++++++++++++++++++++++++++++++++++++++++
-*
-* @author Volker Püschel <knuffy@anasco.de>
-* @copyright Volker Püschel 2021
-* @license MIT
+ * The class provides functions to read and manipulate
+ * data via TR-064 interface on FRITZ!Box router from AVM:
+ * according to:
+ * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/userifSCPD.pdf
+ *
+ * With the instantiation of the class, all available
+ * services of the addressed FRITZ!Box are determined.
+ * The service parameters and available actions are
+ * provided in a compressed form as XML and can be output
+ * with getServiceDescription().
+ * The matching SOAP client only needs to be called with
+ * the name of the services <services name = "..."> and
+ * gets the correct location and uri from the XML
+ * (see getFritzBoxServices() for details)
+ *
+ * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
+ * THIS FILE IS AUTOMATIC ASSEMBLED!
+ * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
+ * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * @author Volker Püschel <knuffy@anasco.de>
+ * @copyright Volker Püschel 2019 - 2021
+ * @license MIT
 **/
 
 use blacksenator\fritzsoap\fritzsoap;
@@ -38,16 +38,17 @@ class userif extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: NewUpgradeAvailable
-     * out: NewPasswordRequired
-     * out: NewPasswordUserSelectable
-     * out: NewWarrantyDate
-     * out: NewX_AVM-DE_Version
-     * out: NewX_AVM-DE_DownloadURL
-     * out: NewX_AVM-DE_InfoURL
-     * out: NewX_AVM-DE_UpdateState
-     * out: NewX_AVM-DE_LaborVersion
+     * out: NewUpgradeAvailable (boolean)
+     * out: NewPasswordRequired (boolean)
+     * out: NewPasswordUserSelectable (boolean)
+     * out: NewWarrantyDate (dateTime)
+     * out: NewX_AVM-DE_Version (string)
+     * out: NewX_AVM-DE_DownloadURL (string)
+     * out: NewX_AVM-DE_InfoURL (string)
+     * out: NewX_AVM-DE_UpdateState (string)
+     * out: NewX_AVM-DE_LaborVersion (string)
      *
+     * @return array
      */
     public function getInfo()
     {
@@ -64,12 +65,15 @@ class userif extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * in: NewX_AVM-DE_LaborVersion
+     * in: NewX_AVM-DE_LaborVersion (string)
      *
+     * @param string $x_AVM_DE_LaborVersion
+     * @return void
      */
-    public function x_AVM_DE_CheckUpdate()
+    public function x_AVM_DE_CheckUpdate($x_AVM_DE_LaborVersion)
     {
-        $result = $this->client->{'X_AVM-DE_CheckUpdate'}();
+        $result = $this->client->{'X_AVM-DE_CheckUpdate'}(
+            new \SoapParam($x_AVM_DE_LaborVersion, 'NewX_AVM-DE_LaborVersion'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
@@ -82,9 +86,10 @@ class userif extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: NewUpgradeAvailable
-     * out: NewX_AVM-DE_UpdateState
+     * out: NewUpgradeAvailable (boolean)
+     * out: NewX_AVM-DE_UpdateState (string)
      *
+     * @return array
      */
     public function x_AVM_DE_DoUpdate()
     {
@@ -101,9 +106,10 @@ class userif extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: NewX_AVM-DE_CGI
-     * out: NewX_AVM-DE_SessionID
+     * out: NewX_AVM-DE_CGI (string)
+     * out: NewX_AVM-DE_SessionID (string)
      *
+     * @return array
      */
     public function x_AVM_DE_DoPrepareCGI()
     {
@@ -120,13 +126,18 @@ class userif extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * in: NewX_AVM-DE_AllowDowngrade
-     * in: NewX_AVM-DE_DownloadURL
+     * in: NewX_AVM-DE_AllowDowngrade (boolean)
+     * in: NewX_AVM-DE_DownloadURL (string)
      *
+     * @param bool $x_AVM_DE_AllowDowngrade
+     * @param string $x_AVM_DE_DownloadURL
+     * @return void
      */
-    public function x_AVM_DE_DoManualUpdate()
+    public function x_AVM_DE_DoManualUpdate($x_AVM_DE_AllowDowngrade, $x_AVM_DE_DownloadURL)
     {
-        $result = $this->client->{'X_AVM-DE_DoManualUpdate'}();
+        $result = $this->client->{'X_AVM-DE_DoManualUpdate'}(
+            new \SoapParam($x_AVM_DE_AllowDowngrade, 'NewX_AVM-DE_AllowDowngrade'), 
+            new \SoapParam($x_AVM_DE_DownloadURL, 'NewX_AVM-DE_DownloadURL'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
@@ -139,13 +150,14 @@ class userif extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: NewX_AVM-DE_Language
-     * out: NewX_AVM-DE_Country
-     * out: NewX_AVM-DE_Annex
-     * out: NewX_AVM-DE_LanguageList
-     * out: NewX_AVM-DE_CountryList
-     * out: NewX_AVM-DE_AnnexList
+     * out: NewX_AVM-DE_Language (string)
+     * out: NewX_AVM-DE_Country (string)
+     * out: NewX_AVM-DE_Annex (string)
+     * out: NewX_AVM-DE_LanguageList (string)
+     * out: NewX_AVM-DE_CountryList (string)
+     * out: NewX_AVM-DE_AnnexList (string)
      *
+     * @return array
      */
     public function x_AVM_DE_GetInternationalConfig()
     {
@@ -162,14 +174,21 @@ class userif extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * in: NewX_AVM-DE_Language
-     * in: NewX_AVM-DE_Country
-     * in: NewX_AVM-DE_Annex
+     * in: NewX_AVM-DE_Language (string)
+     * in: NewX_AVM-DE_Country (string)
+     * in: NewX_AVM-DE_Annex (string)
      *
+     * @param string $x_AVM_DE_Language
+     * @param string $x_AVM_DE_Country
+     * @param string $x_AVM_DE_Annex
+     * @return void
      */
-    public function x_AVM_DE_SetInternationalConfig()
+    public function x_AVM_DE_SetInternationalConfig($x_AVM_DE_Language, $x_AVM_DE_Country, $x_AVM_DE_Annex)
     {
-        $result = $this->client->{'X_AVM-DE_SetInternationalConfig'}();
+        $result = $this->client->{'X_AVM-DE_SetInternationalConfig'}(
+            new \SoapParam($x_AVM_DE_Language, 'NewX_AVM-DE_Language'), 
+            new \SoapParam($x_AVM_DE_Country, 'NewX_AVM-DE_Country'), 
+            new \SoapParam($x_AVM_DE_Annex, 'NewX_AVM-DE_Annex'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
@@ -182,13 +201,14 @@ class userif extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: NewX_AVM-DE_AutoUpdateMode
-     * out: NewX_AVM-DE_UpdateTime
-     * out: NewX_AVM-DE_LastFwVersion
-     * out: NewX_AVM-DE_LastInfoUrl
-     * out: NewX_AVM-DE_CurrentFwVersion
-     * out: NewX_AVM-DE_UpdateSuccessful
+     * out: NewX_AVM-DE_AutoUpdateMode (string)
+     * out: NewX_AVM-DE_UpdateTime (dateTime)
+     * out: NewX_AVM-DE_LastFwVersion (string)
+     * out: NewX_AVM-DE_LastInfoUrl (string)
+     * out: NewX_AVM-DE_CurrentFwVersion (string)
+     * out: NewX_AVM-DE_UpdateSuccessful (string)
      *
+     * @return array
      */
     public function x_AVM_DE_GetInfo()
     {
@@ -205,12 +225,15 @@ class userif extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * in: NewX_AVM-DE_AutoUpdateMode
+     * in: NewX_AVM-DE_AutoUpdateMode (string)
      *
+     * @param string $x_AVM_DE_AutoUpdateMode
+     * @return void
      */
-    public function x_AVM_DE_SetConfig()
+    public function x_AVM_DE_SetConfig($x_AVM_DE_AutoUpdateMode)
     {
-        $result = $this->client->{'X_AVM-DE_SetConfig'}();
+        $result = $this->client->{'X_AVM-DE_SetConfig'}(
+            new \SoapParam($x_AVM_DE_AutoUpdateMode, 'NewX_AVM-DE_AutoUpdateMode'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }

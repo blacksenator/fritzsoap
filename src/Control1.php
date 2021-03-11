@@ -3,30 +3,30 @@
 namespace blacksenator\fritzsoap;
 
 /**
-* The class provides functions to read and manipulate
-* data via TR-064 interface on FRITZ!Box router from AVM.
-* No documentation available!
-* @see: https://avm.de/service/schnittstellen/
-*
-* With the instantiation of the class, all available
-* services of the addressed FRITZ!Box are determined.
-* The service parameters and available actions are
-* provided in a compressed form as XML and can be output
-* with getServiceDescription().
-* The matching SOAP client only needs to be called with
-* the name of the services <services name = "..."> and
-* gets the correct location and uri from the XML
-* (see getFritzBoxServices() for details)
-*
-* +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
-* THIS FILE IS AUTOMATIC ASSEMBLED!
-* ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
-* CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
-* +++++++++++++++++++++++++++++++++++++++++++++++++++++
-*
-* @author Volker Püschel <knuffy@anasco.de>
-* @copyright Volker Püschel 2021
-* @license MIT
+ * The class provides functions to read and manipulate
+ * data via TR-064 interface on FRITZ!Box router from AVM.
+ * No documentation available!
+ * @see: https://avm.de/service/schnittstellen/
+ *
+ * With the instantiation of the class, all available
+ * services of the addressed FRITZ!Box are determined.
+ * The service parameters and available actions are
+ * provided in a compressed form as XML and can be output
+ * with getServiceDescription().
+ * The matching SOAP client only needs to be called with
+ * the name of the services <services name = "..."> and
+ * gets the correct location and uri from the XML
+ * (see getFritzBoxServices() for details)
+ *
+ * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
+ * THIS FILE IS AUTOMATIC ASSEMBLED!
+ * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
+ * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * @author Volker Püschel <knuffy@anasco.de>
+ * @copyright Volker Püschel 2019 - 2021
+ * @license MIT
 **/
 
 use blacksenator\fritzsoap\fritzsoap;
@@ -38,8 +38,9 @@ class Control1 extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: SearchCaps
+     * out: SearchCaps (string)
      *
+     * @return string
      */
     public function getSearchCapabilities()
     {
@@ -56,8 +57,9 @@ class Control1 extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: SortCaps
+     * out: SortCaps (string)
      *
+     * @return string
      */
     public function getSortCapabilities()
     {
@@ -74,8 +76,9 @@ class Control1 extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: Id
+     * out: Id (ui4)
      *
+     * @return int
      */
     public function getSystemUpdateID()
     {
@@ -92,21 +95,34 @@ class Control1 extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * in: ObjectID
-     * in: BrowseFlag
-     * in: Filter
-     * in: StartingIndex
-     * in: RequestedCount
-     * in: SortCriteria
-     * out: Result
-     * out: NumberReturned
-     * out: TotalMatches
-     * out: UpdateID
+     * in: ObjectID (string)
+     * in: BrowseFlag (string)
+     * in: Filter (string)
+     * in: StartingIndex (ui4)
+     * in: RequestedCount (ui4)
+     * in: SortCriteria (string)
+     * out: Result (string)
+     * out: NumberReturned (ui4)
+     * out: TotalMatches (ui4)
+     * out: UpdateID (ui4)
      *
+     * @param string $objectID
+     * @param string $browseFlag
+     * @param string $filter
+     * @param int $startingIndex
+     * @param int $requestedCount
+     * @param string $sortCriteria
+     * @return array
      */
-    public function browse()
+    public function browse($objectID, $browseFlag, $filter, $startingIndex, $requestedCount, $sortCriteria)
     {
-        $result = $this->client->Browse();
+        $result = $this->client->Browse(
+            new \SoapParam($objectID, 'ObjectID'),
+            new \SoapParam($browseFlag, 'BrowseFlag'),
+            new \SoapParam($filter, 'Filter'),
+            new \SoapParam($startingIndex, 'StartingIndex'),
+            new \SoapParam($requestedCount, 'RequestedCount'),
+            new \SoapParam($sortCriteria, 'SortCriteria'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
@@ -119,21 +135,34 @@ class Control1 extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * in: ContainerID
-     * in: SearchCriteria
-     * in: Filter
-     * in: StartingIndex
-     * in: RequestedCount
-     * in: SortCriteria
-     * out: Result
-     * out: NumberReturned
-     * out: TotalMatches
-     * out: UpdateID
+     * in: ContainerID (string)
+     * in: SearchCriteria (string)
+     * in: Filter (string)
+     * in: StartingIndex (ui4)
+     * in: RequestedCount (ui4)
+     * in: SortCriteria (string)
+     * out: Result (string)
+     * out: NumberReturned (ui4)
+     * out: TotalMatches (ui4)
+     * out: UpdateID (ui4)
      *
+     * @param string $containerID
+     * @param string $searchCriteria
+     * @param string $filter
+     * @param int $startingIndex
+     * @param int $requestedCount
+     * @param string $sortCriteria
+     * @return array
      */
-    public function search()
+    public function search($containerID, $searchCriteria, $filter, $startingIndex, $requestedCount, $sortCriteria)
     {
-        $result = $this->client->Search();
+        $result = $this->client->Search(
+            new \SoapParam($containerID, 'ContainerID'),
+            new \SoapParam($searchCriteria, 'SearchCriteria'),
+            new \SoapParam($filter, 'Filter'),
+            new \SoapParam($startingIndex, 'StartingIndex'),
+            new \SoapParam($requestedCount, 'RequestedCount'),
+            new \SoapParam($sortCriteria, 'SortCriteria'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }

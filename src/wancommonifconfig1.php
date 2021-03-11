@@ -3,30 +3,30 @@
 namespace blacksenator\fritzsoap;
 
 /**
-* The class provides functions to read and manipulate
-* data via TR-064 interface on FRITZ!Box router from AVM:
-* according to:
-* @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/wancommonifconfigSCPD.pdf
-*
-* With the instantiation of the class, all available
-* services of the addressed FRITZ!Box are determined.
-* The service parameters and available actions are
-* provided in a compressed form as XML and can be output
-* with getServiceDescription().
-* The matching SOAP client only needs to be called with
-* the name of the services <services name = "..."> and
-* gets the correct location and uri from the XML
-* (see getFritzBoxServices() for details)
-*
-* +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
-* THIS FILE IS AUTOMATIC ASSEMBLED!
-* ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
-* CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
-* +++++++++++++++++++++++++++++++++++++++++++++++++++++
-*
-* @author Volker Püschel <knuffy@anasco.de>
-* @copyright Volker Püschel 2021
-* @license MIT
+ * The class provides functions to read and manipulate
+ * data via TR-064 interface on FRITZ!Box router from AVM.
+ * No documentation available!
+ * @see: https://avm.de/service/schnittstellen/
+ *
+ * With the instantiation of the class, all available
+ * services of the addressed FRITZ!Box are determined.
+ * The service parameters and available actions are
+ * provided in a compressed form as XML and can be output
+ * with getServiceDescription().
+ * The matching SOAP client only needs to be called with
+ * the name of the services <services name = "..."> and
+ * gets the correct location and uri from the XML
+ * (see getFritzBoxServices() for details)
+ *
+ * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
+ * THIS FILE IS AUTOMATIC ASSEMBLED!
+ * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
+ * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * @author Volker Püschel <knuffy@anasco.de>
+ * @copyright Volker Püschel 2019 - 2021
+ * @license MIT
 **/
 
 use blacksenator\fritzsoap\fritzsoap;
@@ -38,11 +38,12 @@ class wancommonifconfig1 extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: NewWANAccessType
-     * out: NewLayer1UpstreamMaxBitRate
-     * out: NewLayer1DownstreamMaxBitRate
-     * out: NewPhysicalLinkStatus
+     * out: NewWANAccessType (string)
+     * out: NewLayer1UpstreamMaxBitRate (ui4)
+     * out: NewLayer1DownstreamMaxBitRate (ui4)
+     * out: NewPhysicalLinkStatus (string)
      *
+     * @return array
      */
     public function getCommonLinkProperties()
     {
@@ -59,8 +60,9 @@ class wancommonifconfig1 extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: NewTotalBytesSent
+     * out: NewTotalBytesSent (ui4)
      *
+     * @return int
      */
     public function getTotalBytesSent()
     {
@@ -77,8 +79,9 @@ class wancommonifconfig1 extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: NewTotalBytesReceived
+     * out: NewTotalBytesReceived (ui4)
      *
+     * @return int
      */
     public function getTotalBytesReceived()
     {
@@ -95,8 +98,9 @@ class wancommonifconfig1 extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: NewTotalPacketsSent
+     * out: NewTotalPacketsSent (ui4)
      *
+     * @return int
      */
     public function getTotalPacketsSent()
     {
@@ -113,8 +117,9 @@ class wancommonifconfig1 extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: NewTotalPacketsReceived
+     * out: NewTotalPacketsReceived (ui4)
      *
+     * @return int
      */
     public function getTotalPacketsReceived()
     {
@@ -131,12 +136,15 @@ class wancommonifconfig1 extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * in: NewAccessType
+     * in: NewAccessType (string)
      *
+     * @param string $accessType
+     * @return void
      */
-    public function x_AVM_DE_SetWANAccessType()
+    public function x_AVM_DE_SetWANAccessType($accessType)
     {
-        $result = $this->client->{'X_AVM-DE_SetWANAccessType'}();
+        $result = $this->client->{'X_AVM-DE_SetWANAccessType'}(
+            new \SoapParam($accessType, 'NewAccessType'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
@@ -149,24 +157,27 @@ class wancommonifconfig1 extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * in: NewSyncGroupIndex
-     * out: NewTotalNumberSyncGroups
-     * out: NewSyncGroupName
-     * out: NewSyncGroupMode
-     * out: Newmax_ds
-     * out: Newmax_us
-     * out: Newds_current_bps
-     * out: Newmc_current_bps
-     * out: Newus_current_bps
-     * out: Newprio_realtime_bps
-     * out: Newprio_high_bps
-     * out: Newprio_default_bps
-     * out: Newprio_low_bps
+     * in: NewSyncGroupIndex (ui4)
+     * out: NewTotalNumberSyncGroups (ui4)
+     * out: NewSyncGroupName (string)
+     * out: NewSyncGroupMode (string)
+     * out: Newmax_ds (ui4)
+     * out: Newmax_us (ui4)
+     * out: Newds_current_bps (string)
+     * out: Newmc_current_bps (string)
+     * out: Newus_current_bps (string)
+     * out: Newprio_realtime_bps (string)
+     * out: Newprio_high_bps (string)
+     * out: Newprio_default_bps (string)
+     * out: Newprio_low_bps (string)
      *
+     * @param int $syncGroupIndex
+     * @return array
      */
-    public function x_AVM_DE_GetOnlineMonitor()
+    public function x_AVM_DE_GetOnlineMonitor($syncGroupIndex)
     {
-        $result = $this->client->{'X_AVM-DE_GetOnlineMonitor'}();
+        $result = $this->client->{'X_AVM-DE_GetOnlineMonitor'}(
+            new \SoapParam($syncGroupIndex, 'NewSyncGroupIndex'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }

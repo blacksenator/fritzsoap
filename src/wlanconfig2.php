@@ -31,7 +31,7 @@ namespace blacksenator\fritzsoap;
 
 use blacksenator\fritzsoap\fritzsoap;
 
-class wlanconfig1 extends fritzsoap
+class wlanconfig2 extends fritzsoap
 {
     /**
      * setEnable

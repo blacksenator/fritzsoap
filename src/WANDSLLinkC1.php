@@ -3,30 +3,30 @@
 namespace blacksenator\fritzsoap;
 
 /**
-* The class provides functions to read and manipulate
-* data via TR-064 interface on FRITZ!Box router from AVM.
-* No documentation available!
-* @see: https://avm.de/service/schnittstellen/
-*
-* With the instantiation of the class, all available
-* services of the addressed FRITZ!Box are determined.
-* The service parameters and available actions are
-* provided in a compressed form as XML and can be output
-* with getServiceDescription().
-* The matching SOAP client only needs to be called with
-* the name of the services <services name = "..."> and
-* gets the correct location and uri from the XML
-* (see getFritzBoxServices() for details)
-*
-* +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
-* THIS FILE IS AUTOMATIC ASSEMBLED!
-* ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
-* CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
-* +++++++++++++++++++++++++++++++++++++++++++++++++++++
-*
-* @author Volker Püschel <knuffy@anasco.de>
-* @copyright Volker Püschel 2021
-* @license MIT
+ * The class provides functions to read and manipulate
+ * data via TR-064 interface on FRITZ!Box router from AVM.
+ * No documentation available!
+ * @see: https://avm.de/service/schnittstellen/
+ *
+ * With the instantiation of the class, all available
+ * services of the addressed FRITZ!Box are determined.
+ * The service parameters and available actions are
+ * provided in a compressed form as XML and can be output
+ * with getServiceDescription().
+ * The matching SOAP client only needs to be called with
+ * the name of the services <services name = "..."> and
+ * gets the correct location and uri from the XML
+ * (see getFritzBoxServices() for details)
+ *
+ * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
+ * THIS FILE IS AUTOMATIC ASSEMBLED!
+ * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
+ * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
+ * @author Volker Püschel <knuffy@anasco.de>
+ * @copyright Volker Püschel 2019 - 2021
+ * @license MIT
 **/
 
 use blacksenator\fritzsoap\fritzsoap;
@@ -38,12 +38,15 @@ class WANDSLLinkC1 extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * in: NewLinkType
+     * in: NewLinkType (string)
      *
+     * @param string $linkType
+     * @return void
      */
-    public function setDSLLinkType()
+    public function setDSLLinkType($linkType)
     {
-        $result = $this->client->SetDSLLinkType();
+        $result = $this->client->SetDSLLinkType(
+            new \SoapParam($linkType, 'NewLinkType'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
@@ -56,9 +59,10 @@ class WANDSLLinkC1 extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: NewLinkType
-     * out: NewLinkStatus
+     * out: NewLinkType (string)
+     * out: NewLinkStatus (string)
      *
+     * @return array
      */
     public function getDSLLinkInfo()
     {
@@ -75,8 +79,9 @@ class WANDSLLinkC1 extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: NewAutoConfig
+     * out: NewAutoConfig (boolean)
      *
+     * @return bool
      */
     public function getAutoConfig()
     {
@@ -93,8 +98,9 @@ class WANDSLLinkC1 extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: NewModulationType
+     * out: NewModulationType (string)
      *
+     * @return string
      */
     public function getModulationType()
     {
@@ -111,12 +117,15 @@ class WANDSLLinkC1 extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * in: NewDestinationAddress
+     * in: NewDestinationAddress (string)
      *
+     * @param string $destinationAddress
+     * @return void
      */
-    public function setDestinationAddress()
+    public function setDestinationAddress($destinationAddress)
     {
-        $result = $this->client->SetDestinationAddress();
+        $result = $this->client->SetDestinationAddress(
+            new \SoapParam($destinationAddress, 'NewDestinationAddress'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
@@ -129,8 +138,9 @@ class WANDSLLinkC1 extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: NewDestinationAddress
+     * out: NewDestinationAddress (string)
      *
+     * @return string
      */
     public function getDestinationAddress()
     {
@@ -147,12 +157,15 @@ class WANDSLLinkC1 extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * in: NewATMEncapsulation
+     * in: NewATMEncapsulation (string)
      *
+     * @param string $aTMEncapsulation
+     * @return void
      */
-    public function setATMEncapsulation()
+    public function setATMEncapsulation($aTMEncapsulation)
     {
-        $result = $this->client->SetATMEncapsulation();
+        $result = $this->client->SetATMEncapsulation(
+            new \SoapParam($aTMEncapsulation, 'NewATMEncapsulation'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
@@ -165,8 +178,9 @@ class WANDSLLinkC1 extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: NewATMEncapsulation
+     * out: NewATMEncapsulation (string)
      *
+     * @return string
      */
     public function getATMEncapsulation()
     {
@@ -183,12 +197,15 @@ class WANDSLLinkC1 extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * in: NewFCSPreserved
+     * in: NewFCSPreserved (boolean)
      *
+     * @param bool $fCSPreserved
+     * @return void
      */
-    public function setFCSPreserved()
+    public function setFCSPreserved($fCSPreserved)
     {
-        $result = $this->client->SetFCSPreserved();
+        $result = $this->client->SetFCSPreserved(
+            new \SoapParam($fCSPreserved, 'NewFCSPreserved'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
@@ -201,8 +218,9 @@ class WANDSLLinkC1 extends fritzsoap
      *
      * automatically generated; complete coding if necessary!
      *
-     * out: NewFCSPreserved
+     * out: NewFCSPreserved (boolean)
      *
+     * @return bool
      */
     public function getFCSPreserved()
     {

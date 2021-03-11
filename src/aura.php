@@ -25,8 +25,8 @@ namespace blacksenator\fritzsoap;
 * (see getFritzBoxServices() for details)
 *
 * @author Volker Püschel <knuffy@anasco.de>
-* @copyright Volker Püschel 2021
-* @license MIT
+ * @copyright Volker Püschel 2019 - 2021
+ * @license MIT
 **/
 
 use blacksenator\fritzsoap\fritzsoap;
@@ -36,8 +36,10 @@ class aura extends fritzsoap
     /**
      * getVersion
      *
-     * out: NewServerVersion
-     * out: NewProtocolVersion
+     * automatically generated; complete coding if necessary!
+     *
+     * out: NewServerVersion (string)
+     * out: NewProtocolVersion (string)
      *
      * @return array
      */
@@ -54,14 +56,16 @@ class aura extends fritzsoap
     /**
      * getListInfo
      *
-     * out: NewNumber
+     * automatically generated; complete coding if necessary!
      *
-     * @return string
+     * out: NewNumber (ui2)
+     *
+     * @return int
      */
     public function getListInfo()
     {
         $result = $this->client->GetListInfo();
-        if ($this->errorHandling($result, 'Could not get list of USB devices from FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -71,24 +75,27 @@ class aura extends fritzsoap
     /**
      * getDeviceByIndex
      *
-     * in: NewIndex
-     * out: NewDeviceHandle
-     * out: NewName
-     * out: NewHardwareId
-     * out: NewSerialNumber
-     * out: NewTopologyId
-     * out: NewClass
-     * out: NewManufacturer
-     * out: NewStatus
-     * out: NewClientIP
+     * automatically generated; complete coding if necessary!
      *
-     * @param int $newIndex
+     * in: NewIndex (ui2)
+     * out: NewDeviceHandle (ui2)
+     * out: NewName (string)
+     * out: NewHardwareId (string)
+     * out: NewSerialNumber (string)
+     * out: NewTopologyId (ui4)
+     * out: NewClass (ui1)
+     * out: NewManufacturer (string)
+     * out: NewStatus (ui2)
+     * out: NewClientIP (string)
+     *
+     * @param int $index
      * @return array
      */
-    public function getDeviceByIndex(int $newIndex = 0)
+    public function getDeviceByIndex($index)
     {
-        $result = $this->client->GetDeviceByIndex(new \SoapParam($newIndex, 'NewIndex'));
-        if ($this->errorHandling($result, sprintf("Could not get info about USB device %s", $newIndex))) {
+        $result = $this->client->GetDeviceByIndex(
+            new \SoapParam($index, 'NewIndex'));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -98,23 +105,26 @@ class aura extends fritzsoap
     /**
      * getDeviceByHandle
      *
-     * in: NewDeviceHandle
-     * out: NewName
-     * out: NewHardwareId
-     * out: NewSerialNumber
-     * out: NewTopologyId
-     * out: NewClass
-     * out: NewManufacturer
-     * out: NewStatus
-     * out: NewClientIP
+     * automatically generated; complete coding if necessary!
      *
-     * @param string $newDeviceHandle
+     * in: NewDeviceHandle (ui2)
+     * out: NewName (string)
+     * out: NewHardwareId (string)
+     * out: NewSerialNumber (string)
+     * out: NewTopologyId (ui4)
+     * out: NewClass (ui1)
+     * out: NewManufacturer (string)
+     * out: NewStatus (ui2)
+     * out: NewClientIP (string)
+     *
+     * @param int $deviceHandle
      * @return array
      */
-    public function getDeviceByHandle(string $newDeviceHandle)
+    public function getDeviceByHandle($deviceHandle)
     {
-        $result = $this->client->GetDeviceByHandle(new \SoapParam($newDeviceHandle, 'NewDeviceHandle'));
-        if ($this->errorHandling($result, sprintf("Could not get info about USB device %s", $newDeviceHandle))) {
+        $result = $this->client->GetDeviceByHandle(
+            new \SoapParam($deviceHandle, 'NewDeviceHandle'));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
 
@@ -124,28 +134,43 @@ class aura extends fritzsoap
     /**
      * connectDevice
      *
-     * in: NewDeviceHandle
+     * automatically generated; complete coding if necessary!
      *
-     * @param string $newDeviceHandle
+     * in: NewDeviceHandle (ui2)
+     *
+     * @param int $deviceHandle
      * @return void
      */
-    public function connectDevice(string $newDeviceHandle)
+    public function connectDevice($deviceHandle)
     {
-        $result = $this->client->ConnectDevice(new \SoapParam($newDeviceHandle, 'NewDeviceHandle'));
-        $this->errorHandling($result, sprintf("Could not connect USB device %s to FRITZ!Box", $newDeviceHandle));
+        $result = $this->client->ConnectDevice(
+            new \SoapParam($deviceHandle, 'NewDeviceHandle'));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+            return;
+        }
+
+        return $result;
     }
 
     /**
      * disconnectDevice
      *
-     * in: NewDeviceHandle
+     * automatically generated; complete coding if necessary!
      *
-     * @param string $newDeviceHandle
+     * in: NewDeviceHandle (ui2)
+     *
+     * @param int $deviceHandle
      * @return void
      */
-    public function disconnectDevice(string $newDeviceHandle)
+    public function disconnectDevice($deviceHandle)
     {
-        $result = $this->client->DisconnectDevice(new \SoapParam($newDeviceHandle, 'NewDeviceHandle'));
-        $this->errorHandling($result, sprintf("Could not disconnect USB device %s to FRITZ!Box", $newDeviceHandle));
+        $result = $this->client->DisconnectDevice(
+            new \SoapParam($deviceHandle, 'NewDeviceHandle'));
+        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+            return;
+        }
+
+        return $result;
     }
+
 }
