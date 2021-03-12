@@ -65,7 +65,7 @@ public function setSwitch($aIN, $switchState)
 
 You will find the input or output parameter (arguments) in the comment section and in the function coding - if it has any.
 
-To facilitate the completion of this creation take a look at the finished functions to adjust function arguments ans/or/the return of the function (e.g. `x_contact.php` is the most productive source at the moment).
+To facilitate the completion of this creation take a look at the finished functions to adjust function arguments and/or the return of the function (e.g. `x_contact.php` is the most productive source at the moment).
 
 But as I said before:
 
