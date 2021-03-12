@@ -33,6 +33,10 @@ use blacksenator\fritzsoap\fritzsoap;
 
 class Control3 extends fritzsoap
 {
+    const
+        SERVICE_TYPE = 'urn:microsoft.com:service:X_MS_MediaReceiverRegistrar:1',
+        CONTROL_URL  = '/MediaServer/MediaReceiverRegistrar/Control';
+
     /**
      * isAuthorized
      *

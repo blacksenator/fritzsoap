@@ -33,6 +33,10 @@ use blacksenator\fritzsoap\fritzsoap;
 
 class x_homeauto extends fritzsoap
 {
+    const
+        SERVICE_TYPE = 'urn:dslforum-org:service:X_AVM-DE_Homeauto:1',
+        CONTROL_URL  = '/upnp/control/x_homeauto';
+
     /**
      * getInfo
      *

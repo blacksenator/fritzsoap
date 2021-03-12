@@ -33,6 +33,10 @@ use blacksenator\fritzsoap\fritzsoap;
 
 class aura extends fritzsoap
 {
+    const
+        SERVICE_TYPE = 'urn:schemas-any-com:service:aura:1',
+        CONTROL_URL  = '/upnp/control/aura';
+
     /**
      * getVersion
      *

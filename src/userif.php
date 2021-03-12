@@ -33,6 +33,10 @@ use blacksenator\fritzsoap\fritzsoap;
 
 class userif extends fritzsoap
 {
+    const
+        SERVICE_TYPE = 'urn:dslforum-org:service:UserInterface:1',
+        CONTROL_URL  = '/upnp/control/userif';
+
     /**
      * getInfo
      *

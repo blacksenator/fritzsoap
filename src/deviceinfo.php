@@ -33,6 +33,10 @@ use blacksenator\fritzsoap\fritzsoap;
 
 class deviceinfo extends fritzsoap
 {
+    const
+        SERVICE_TYPE = 'urn:dslforum-org:service:DeviceInfo:1',
+        CONTROL_URL  = '/upnp/control/deviceinfo';
+
     /**
      * getInfo
      *

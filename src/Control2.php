@@ -33,6 +33,10 @@ use blacksenator\fritzsoap\fritzsoap;
 
 class Control2 extends fritzsoap
 {
+    const
+        SERVICE_TYPE = 'urn:schemas-upnp-org:service:ConnectionManager:1',
+        CONTROL_URL  = '/MediaServer/ConnectionManager/Control';
+
     /**
      * getProtocolInfo
      *

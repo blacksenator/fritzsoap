@@ -33,6 +33,10 @@ use blacksenator\fritzsoap\fritzsoap;
 
 class x_appsetup extends fritzsoap
 {
+    const
+        SERVICE_TYPE = 'urn:dslforum-org:service:X_AVM-DE_AppSetup:1',
+        CONTROL_URL  = '/upnp/control/x_appsetup';
+
     /**
      * getInfo
      *

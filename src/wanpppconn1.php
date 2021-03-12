@@ -33,6 +33,10 @@ use blacksenator\fritzsoap\fritzsoap;
 
 class wanpppconn1 extends fritzsoap
 {
+    const
+        SERVICE_TYPE = 'urn:dslforum-org:service:WANPPPConnection:1',
+        CONTROL_URL  = '/upnp/control/wanpppconn1';
+
     /**
      * getInfo
      *

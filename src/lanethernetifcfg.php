@@ -33,6 +33,10 @@ use blacksenator\fritzsoap\fritzsoap;
 
 class lanethernetifcfg extends fritzsoap
 {
+    const
+        SERVICE_TYPE = 'urn:dslforum-org:service:LANEthernetInterfaceConfig:1',
+        CONTROL_URL  = '/upnp/control/lanethernetifcfg';
+
     /**
      * setEnable
      *

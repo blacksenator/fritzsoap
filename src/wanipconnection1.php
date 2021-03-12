@@ -33,6 +33,10 @@ use blacksenator\fritzsoap\fritzsoap;
 
 class wanipconnection1 extends fritzsoap
 {
+    const
+        SERVICE_TYPE = 'urn:dslforum-org:service:WANIPConnection:1',
+        CONTROL_URL  = '/upnp/control/wanipconnection1';
+
     /**
      * getInfo
      *

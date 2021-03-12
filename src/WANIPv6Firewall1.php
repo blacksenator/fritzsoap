@@ -33,6 +33,10 @@ use blacksenator\fritzsoap\fritzsoap;
 
 class WANIPv6Firewall1 extends fritzsoap
 {
+    const
+        SERVICE_TYPE = 'urn:schemas-upnp-org:service:WANIPv6FirewallControl:1',
+        CONTROL_URL  = '/igd2upnp/control/WANIPv6Firewall1';
+
     /**
      * getFirewallStatus
      *

@@ -33,6 +33,10 @@ use blacksenator\fritzsoap\fritzsoap;
 
 class lanconfigsecurity extends fritzsoap
 {
+    const
+        SERVICE_TYPE = 'urn:dslforum-org:service:LANConfigSecurity:1',
+        CONTROL_URL  = '/upnp/control/lanconfigsecurity';
+
     /**
      * getInfo
      *

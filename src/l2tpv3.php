@@ -33,6 +33,10 @@ use blacksenator\fritzsoap\fritzsoap;
 
 class l2tpv3 extends fritzsoap
 {
+    const
+        SERVICE_TYPE = 'urn:schemas-any-com:service:l2tpv3:1',
+        CONTROL_URL  = '/upnp/control/l2tpv3';
+
     /**
      * getInfo
      *

@@ -33,6 +33,10 @@ use blacksenator\fritzsoap\fritzsoap;
 
 class wandsllinkconfig1 extends fritzsoap
 {
+    const
+        SERVICE_TYPE = 'urn:dslforum-org:service:WANDSLLinkConfig:1',
+        CONTROL_URL  = '/upnp/control/wandsllinkconfig1';
+
     /**
      * getInfo
      *

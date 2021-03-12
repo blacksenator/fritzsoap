@@ -33,6 +33,10 @@ use blacksenator\fritzsoap\fritzsoap;
 
 class wlanconfig3 extends fritzsoap
 {
+    const
+        SERVICE_TYPE = 'urn:dslforum-org:service:WLANConfiguration:3',
+        CONTROL_URL  = '/upnp/control/wlanconfig3';
+
     /**
      * setEnable
      *

@@ -34,6 +34,10 @@ use \SimpleXMLElement;
 
 class hosts extends fritzsoap
 {
+    const
+        SERVICE_TYPE = 'urn:dslforum-org:service:Hosts:1',
+        CONTROL_URL  = '/upnp/control/hosts';
+
     /**
      * getHostNumberOfEntries
      *

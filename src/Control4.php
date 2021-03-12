@@ -33,6 +33,10 @@ use blacksenator\fritzsoap\fritzsoap;
 
 class Control4 extends fritzsoap
 {
+    const
+        SERVICE_TYPE = 'urn:avm.de:service:AVM_ServerStatus:1',
+        CONTROL_URL  = '/MediaServer/ServerStatus/Control';
+
     /**
      * scanInfo
      *

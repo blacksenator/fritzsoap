@@ -33,6 +33,10 @@ use blacksenator\fritzsoap\fritzsoap;
 
 class WANIPConn1 extends fritzsoap
 {
+    const
+        SERVICE_TYPE = 'urn:schemas-upnp-org:service:WANIPConnection:2',
+        CONTROL_URL  = '/igd2upnp/control/WANIPConn1';
+
     /**
      * setConnectionType
      *

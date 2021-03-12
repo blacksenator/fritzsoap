@@ -33,6 +33,10 @@ use blacksenator\fritzsoap\fritzsoap;
 
 class x_voip extends fritzsoap
 {
+    const
+        SERVICE_TYPE = 'urn:dslforum-org:service:X_VoIP:1',
+        CONTROL_URL  = '/upnp/control/x_voip';
+
     /**
      * getInfoEx
      *

@@ -33,6 +33,10 @@ use blacksenator\fritzsoap\fritzsoap;
 
 class wancommonifconfig1 extends fritzsoap
 {
+    const
+        SERVICE_TYPE = 'urn:dslforum-org:service:WANCommonInterfaceConfig:1',
+        CONTROL_URL  = '/upnp/control/wancommonifconfig1';
+
     /**
      * getCommonLinkProperties
      *

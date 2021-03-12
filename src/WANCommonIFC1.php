@@ -33,6 +33,10 @@ use blacksenator\fritzsoap\fritzsoap;
 
 class WANCommonIFC1 extends fritzsoap
 {
+    const
+        SERVICE_TYPE = 'urn:schemas-upnp-org:service:WANCommonInterfaceConfig:1',
+        CONTROL_URL  = '/igd2upnp/control/WANCommonIFC1';
+
     /**
      * getCommonLinkProperties
      *

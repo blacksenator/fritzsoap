@@ -33,6 +33,10 @@ use blacksenator\fritzsoap\fritzsoap;
 
 class deviceconfig extends fritzsoap
 {
+    const
+        SERVICE_TYPE = 'urn:dslforum-org:service:DeviceConfig:1',
+        CONTROL_URL  = '/upnp/control/deviceconfig';
+
     /**
      * getPersistentData
      *

@@ -30,9 +30,14 @@ namespace blacksenator\fritzsoap;
 **/
 
 use blacksenator\fritzsoap\fritzsoap;
+use \SimpleXMLElement;
 
 class x_contact extends fritzsoap
 {
+    const
+        SERVICE_TYPE = 'urn:dslforum-org:service:X_AVM-DE_OnTel:1',
+        CONTROL_URL  = '/upnp/control/x_contact';
+
     /**
      * getInfo
      *
@@ -312,7 +317,7 @@ class x_contact extends fritzsoap
     {
         $result = $this->client->GetPhonebook(
             new \SoapParam($phonebookID, 'NewPhonebookID'));
-        if ($this->errorHandling($result, sprintf("Could not get the phonebook %s", $phoneBookID))) {
+        if ($this->errorHandling($result, sprintf("Could not get the phonebook %s", $phonebookID))) {
             return false;
         }
         $phonebook = simplexml_load_file($result['NewPhonebookURL']);
@@ -339,7 +344,7 @@ class x_contact extends fritzsoap
         $result = $this->client->AddPhonebook(
             new \SoapParam($phonebookExtraID, 'NewPhonebookExtraID'),
             new \SoapParam($phonebookName, 'NewPhonebookName'));
-        if ($this->errorHandling($result, sprintf("Could not add the new phonebook %s", $name))) {
+        if ($this->errorHandling($result, sprintf("Could not add the new phonebook %s", $phonebookName))) {
             return;
         }
 
@@ -367,7 +372,7 @@ class x_contact extends fritzsoap
             new \SoapParam($phonebookID, 'NewPhonebookID'),
         //  new \SoapParam($phonebookExtraID, 'NewPhonebookExtraID')
         );
-        if ($this->errorHandling($result, sprintf("Could not delete the phonebook with index %s", $phoneBookID))) {
+        if ($this->errorHandling($result, sprintf("Could not delete the phonebook with index %s", $phonebookID))) {
             return;
         }
 
@@ -444,7 +449,7 @@ class x_contact extends fritzsoap
             new \SoapParam($phonebookID, 'NewPhonebookID'),
             new \SoapParam($phonebookEntryID, 'NewPhonebookEntryID'),
             new \SoapParam($phonebookEntryData, 'NewPhonebookEntryData'));
-        if ($this->errorHandling($result, sprintf("Could not add the new entry to the phonebook %s", $phoneBookID))) {
+        if ($this->errorHandling($result, sprintf("Could not add the new entry to the phonebook %s", $phonebookID))) {
             return;
         }
 

@@ -19,13 +19,16 @@ namespace blacksenator\fritzsoap;
 * (see getFritzBoxServices() for details)
 *
 * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
+*
+*    ! NO LONGER INCLUDED IN THE SCOPE OF SERVICE !
+*
 * THIS FILE IS AUTOMATIC ASSEMBLED!
 * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
 * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
 * +++++++++++++++++++++++++++++++++++++++++++++++++++++
 *
 * @author Volker Püschel <knuffy@anasco.de>
-* @copyright Volker Püschel 2019 - 2020
+* @copyright Volker Püschel 2019 - 2021
 * @license MIT
 **/
 
@@ -33,6 +36,10 @@ use blacksenator\fritzsoap\fritzsoap;
 
 class fritzbox extends fritzsoap
 {
+    const
+        SERVICE_TYPE = 'urn:schemas-any-com:service:fritzbox:1',
+        CONTROL_URL  = '/upnp/control/fritzbox';
+
     /**
      * setLogParam
      *
@@ -45,7 +52,9 @@ class fritzbox extends fritzsoap
     public function setLogParam()
     {
         $result = $this->client->SetLogParam();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if (is_soap_fault($result)) {
+            $this->getErrorData($result);
+            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
             return;
         }
 
@@ -64,7 +73,9 @@ class fritzbox extends fritzsoap
     public function getMaclist()
     {
         $result = $this->client->GetMaclist();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if (is_soap_fault($result)) {
+            $this->getErrorData($result);
+            error_log(sprintf("Error: %s (%s)! Could not ... from/to FRITZ!Box", $this->errorCode, $this->errorText));
             return;
         }
 

@@ -33,6 +33,10 @@ use blacksenator\fritzsoap\fritzsoap;
 
 class layer3forwarding extends fritzsoap
 {
+    const
+        SERVICE_TYPE = 'urn:dslforum-org:service:Layer3Forwarding:1',
+        CONTROL_URL  = '/upnp/control/layer3forwarding';
+
     /**
      * setDefaultConnectionService
      *

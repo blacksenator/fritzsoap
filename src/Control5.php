@@ -33,6 +33,10 @@ use blacksenator\fritzsoap\fritzsoap;
 
 class Control5 extends fritzsoap
 {
+    const
+        SERVICE_TYPE = 'urn:schemas-upnp-org:service:ContentDirectory:1',
+        CONTROL_URL  = '/MediaServer/ContentDirectory/Control';
+
     /**
      * getSearchCapabilities
      *

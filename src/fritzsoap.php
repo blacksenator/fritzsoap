@@ -43,36 +43,36 @@ use blacksenator\fbvalidateurl\fbvalidateurl;
 
 class fritzsoap
 {
-    const SERVICE_DESCRIPTIONS = [          // see: https://boxmatrix.info/wiki/XML-Files ('*desc.xml (static)')
-        'aura.xml',                         // found on my 7490 OS7.12, but not on 7590 OS7.21
-        'tr64desc.xml',                     // found on my 7490 OS7.12
-        'igddesc.xml',                      // found on my 7490 OS7.12
-        'avmnexusdesc.xml',                 // found on my 7490 OS7.12
-        'GPMDevDesc.xml',
-        'igd2desc.xml',                     // found on my 7490 OS7.12
-        'l2tpv3.xml',                       // found on my 7490 OS7.12
-        'MediaRendererDevDesc.xml',
-        'MediaServerDevDesc.xml',           // found on my 7490 OS7.12
-        'MediaServerDevDesc-xbox.xml',      // found on my 7490 OS7.12
-        'onlinestoredesc.xml',
-        'satipdesc.xml',
-        'TMediaCenterDevDesc.xml',
-        'usbdesc.xml',
-        ];
-
     const
+        SERVICE_DESCRIPTIONS = [                // see: https://boxmatrix.info/wiki/XML-Files ('*desc.xml (static)')
+            'aura.xml',                         // found on my 7490 OS7.12, but not on 7590 OS7.21
+            'tr64desc.xml',                     // found on my 7490 OS7.12
+            'igddesc.xml',                      // found on my 7490 OS7.12
+            'avmnexusdesc.xml',                 // found on my 7490 OS7.12
+            'GPMDevDesc.xml',
+            'igd2desc.xml',                     // found on my 7490 OS7.12
+            'l2tpv3.xml',                       // found on my 7490 OS7.12
+            'MediaRendererDevDesc.xml',
+            'MediaServerDevDesc.xml',           // found on my 7490 OS7.12
+            'MediaServerDevDesc-xbox.xml',      // found on my 7490 OS7.12
+            'onlinestoredesc.xml',
+            'satipdesc.xml',
+            'TMediaCenterDevDesc.xml',
+            'usbdesc.xml',
+        ],
         HTTP_PORT       = '49000',
         HTTPS_PORT      = '49443',
         SOAP_NOROOT     = true,
         SOAP_TRACE      = true,
         SOAP_EXCEPTIONS = false,
-        CLASS_ANOMALY   = ['Control'];      // there are similar services Control1 to Control7
+        CLASS_ANOMALY   = ['Control'];          // there are seven similar services of Control to Control
 
     private $url = [];
     private $user;
     private $password;
     protected $serverAdress;
-    protected $services = null;
+    protected $serviceType;
+    protected $controlURL;
     protected $client = null;
     protected $errorCode;
     protected $errorText;
@@ -87,17 +87,71 @@ class fritzsoap
      * @param SimpleXMLElement $services
      * @return void
      */
-    public function __construct($url, $user, $password, $services = null)
+    public function __construct($url, $user, $password)
     {
         $validator = new fbvalidateurl;
         $this->url = $validator->getValidURL($url);
         $this->assembleServerAdress($this->url);
         $this->user = $user;
         $this->password = $password;
-        $this->services = $services ?: $this->getFritzBoxServices();      // if possible only read once
-        if ($this->services === false) {
-            throw new \Exception ('SOAP services could not be determined!');
-        }
+        $class = $this->getClassName()['class'];
+        $this->serviceType = $class::SERVICE_TYPE;
+        $this->controlURL = $class::CONTROL_URL;
+    }
+
+    /**
+     * get a new SOAP client
+     *
+     * @see https://avm.de/service/schnittstellen
+     *
+     * @return void
+     */
+    public function getClient()
+    {
+        $this->client = new \SoapClient(null, [
+            'location'   => $this->serverAdress . $this->controlURL,
+            'uri'        => $this->serviceType,
+            'noroot'     => self::SOAP_NOROOT,
+            'login'      => $this->user,
+            'password'   => $this->password,
+            'trace'      => self::SOAP_TRACE,
+            'exceptions' => self::SOAP_EXCEPTIONS,
+        ]);
+    }
+
+    /**
+     * get the determined services
+     *
+     * returns the identified services
+     * use $detailed = true if more
+     * details are required (time consuming!)
+     *
+     * @param bool $detailed
+     * @return SimpleXMLElement
+     */
+    public function getServiceDescription($detailed = false): SimpleXMLElement
+    {
+        return $this->getFritzBoxServices($detailed);
+    }
+
+    /**
+     * get the validated URL parameters
+     *
+     * @return array
+     */
+    public function getURL(): array
+    {
+        return $this->url;
+    }
+
+    /**
+     * get the server adress
+     *
+     * @return string
+     */
+    public function getServerAdress(): string
+    {
+        return $this->serverAdress;
     }
 
     /**
@@ -123,7 +177,7 @@ class fritzsoap
      * in a condenzed XML:
      *
      *  <?xml version="1.0"?>
-     *  <tr064>
+     *  <fritzsoap>
      *      <services name = "x_contact">
      *         <service>urn:dslforum-org:service:X_AVM-DE_OnTel:1</service>
      *         <location>/upnp/control/x_contact</location>
@@ -134,7 +188,7 @@ class fritzsoap
      *          </actions>
      *      </services>
      *      ...
-     *  </tr064>
+     *  </fritzsoap>
      *
      * @param bool $detailed
      * @return SimpleXMLElement|bool
@@ -142,16 +196,16 @@ class fritzsoap
     protected function getFritzBoxServices($detailed = false)
     {
         $stateTable = [];
-        $tr064 = new SimpleXMLElement('<tr064 />');
+        $fritzsoap = new SimpleXMLElement('<fritzsoap />');
         foreach (self::SERVICE_DESCRIPTIONS as $description) {
             $serviceHeaders = $this->getDescriptionXML($this->serverAdress . '/' . $description, 'service');
             foreach ($serviceHeaders as $serviceHeader) {
-                $services = $tr064->addChild('services');
+                $services = $fritzsoap->addChild('services');
                 $name = explode('/', $serviceHeader->controlURL);
                 $services->addAttribute('name', $name[3]);
                 $services->addAttribute('origin', $description);
-                $services->addChild('service', (string)$serviceHeader->serviceType);
-                $services->addChild('location', (string)$serviceHeader->controlURL);
+                $services->addChild('serviceType', (string)$serviceHeader->serviceType);
+                $services->addChild('controlURL', (string)$serviceHeader->controlURL);
                 $actionsDesc = $this->getDescriptionXML($this->serverAdress . $serviceHeader->SCPDURL, 'action');
                 if ($detailed) {
                     $stateVariables = $this->getDescriptionXML($this->serverAdress . $serviceHeader->SCPDURL, 'stateVariable');
@@ -178,12 +232,12 @@ class fritzsoap
                 }
             }
         }
-        $result = $tr064->xpath('//services');
+        $result = $fritzsoap->xpath('//services');
         if (!count($result)) {
             return false;
         }
 
-        return $tr064;
+        return $fritzsoap;
     }
 
     /**
@@ -229,64 +283,9 @@ class fritzsoap
     }
 
     /**
-     * get the determined services
-     *
-     * returns the identified services or rereads
-     * if more details are required (time consuming!)
-     *
-     * @param bool $detailed
-     * @return SimpleXMLElement
-     */
-    public function getServiceDescription($detailed = false): SimpleXMLElement
-    {
-        return $detailed ? $this->getFritzBoxServices(true) : $this->services;
-    }
-
-    /**
-     * get the validated URL parameters
-     *
-     * @return array
-     */
-    public function getURL(): array
-    {
-        return $this->url;
-    }
-
-    /**
-     * get the server adress
-     *
-     * @return string
-     */
-    public function getServerAdress(): string
-    {
-        return $this->serverAdress;
-    }
-
-    /**
-     * get a new SOAP client
-     *
-     * @see https://avm.de/service/schnittstellen
-     *
-     * @return void
-     */
-    public function getClient()
-    {
-        $parameters = $this->getSOAPParameters($this->getClassName());
-        $this->client = new \SoapClient(null, [
-            'location'   => $this->serverAdress . $parameters['location'],
-            'uri'        => $parameters['service'],
-            'noroot'     => self::SOAP_NOROOT,
-            'login'      => $this->user,
-            'password'   => $this->password,
-            'trace'      => self::SOAP_TRACE,
-            'exceptions' => self::SOAP_EXCEPTIONS,
-        ]);
-    }
-
-    /**
      * get the class name
      *
-     * @return string $className
+     * @return array
      */
     private function getClassName()
     {
@@ -297,30 +296,10 @@ class fritzsoap
             throw new \Exception ($message);
         }
 
-        return $className;
-    }
-
-    /**
-     * get the SOAP parameters of a service (eq. class)
-     * - location
-     * - service
-     *
-     * @param string $className
-     * @return array $parameter
-     */
-
-    private function getSOAPParameters($className)
-    {
-        $param = $this->services->xpath("//services[@name='$className']");
-        if (!count($param)) {
-            $message = sprintf('No %s service parameters available on this FRITZ!Box!', $className);
-            throw new \Exception ($message);
-        }
-
         return [
-            'location' => (string)$param[0]->location,
-            'service'  => (string)$param[0]->service,
-            ];
+            'class'     => $class,                              // object
+            'className' => $className                           // string
+        ];
     }
 
     /**
@@ -363,7 +342,9 @@ class fritzsoap
     /**
      * converting an array to XML
      *
-     * currently used in hosts.php and possibly in the future in other classes
+     * currently only used in hosts.php and
+     * possibly in the future in other classes
+     *
      * @see top voted answer to https://stackoverflow.com/questions/1397036/how-to-convert-array-to-simplexml
      *
      * @param array $data

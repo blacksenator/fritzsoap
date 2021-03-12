@@ -33,6 +33,10 @@ use blacksenator\fritzsoap\fritzsoap;
 
 class WANDSLLinkC1 extends fritzsoap
 {
+    const
+        SERVICE_TYPE = 'urn:schemas-upnp-org:service:WANDSLLinkConfig:1',
+        CONTROL_URL  = '/igd2upnp/control/WANDSLLinkC1';
+
     /**
      * setDSLLinkType
      *

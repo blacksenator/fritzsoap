@@ -33,6 +33,10 @@ use blacksenator\fritzsoap\fritzsoap;
 
 class x_dect extends fritzsoap
 {
+    const
+        SERVICE_TYPE = 'urn:dslforum-org:service:X_AVM-DE_Dect:1',
+        CONTROL_URL  = '/upnp/control/x_dect';
+
     /**
      * getNumberOfDectEntries
      *

@@ -33,6 +33,10 @@ use blacksenator\fritzsoap\fritzsoap;
 
 class x_homeplug extends fritzsoap
 {
+    const
+        SERVICE_TYPE = 'urn:dslforum-org:service:X_AVM-DE_Homeplug:1',
+        CONTROL_URL  = '/upnp/control/x_homeplug';
+
     /**
      * getNumberOfDeviceEntries
      *

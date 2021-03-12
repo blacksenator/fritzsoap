@@ -33,6 +33,10 @@ use blacksenator\fritzsoap\fritzsoap;
 
 class time extends fritzsoap
 {
+    const
+        SERVICE_TYPE = 'urn:dslforum-org:service:Time:1',
+        CONTROL_URL  = '/upnp/control/time';
+
     /**
      * getInfo
      *

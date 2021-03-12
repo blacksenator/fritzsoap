@@ -33,6 +33,10 @@ use blacksenator\fritzsoap\fritzsoap;
 
 class wanethlinkconfig1 extends fritzsoap
 {
+    const
+        SERVICE_TYPE = 'urn:dslforum-org:service:WANEthernetLinkConfig:1',
+        CONTROL_URL  = '/upnp/control/wanethlinkconfig1';
+
     /**
      * getEthernetLinkStatus
      *

@@ -33,6 +33,10 @@ use blacksenator\fritzsoap\fritzsoap;
 
 class mgmsrv extends fritzsoap
 {
+    const
+        SERVICE_TYPE = 'urn:dslforum-org:service:ManagementServer:1',
+        CONTROL_URL  = '/upnp/control/mgmsrv';
+
     /**
      * getInfo
      *

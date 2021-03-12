@@ -33,6 +33,10 @@ use blacksenator\fritzsoap\fritzsoap;
 
 class avmnexus extends fritzsoap
 {
+    const
+        SERVICE_TYPE = 'urn:schemas-any-com:service:avmnexus:1',
+        CONTROL_URL  = '/upnp/control/avmnexus';
+
     /**
      * getNexusPort
      *
