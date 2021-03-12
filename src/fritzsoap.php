@@ -64,8 +64,7 @@ class fritzsoap
         HTTPS_PORT      = '49443',
         SOAP_NOROOT     = true,
         SOAP_TRACE      = true,
-        SOAP_EXCEPTIONS = false,
-        CLASS_ANOMALY   = ['Control'];          // there are seven similar services of Control to Control
+        SOAP_EXCEPTIONS = false;
 
     private $url = [];
     private $user;
@@ -291,10 +290,6 @@ class fritzsoap
     {
         $class = get_class($this);
         $className = str_replace('blacksenator\\fritzsoap\\', '', $class);
-        if (in_array(substr($className, 0, -1), self::CLASS_ANOMALY)) {     // Control1, Control2, ...
-            $message = sprintf('No service parameters for %s(%s) can be assigned!', $className, self::CLASS_ANOMALY);
-            throw new \Exception ($message);
-        }
 
         return [
             'class'     => $class,                              // object

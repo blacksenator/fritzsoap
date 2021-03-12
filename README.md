@@ -84,7 +84,7 @@ You must have activated the USB remote access function in the FRITZ!Box to be ab
 
 #### Control
 
-This group of ghosts includes the >Control< services, of which I found seven with different locations and uri. The services are therefore mapped accordingly in the classes Control1 to Control7. **With the concept of this library, the use of these actions is not (yet) possible** (the Voigt-Kampff test has not yet been implemented)! **If you want to use these undocumented actions, you have to intervene in the program with code change!**
+This group of ghosts includes the >Control< services, of which I found seven with different serviceType and controlURL. The services are therefore mapped accordingly in the classes **Control1** to **Control7**.
 
 #### Other ghosts
 
