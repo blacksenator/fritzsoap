@@ -8,16 +8,6 @@ namespace blacksenator\fritzsoap;
  * No documentation available!
  * @see: https://avm.de/service/schnittstellen/
  *
- * With the instantiation of the class, all available
- * services of the addressed FRITZ!Box are determined.
- * The service parameters and available actions are
- * provided in a compressed form as XML and can be output
- * with getServiceDescription().
- * The matching SOAP client only needs to be called with
- * the name of the services <services name = "..."> and
- * gets the correct location and uri from the XML
- * (see getFritzBoxServices() for details)
- *
  * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
  * THIS FILE IS AUTOMATIC ASSEMBLED!
  * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
@@ -335,8 +325,8 @@ class wanpppconn1 extends fritzsoap
     public function getSpecificPortMappingEntry($remoteHost, $externalPort, $protocol)
     {
         $result = $this->client->GetSpecificPortMappingEntry(
-            new \SoapParam($remoteHost, 'NewRemoteHost'), 
-            new \SoapParam($externalPort, 'NewExternalPort'), 
+            new \SoapParam($remoteHost, 'NewRemoteHost'),
+            new \SoapParam($externalPort, 'NewExternalPort'),
             new \SoapParam($protocol, 'NewProtocol'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
@@ -372,13 +362,13 @@ class wanpppconn1 extends fritzsoap
     public function addPortMapping($remoteHost, $externalPort, $protocol, $internalPort, $internalClient, $enabled, $portMappingDescription, $leaseDuration)
     {
         $result = $this->client->AddPortMapping(
-            new \SoapParam($remoteHost, 'NewRemoteHost'), 
-            new \SoapParam($externalPort, 'NewExternalPort'), 
-            new \SoapParam($protocol, 'NewProtocol'), 
-            new \SoapParam($internalPort, 'NewInternalPort'), 
-            new \SoapParam($internalClient, 'NewInternalClient'), 
-            new \SoapParam($enabled, 'NewEnabled'), 
-            new \SoapParam($portMappingDescription, 'NewPortMappingDescription'), 
+            new \SoapParam($remoteHost, 'NewRemoteHost'),
+            new \SoapParam($externalPort, 'NewExternalPort'),
+            new \SoapParam($protocol, 'NewProtocol'),
+            new \SoapParam($internalPort, 'NewInternalPort'),
+            new \SoapParam($internalClient, 'NewInternalClient'),
+            new \SoapParam($enabled, 'NewEnabled'),
+            new \SoapParam($portMappingDescription, 'NewPortMappingDescription'),
             new \SoapParam($leaseDuration, 'NewLeaseDuration'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
@@ -404,8 +394,8 @@ class wanpppconn1 extends fritzsoap
     public function deletePortMapping($remoteHost, $externalPort, $protocol)
     {
         $result = $this->client->DeletePortMapping(
-            new \SoapParam($remoteHost, 'NewRemoteHost'), 
-            new \SoapParam($externalPort, 'NewExternalPort'), 
+            new \SoapParam($remoteHost, 'NewRemoteHost'),
+            new \SoapParam($externalPort, 'NewExternalPort'),
             new \SoapParam($protocol, 'NewProtocol'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
@@ -568,7 +558,7 @@ class wanpppconn1 extends fritzsoap
     public function x_AVM_DE_SetAutoDisconnectTimeSpan($x_AVM_DE_DisconnectPreventionEnable, $x_AVM_DE_DisconnectPreventionHour)
     {
         $result = $this->client->{'X_AVM-DE_SetAutoDisconnectTimeSpan'}(
-            new \SoapParam($x_AVM_DE_DisconnectPreventionEnable, 'NewX_AVM-DE_DisconnectPreventionEnable'), 
+            new \SoapParam($x_AVM_DE_DisconnectPreventionEnable, 'NewX_AVM-DE_DisconnectPreventionEnable'),
             new \SoapParam($x_AVM_DE_DisconnectPreventionHour, 'NewX_AVM-DE_DisconnectPreventionHour'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;

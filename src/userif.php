@@ -8,16 +8,6 @@ namespace blacksenator\fritzsoap;
  * according to:
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/userifSCPD.pdf
  *
- * With the instantiation of the class, all available
- * services of the addressed FRITZ!Box are determined.
- * The service parameters and available actions are
- * provided in a compressed form as XML and can be output
- * with getServiceDescription().
- * The matching SOAP client only needs to be called with
- * the name of the services <services name = "..."> and
- * gets the correct location and uri from the XML
- * (see getFritzBoxServices() for details)
- *
  * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
  * THIS FILE IS AUTOMATIC ASSEMBLED!
  * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
@@ -140,7 +130,7 @@ class userif extends fritzsoap
     public function x_AVM_DE_DoManualUpdate($x_AVM_DE_AllowDowngrade, $x_AVM_DE_DownloadURL)
     {
         $result = $this->client->{'X_AVM-DE_DoManualUpdate'}(
-            new \SoapParam($x_AVM_DE_AllowDowngrade, 'NewX_AVM-DE_AllowDowngrade'), 
+            new \SoapParam($x_AVM_DE_AllowDowngrade, 'NewX_AVM-DE_AllowDowngrade'),
             new \SoapParam($x_AVM_DE_DownloadURL, 'NewX_AVM-DE_DownloadURL'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
@@ -190,8 +180,8 @@ class userif extends fritzsoap
     public function x_AVM_DE_SetInternationalConfig($x_AVM_DE_Language, $x_AVM_DE_Country, $x_AVM_DE_Annex)
     {
         $result = $this->client->{'X_AVM-DE_SetInternationalConfig'}(
-            new \SoapParam($x_AVM_DE_Language, 'NewX_AVM-DE_Language'), 
-            new \SoapParam($x_AVM_DE_Country, 'NewX_AVM-DE_Country'), 
+            new \SoapParam($x_AVM_DE_Language, 'NewX_AVM-DE_Language'),
+            new \SoapParam($x_AVM_DE_Country, 'NewX_AVM-DE_Country'),
             new \SoapParam($x_AVM_DE_Annex, 'NewX_AVM-DE_Annex'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;

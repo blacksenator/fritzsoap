@@ -8,16 +8,6 @@ namespace blacksenator\fritzsoap;
  * according to:
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/x_remoteSCPD.pdf
  *
- * With the instantiation of the class, all available
- * services of the addressed FRITZ!Box are determined.
- * The service parameters and available actions are
- * provided in a compressed form as XML and can be output
- * with getServiceDescription().
- * The matching SOAP client only needs to be called with
- * the name of the services <services name = "..."> and
- * gets the correct location and uri from the XML
- * (see getFritzBoxServices() for details)
- *
  * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
  * THIS FILE IS AUTOMATIC ASSEMBLED!
  * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
@@ -77,9 +67,9 @@ class x_remote extends fritzsoap
     public function setConfig($enabled, $port, $username, $password)
     {
         $result = $this->client->SetConfig(
-            new \SoapParam($enabled, 'NewEnabled'), 
-            new \SoapParam($port, 'NewPort'), 
-            new \SoapParam($username, 'NewUsername'), 
+            new \SoapParam($enabled, 'NewEnabled'),
+            new \SoapParam($port, 'NewPort'),
+            new \SoapParam($username, 'NewUsername'),
             new \SoapParam($password, 'NewPassword'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
@@ -186,14 +176,14 @@ class x_remote extends fritzsoap
     public function setDDNSConfig($enabled, $providerName, $updateURL, $domain, $username, $mode, $serverIPv4, $serverIPv6, $password)
     {
         $result = $this->client->SetDDNSConfig(
-            new \SoapParam($enabled, 'NewEnabled'), 
-            new \SoapParam($providerName, 'NewProviderName'), 
-            new \SoapParam($updateURL, 'NewUpdateURL'), 
-            new \SoapParam($domain, 'NewDomain'), 
-            new \SoapParam($username, 'NewUsername'), 
-            new \SoapParam($mode, 'NewMode'), 
-            new \SoapParam($serverIPv4, 'NewServerIPv4'), 
-            new \SoapParam($serverIPv6, 'NewServerIPv6'), 
+            new \SoapParam($enabled, 'NewEnabled'),
+            new \SoapParam($providerName, 'NewProviderName'),
+            new \SoapParam($updateURL, 'NewUpdateURL'),
+            new \SoapParam($domain, 'NewDomain'),
+            new \SoapParam($username, 'NewUsername'),
+            new \SoapParam($mode, 'NewMode'),
+            new \SoapParam($serverIPv4, 'NewServerIPv4'),
+            new \SoapParam($serverIPv6, 'NewServerIPv6'),
             new \SoapParam($password, 'NewPassword'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;

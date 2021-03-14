@@ -8,16 +8,6 @@ namespace blacksenator\fritzsoap;
  * No documentation available!
  * @see: https://avm.de/service/schnittstellen/
  *
- * With the instantiation of the class, all available
- * services of the addressed FRITZ!Box are determined.
- * The service parameters and available actions are
- * provided in a compressed form as XML and can be output
- * with getServiceDescription().
- * The matching SOAP client only needs to be called with
- * the name of the services <services name = "..."> and
- * gets the correct location and uri from the XML
- * (see getFritzBoxServices() for details)
- *
  * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
  * THIS FILE IS AUTOMATIC ASSEMBLED!
  * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
@@ -121,11 +111,11 @@ class Control5 extends fritzsoap
     public function browse($objectID, $browseFlag, $filter, $startingIndex, $requestedCount, $sortCriteria)
     {
         $result = $this->client->Browse(
-            new \SoapParam($objectID, 'ObjectID'), 
-            new \SoapParam($browseFlag, 'BrowseFlag'), 
-            new \SoapParam($filter, 'Filter'), 
-            new \SoapParam($startingIndex, 'StartingIndex'), 
-            new \SoapParam($requestedCount, 'RequestedCount'), 
+            new \SoapParam($objectID, 'ObjectID'),
+            new \SoapParam($browseFlag, 'BrowseFlag'),
+            new \SoapParam($filter, 'Filter'),
+            new \SoapParam($startingIndex, 'StartingIndex'),
+            new \SoapParam($requestedCount, 'RequestedCount'),
             new \SoapParam($sortCriteria, 'SortCriteria'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
@@ -161,11 +151,11 @@ class Control5 extends fritzsoap
     public function search($containerID, $searchCriteria, $filter, $startingIndex, $requestedCount, $sortCriteria)
     {
         $result = $this->client->Search(
-            new \SoapParam($containerID, 'ContainerID'), 
-            new \SoapParam($searchCriteria, 'SearchCriteria'), 
-            new \SoapParam($filter, 'Filter'), 
-            new \SoapParam($startingIndex, 'StartingIndex'), 
-            new \SoapParam($requestedCount, 'RequestedCount'), 
+            new \SoapParam($containerID, 'ContainerID'),
+            new \SoapParam($searchCriteria, 'SearchCriteria'),
+            new \SoapParam($filter, 'Filter'),
+            new \SoapParam($startingIndex, 'StartingIndex'),
+            new \SoapParam($requestedCount, 'RequestedCount'),
             new \SoapParam($sortCriteria, 'SortCriteria'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;

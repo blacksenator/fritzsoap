@@ -8,16 +8,6 @@ namespace blacksenator\fritzsoap;
  * according to:
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/x_speedtestSCPD.pdf
  *
- * With the instantiation of the class, all available
- * services of the addressed FRITZ!Box are determined.
- * The service parameters and available actions are
- * provided in a compressed form as XML and can be output
- * with getServiceDescription().
- * The matching SOAP client only needs to be called with
- * the name of the services <services name = "..."> and
- * gets the correct location and uri from the XML
- * (see getFritzBoxServices() for details)
- *
  * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
  * THIS FILE IS AUTOMATIC ASSEMBLED!
  * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
@@ -84,10 +74,10 @@ class x_speedtest extends fritzsoap
     public function setConfig($enableTcp, $enableUdp, $enableUdpBidirect, $wANEnableTcp, $wANEnableUdp)
     {
         $result = $this->client->SetConfig(
-            new \SoapParam($enableTcp, 'NewEnableTcp'), 
-            new \SoapParam($enableUdp, 'NewEnableUdp'), 
-            new \SoapParam($enableUdpBidirect, 'NewEnableUdpBidirect'), 
-            new \SoapParam($wANEnableTcp, 'NewWANEnableTcp'), 
+            new \SoapParam($enableTcp, 'NewEnableTcp'),
+            new \SoapParam($enableUdp, 'NewEnableUdp'),
+            new \SoapParam($enableUdpBidirect, 'NewEnableUdpBidirect'),
+            new \SoapParam($wANEnableTcp, 'NewWANEnableTcp'),
             new \SoapParam($wANEnableUdp, 'NewWANEnableUdp'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;

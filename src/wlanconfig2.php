@@ -8,16 +8,6 @@ namespace blacksenator\fritzsoap;
  * No documentation available!
  * @see: https://avm.de/service/schnittstellen/
  *
- * With the instantiation of the class, all available
- * services of the addressed FRITZ!Box are determined.
- * The service parameters and available actions are
- * provided in a compressed form as XML and can be output
- * with getServiceDescription().
- * The matching SOAP client only needs to be called with
- * the name of the services <services name = "..."> and
- * gets the correct location and uri from the XML
- * (see getFritzBoxServices() for details)
- *
  * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
  * THIS FILE IS AUTOMATIC ASSEMBLED!
  * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
@@ -119,12 +109,12 @@ class wlanconfig2 extends fritzsoap
     public function setConfig($maxBitRate, $channel, $sSID, $beaconType, $mACAddressControlEnabled, $basicEncryptionModes, $basicAuthenticationMode)
     {
         $result = $this->client->SetConfig(
-            new \SoapParam($maxBitRate, 'NewMaxBitRate'), 
-            new \SoapParam($channel, 'NewChannel'), 
-            new \SoapParam($sSID, 'NewSSID'), 
-            new \SoapParam($beaconType, 'NewBeaconType'), 
-            new \SoapParam($mACAddressControlEnabled, 'NewMACAddressControlEnabled'), 
-            new \SoapParam($basicEncryptionModes, 'NewBasicEncryptionModes'), 
+            new \SoapParam($maxBitRate, 'NewMaxBitRate'),
+            new \SoapParam($channel, 'NewChannel'),
+            new \SoapParam($sSID, 'NewSSID'),
+            new \SoapParam($beaconType, 'NewBeaconType'),
+            new \SoapParam($mACAddressControlEnabled, 'NewMACAddressControlEnabled'),
+            new \SoapParam($basicEncryptionModes, 'NewBasicEncryptionModes'),
             new \SoapParam($basicAuthenticationMode, 'NewBasicAuthenticationMode'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
@@ -156,11 +146,11 @@ class wlanconfig2 extends fritzsoap
     public function setSecurityKeys($wEPKey0, $wEPKey1, $wEPKey2, $wEPKey3, $preSharedKey, $keyPassphrase)
     {
         $result = $this->client->SetSecurityKeys(
-            new \SoapParam($wEPKey0, 'NewWEPKey0'), 
-            new \SoapParam($wEPKey1, 'NewWEPKey1'), 
-            new \SoapParam($wEPKey2, 'NewWEPKey2'), 
-            new \SoapParam($wEPKey3, 'NewWEPKey3'), 
-            new \SoapParam($preSharedKey, 'NewPreSharedKey'), 
+            new \SoapParam($wEPKey0, 'NewWEPKey0'),
+            new \SoapParam($wEPKey1, 'NewWEPKey1'),
+            new \SoapParam($wEPKey2, 'NewWEPKey2'),
+            new \SoapParam($wEPKey3, 'NewWEPKey3'),
+            new \SoapParam($preSharedKey, 'NewPreSharedKey'),
             new \SoapParam($keyPassphrase, 'NewKeyPassphrase'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
@@ -248,7 +238,7 @@ class wlanconfig2 extends fritzsoap
     public function setBasBeaconSecurityProperties($basicEncryptionModes, $basicAuthenticationMode)
     {
         $result = $this->client->SetBasBeaconSecurityProperties(
-            new \SoapParam($basicEncryptionModes, 'NewBasicEncryptionModes'), 
+            new \SoapParam($basicEncryptionModes, 'NewBasicEncryptionModes'),
             new \SoapParam($basicAuthenticationMode, 'NewBasicAuthenticationMode'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
@@ -749,14 +739,14 @@ class wlanconfig2 extends fritzsoap
     public function x_AVM_DE_SetWLANHybridMode($enable, $beaconType, $keyPassphrase, $sSID, $bSSID, $trafficMode, $manualSpeed, $maxSpeedDS, $maxSpeedUS)
     {
         $result = $this->client->{'X_AVM-DE_SetWLANHybridMode'}(
-            new \SoapParam($enable, 'NewEnable'), 
-            new \SoapParam($beaconType, 'NewBeaconType'), 
-            new \SoapParam($keyPassphrase, 'NewKeyPassphrase'), 
-            new \SoapParam($sSID, 'NewSSID'), 
-            new \SoapParam($bSSID, 'NewBSSID'), 
-            new \SoapParam($trafficMode, 'NewTrafficMode'), 
-            new \SoapParam($manualSpeed, 'NewManualSpeed'), 
-            new \SoapParam($maxSpeedDS, 'NewMaxSpeedDS'), 
+            new \SoapParam($enable, 'NewEnable'),
+            new \SoapParam($beaconType, 'NewBeaconType'),
+            new \SoapParam($keyPassphrase, 'NewKeyPassphrase'),
+            new \SoapParam($sSID, 'NewSSID'),
+            new \SoapParam($bSSID, 'NewBSSID'),
+            new \SoapParam($trafficMode, 'NewTrafficMode'),
+            new \SoapParam($manualSpeed, 'NewManualSpeed'),
+            new \SoapParam($maxSpeedDS, 'NewMaxSpeedDS'),
             new \SoapParam($maxSpeedUS, 'NewMaxSpeedUS'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;

@@ -8,16 +8,6 @@ namespace blacksenator\fritzsoap;
  * according to:
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/lanhostconfigmgmSCPD.pdf
  *
- * With the instantiation of the class, all available
- * services of the addressed FRITZ!Box are determined.
- * The service parameters and available actions are
- * provided in a compressed form as XML and can be output
- * with getServiceDescription().
- * The matching SOAP client only needs to be called with
- * the name of the services <services name = "..."> and
- * gets the correct location and uri from the XML
- * (see getFritzBoxServices() for details)
- *
  * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
  * THIS FILE IS AUTOMATIC ASSEMBLED!
  * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
@@ -105,9 +95,9 @@ class lanhostconfigmgm extends fritzsoap
     public function setIPInterface($enable, $iPAddress, $subnetMask, $iPAddressingType)
     {
         $result = $this->client->SetIPInterface(
-            new \SoapParam($enable, 'NewEnable'), 
-            new \SoapParam($iPAddress, 'NewIPAddress'), 
-            new \SoapParam($subnetMask, 'NewSubnetMask'), 
+            new \SoapParam($enable, 'NewEnable'),
+            new \SoapParam($iPAddress, 'NewIPAddress'),
+            new \SoapParam($subnetMask, 'NewSubnetMask'),
             new \SoapParam($iPAddressingType, 'NewIPAddressingType'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
@@ -151,7 +141,7 @@ class lanhostconfigmgm extends fritzsoap
     public function setAddressRange($minAddress, $maxAddress)
     {
         $result = $this->client->SetAddressRange(
-            new \SoapParam($minAddress, 'NewMinAddress'), 
+            new \SoapParam($minAddress, 'NewMinAddress'),
             new \SoapParam($maxAddress, 'NewMaxAddress'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;

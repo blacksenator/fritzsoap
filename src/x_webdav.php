@@ -8,16 +8,6 @@ namespace blacksenator\fritzsoap;
  * according to:
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/x_webdavSCPD.pdf
  *
- * With the instantiation of the class, all available
- * services of the addressed FRITZ!Box are determined.
- * The service parameters and available actions are
- * provided in a compressed form as XML and can be output
- * with getServiceDescription().
- * The matching SOAP client only needs to be called with
- * the name of the services <services name = "..."> and
- * gets the correct location and uri from the XML
- * (see getFritzBoxServices() for details)
- *
  * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
  * THIS FILE IS AUTOMATIC ASSEMBLED!
  * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
@@ -80,10 +70,10 @@ class x_webdav extends fritzsoap
     public function setConfig($enable, $hostURL, $username, $password, $mountpointName)
     {
         $result = $this->client->SetConfig(
-            new \SoapParam($enable, 'NewEnable'), 
-            new \SoapParam($hostURL, 'NewHostURL'), 
-            new \SoapParam($username, 'NewUsername'), 
-            new \SoapParam($password, 'NewPassword'), 
+            new \SoapParam($enable, 'NewEnable'),
+            new \SoapParam($hostURL, 'NewHostURL'),
+            new \SoapParam($username, 'NewUsername'),
+            new \SoapParam($password, 'NewPassword'),
             new \SoapParam($mountpointName, 'NewMountpointName'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;

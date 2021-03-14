@@ -8,16 +8,6 @@ namespace blacksenator\fritzsoap;
  * according to:
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/timeSCPD.pdf
  *
- * With the instantiation of the class, all available
- * services of the addressed FRITZ!Box are determined.
- * The service parameters and available actions are
- * provided in a compressed form as XML and can be output
- * with getServiceDescription().
- * The matching SOAP client only needs to be called with
- * the name of the services <services name = "..."> and
- * gets the correct location and uri from the XML
- * (see getFritzBoxServices() for details)
- *
  * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
  * THIS FILE IS AUTOMATIC ASSEMBLED!
  * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
@@ -78,7 +68,7 @@ class time extends fritzsoap
     public function setNTPServers($nTPServer1, $nTPServer2)
     {
         $result = $this->client->SetNTPServers(
-            new \SoapParam($nTPServer1, 'NewNTPServer1'), 
+            new \SoapParam($nTPServer1, 'NewNTPServer1'),
             new \SoapParam($nTPServer2, 'NewNTPServer2'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;

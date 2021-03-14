@@ -8,16 +8,6 @@ namespace blacksenator\fritzsoap;
  * No documentation available!
  * @see: https://avm.de/service/schnittstellen/
  *
- * With the instantiation of the class, all available
- * services of the addressed FRITZ!Box are determined.
- * The service parameters and available actions are
- * provided in a compressed form as XML and can be output
- * with getServiceDescription().
- * The matching SOAP client only needs to be called with
- * the name of the services <services name = "..."> and
- * gets the correct location and uri from the XML
- * (see getFritzBoxServices() for details)
- *
  * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
  * THIS FILE IS AUTOMATIC ASSEMBLED!
  * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
@@ -162,15 +152,15 @@ class x_appsetup extends fritzsoap
     public function registerApp($appId, $appDisplayName, $appDeviceMAC, $appUsername, $appPassword, $appRight, $nasRight, $phoneRight, $homeautoRight, $appInternetRights)
     {
         $result = $this->client->RegisterApp(
-            new \SoapParam($appId, 'NewAppId'), 
-            new \SoapParam($appDisplayName, 'NewAppDisplayName'), 
-            new \SoapParam($appDeviceMAC, 'NewAppDeviceMAC'), 
-            new \SoapParam($appUsername, 'NewAppUsername'), 
-            new \SoapParam($appPassword, 'NewAppPassword'), 
-            new \SoapParam($appRight, 'NewAppRight'), 
-            new \SoapParam($nasRight, 'NewNasRight'), 
-            new \SoapParam($phoneRight, 'NewPhoneRight'), 
-            new \SoapParam($homeautoRight, 'NewHomeautoRight'), 
+            new \SoapParam($appId, 'NewAppId'),
+            new \SoapParam($appDisplayName, 'NewAppDisplayName'),
+            new \SoapParam($appDeviceMAC, 'NewAppDeviceMAC'),
+            new \SoapParam($appUsername, 'NewAppUsername'),
+            new \SoapParam($appPassword, 'NewAppPassword'),
+            new \SoapParam($appRight, 'NewAppRight'),
+            new \SoapParam($nasRight, 'NewNasRight'),
+            new \SoapParam($phoneRight, 'NewPhoneRight'),
+            new \SoapParam($homeautoRight, 'NewHomeautoRight'),
             new \SoapParam($appInternetRights, 'NewAppInternetRights'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
@@ -200,10 +190,10 @@ class x_appsetup extends fritzsoap
     public function setAppVPN($appId, $iPSecIdentifier, $iPSecPreSharedKey, $iPSecXauthUsername, $iPSecXauthPassword)
     {
         $result = $this->client->SetAppVPN(
-            new \SoapParam($appId, 'NewAppId'), 
-            new \SoapParam($iPSecIdentifier, 'NewIPSecIdentifier'), 
-            new \SoapParam($iPSecPreSharedKey, 'NewIPSecPreSharedKey'), 
-            new \SoapParam($iPSecXauthUsername, 'NewIPSecXauthUsername'), 
+            new \SoapParam($appId, 'NewAppId'),
+            new \SoapParam($iPSecIdentifier, 'NewIPSecIdentifier'),
+            new \SoapParam($iPSecPreSharedKey, 'NewIPSecPreSharedKey'),
+            new \SoapParam($iPSecXauthUsername, 'NewIPSecXauthUsername'),
             new \SoapParam($iPSecXauthPassword, 'NewIPSecXauthPassword'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
@@ -233,10 +223,10 @@ class x_appsetup extends fritzsoap
     public function setAppVPNwithPFS($appId, $iPSecIdentifier, $iPSecPreSharedKey, $iPSecXauthUsername, $iPSecXauthPassword)
     {
         $result = $this->client->SetAppVPNwithPFS(
-            new \SoapParam($appId, 'NewAppId'), 
-            new \SoapParam($iPSecIdentifier, 'NewIPSecIdentifier'), 
-            new \SoapParam($iPSecPreSharedKey, 'NewIPSecPreSharedKey'), 
-            new \SoapParam($iPSecXauthUsername, 'NewIPSecXauthUsername'), 
+            new \SoapParam($appId, 'NewAppId'),
+            new \SoapParam($iPSecIdentifier, 'NewIPSecIdentifier'),
+            new \SoapParam($iPSecPreSharedKey, 'NewIPSecPreSharedKey'),
+            new \SoapParam($iPSecXauthUsername, 'NewIPSecXauthUsername'),
             new \SoapParam($iPSecXauthPassword, 'NewIPSecXauthPassword'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
@@ -262,8 +252,8 @@ class x_appsetup extends fritzsoap
     public function setAppMessageFilter($appId, $type, $filter)
     {
         $result = $this->client->SetAppMessageFilter(
-            new \SoapParam($appId, 'NewAppId'), 
-            new \SoapParam($type, 'NewType'), 
+            new \SoapParam($appId, 'NewAppId'),
+            new \SoapParam($type, 'NewType'),
             new \SoapParam($filter, 'NewFilter'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
@@ -293,9 +283,9 @@ class x_appsetup extends fritzsoap
     public function setAppMessageReceiver($appId, $cryptAlgos, $appAVMAddress, $appAVMPasswordHash)
     {
         $result = $this->client->SetAppMessageReceiver(
-            new \SoapParam($appId, 'NewAppId'), 
-            new \SoapParam($cryptAlgos, 'NewCryptAlgos'), 
-            new \SoapParam($appAVMAddress, 'NewAppAVMAddress'), 
+            new \SoapParam($appId, 'NewAppId'),
+            new \SoapParam($cryptAlgos, 'NewCryptAlgos'),
+            new \SoapParam($appAVMAddress, 'NewAppAVMAddress'),
             new \SoapParam($appAVMPasswordHash, 'NewAppAVMPasswordHash'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;

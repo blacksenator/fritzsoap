@@ -8,16 +8,6 @@ namespace blacksenator\fritzsoap;
  * according to:
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/layer3forwardingSCPD.pdf
  *
- * With the instantiation of the class, all available
- * services of the addressed FRITZ!Box are determined.
- * The service parameters and available actions are
- * provided in a compressed form as XML and can be output
- * with getServiceDescription().
- * The matching SOAP client only needs to be called with
- * the name of the services <services name = "..."> and
- * gets the correct location and uri from the XML
- * (see getFritzBoxServices() for details)
- *
  * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
  * THIS FILE IS AUTOMATIC ASSEMBLED!
  * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
@@ -123,13 +113,13 @@ class layer3forwarding extends fritzsoap
     public function addForwardingEntry($type, $destIPAddress, $destSubnetMask, $sourceIPAddress, $sourceSubnetMask, $gatewayIPAddress, $interface, $forwardingMetric)
     {
         $result = $this->client->AddForwardingEntry(
-            new \SoapParam($type, 'NewType'), 
-            new \SoapParam($destIPAddress, 'NewDestIPAddress'), 
-            new \SoapParam($destSubnetMask, 'NewDestSubnetMask'), 
-            new \SoapParam($sourceIPAddress, 'NewSourceIPAddress'), 
-            new \SoapParam($sourceSubnetMask, 'NewSourceSubnetMask'), 
-            new \SoapParam($gatewayIPAddress, 'NewGatewayIPAddress'), 
-            new \SoapParam($interface, 'NewInterface'), 
+            new \SoapParam($type, 'NewType'),
+            new \SoapParam($destIPAddress, 'NewDestIPAddress'),
+            new \SoapParam($destSubnetMask, 'NewDestSubnetMask'),
+            new \SoapParam($sourceIPAddress, 'NewSourceIPAddress'),
+            new \SoapParam($sourceSubnetMask, 'NewSourceSubnetMask'),
+            new \SoapParam($gatewayIPAddress, 'NewGatewayIPAddress'),
+            new \SoapParam($interface, 'NewInterface'),
             new \SoapParam($forwardingMetric, 'NewForwardingMetric'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
@@ -157,9 +147,9 @@ class layer3forwarding extends fritzsoap
     public function deleteForwardingEntry($destIPAddress, $destSubnetMask, $sourceIPAddress, $sourceSubnetMask)
     {
         $result = $this->client->DeleteForwardingEntry(
-            new \SoapParam($destIPAddress, 'NewDestIPAddress'), 
-            new \SoapParam($destSubnetMask, 'NewDestSubnetMask'), 
-            new \SoapParam($sourceIPAddress, 'NewSourceIPAddress'), 
+            new \SoapParam($destIPAddress, 'NewDestIPAddress'),
+            new \SoapParam($destSubnetMask, 'NewDestSubnetMask'),
+            new \SoapParam($sourceIPAddress, 'NewSourceIPAddress'),
             new \SoapParam($sourceSubnetMask, 'NewSourceSubnetMask'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
@@ -193,9 +183,9 @@ class layer3forwarding extends fritzsoap
     public function getSpecificForwardingEntry($destIPAddress, $destSubnetMask, $sourceIPAddress, $sourceSubnetMask)
     {
         $result = $this->client->GetSpecificForwardingEntry(
-            new \SoapParam($destIPAddress, 'NewDestIPAddress'), 
-            new \SoapParam($destSubnetMask, 'NewDestSubnetMask'), 
-            new \SoapParam($sourceIPAddress, 'NewSourceIPAddress'), 
+            new \SoapParam($destIPAddress, 'NewDestIPAddress'),
+            new \SoapParam($destSubnetMask, 'NewDestSubnetMask'),
+            new \SoapParam($sourceIPAddress, 'NewSourceIPAddress'),
             new \SoapParam($sourceSubnetMask, 'NewSourceSubnetMask'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
@@ -256,10 +246,10 @@ class layer3forwarding extends fritzsoap
     public function setForwardingEntryEnable($destIPAddress, $destSubnetMask, $sourceIPAddress, $sourceSubnetMask, $enable)
     {
         $result = $this->client->SetForwardingEntryEnable(
-            new \SoapParam($destIPAddress, 'NewDestIPAddress'), 
-            new \SoapParam($destSubnetMask, 'NewDestSubnetMask'), 
-            new \SoapParam($sourceIPAddress, 'NewSourceIPAddress'), 
-            new \SoapParam($sourceSubnetMask, 'NewSourceSubnetMask'), 
+            new \SoapParam($destIPAddress, 'NewDestIPAddress'),
+            new \SoapParam($destSubnetMask, 'NewDestSubnetMask'),
+            new \SoapParam($sourceIPAddress, 'NewSourceIPAddress'),
+            new \SoapParam($sourceSubnetMask, 'NewSourceSubnetMask'),
             new \SoapParam($enable, 'NewEnable'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;

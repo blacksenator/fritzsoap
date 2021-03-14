@@ -8,16 +8,6 @@ namespace blacksenator\fritzsoap;
  * according to:
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/mgmsrvSCPD.pdf
  *
- * With the instantiation of the class, all available
- * services of the addressed FRITZ!Box are determined.
- * The service parameters and available actions are
- * provided in a compressed form as XML and can be output
- * with getServiceDescription().
- * The matching SOAP client only needs to be called with
- * the name of the services <services name = "..."> and
- * gets the correct location and uri from the XML
- * (see getFritzBoxServices() for details)
- *
  * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
  * THIS FILE IS AUTOMATIC ASSEMBLED!
  * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
@@ -145,8 +135,8 @@ class mgmsrv extends fritzsoap
     public function setPeriodicInform($periodicInformEnable, $periodicInformInterval, $periodicInformTime)
     {
         $result = $this->client->SetPeriodicInform(
-            new \SoapParam($periodicInformEnable, 'NewPeriodicInformEnable'), 
-            new \SoapParam($periodicInformInterval, 'NewPeriodicInformInterval'), 
+            new \SoapParam($periodicInformEnable, 'NewPeriodicInformEnable'),
+            new \SoapParam($periodicInformInterval, 'NewPeriodicInformInterval'),
             new \SoapParam($periodicInformTime, 'NewPeriodicInformTime'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
@@ -170,7 +160,7 @@ class mgmsrv extends fritzsoap
     public function setConnectionRequestAuthentication($connectionRequestUsername, $connectionRequestPassword)
     {
         $result = $this->client->SetConnectionRequestAuthentication(
-            new \SoapParam($connectionRequestUsername, 'NewConnectionRequestUsername'), 
+            new \SoapParam($connectionRequestUsername, 'NewConnectionRequestUsername'),
             new \SoapParam($connectionRequestPassword, 'NewConnectionRequestPassword'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;

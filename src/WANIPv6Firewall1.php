@@ -8,16 +8,6 @@ namespace blacksenator\fritzsoap;
  * No documentation available!
  * @see: https://avm.de/service/schnittstellen/
  *
- * With the instantiation of the class, all available
- * services of the addressed FRITZ!Box are determined.
- * The service parameters and available actions are
- * provided in a compressed form as XML and can be output
- * with getServiceDescription().
- * The matching SOAP client only needs to be called with
- * the name of the services <services name = "..."> and
- * gets the correct location and uri from the XML
- * (see getFritzBoxServices() for details)
- *
  * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
  * THIS FILE IS AUTOMATIC ASSEMBLED!
  * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
@@ -79,10 +69,10 @@ class WANIPv6Firewall1 extends fritzsoap
     public function getOutboundPinholeTimeout($remoteHost, $remotePort, $internalClient, $internalPort, $protocol)
     {
         $result = $this->client->GetOutboundPinholeTimeout(
-            new \SoapParam($remoteHost, 'RemoteHost'), 
-            new \SoapParam($remotePort, 'RemotePort'), 
-            new \SoapParam($internalClient, 'InternalClient'), 
-            new \SoapParam($internalPort, 'InternalPort'), 
+            new \SoapParam($remoteHost, 'RemoteHost'),
+            new \SoapParam($remotePort, 'RemotePort'),
+            new \SoapParam($internalClient, 'InternalClient'),
+            new \SoapParam($internalPort, 'InternalPort'),
             new \SoapParam($protocol, 'Protocol'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
@@ -115,11 +105,11 @@ class WANIPv6Firewall1 extends fritzsoap
     public function addPinhole($remoteHost, $remotePort, $internalClient, $internalPort, $protocol, $leaseTime)
     {
         $result = $this->client->AddPinhole(
-            new \SoapParam($remoteHost, 'RemoteHost'), 
-            new \SoapParam($remotePort, 'RemotePort'), 
-            new \SoapParam($internalClient, 'InternalClient'), 
-            new \SoapParam($internalPort, 'InternalPort'), 
-            new \SoapParam($protocol, 'Protocol'), 
+            new \SoapParam($remoteHost, 'RemoteHost'),
+            new \SoapParam($remotePort, 'RemotePort'),
+            new \SoapParam($internalClient, 'InternalClient'),
+            new \SoapParam($internalPort, 'InternalPort'),
+            new \SoapParam($protocol, 'Protocol'),
             new \SoapParam($leaseTime, 'LeaseTime'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
@@ -143,7 +133,7 @@ class WANIPv6Firewall1 extends fritzsoap
     public function updatePinhole($uniqueID, $leaseTime)
     {
         $result = $this->client->UpdatePinhole(
-            new \SoapParam($uniqueID, 'UniqueID'), 
+            new \SoapParam($uniqueID, 'UniqueID'),
             new \SoapParam($leaseTime, 'NewLeaseTime'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;

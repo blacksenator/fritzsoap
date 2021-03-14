@@ -8,16 +8,6 @@ namespace blacksenator\fritzsoap;
  * according to:
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/x_myfritzSCPD.pdf
  *
- * With the instantiation of the class, all available
- * services of the addressed FRITZ!Box are determined.
- * The service parameters and available actions are
- * provided in a compressed form as XML and can be output
- * with getServiceDescription().
- * The matching SOAP client only needs to be called with
- * the name of the services <services name = "..."> and
- * gets the correct location and uri from the XML
- * (see getFritzBoxServices() for details)
- *
  * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
  * THIS FILE IS AUTOMATIC ASSEMBLED!
  * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
@@ -148,17 +138,17 @@ class x_myfritz extends fritzsoap
     public function setServiceByIndex($index, $enabled, $name, $scheme, $port, $uRLPath, $type, $iPv4Address, $iPv6Address, $iPv6InterfaceID, $mACAddress, $hostName)
     {
         $result = $this->client->SetServiceByIndex(
-            new \SoapParam($index, 'NewIndex'), 
-            new \SoapParam($enabled, 'NewEnabled'), 
-            new \SoapParam($name, 'NewName'), 
-            new \SoapParam($scheme, 'NewScheme'), 
-            new \SoapParam($port, 'NewPort'), 
-            new \SoapParam($uRLPath, 'NewURLPath'), 
-            new \SoapParam($type, 'NewType'), 
-            new \SoapParam($iPv4Address, 'NewIPv4Address'), 
-            new \SoapParam($iPv6Address, 'NewIPv6Address'), 
-            new \SoapParam($iPv6InterfaceID, 'NewIPv6InterfaceID'), 
-            new \SoapParam($mACAddress, 'NewMACAddress'), 
+            new \SoapParam($index, 'NewIndex'),
+            new \SoapParam($enabled, 'NewEnabled'),
+            new \SoapParam($name, 'NewName'),
+            new \SoapParam($scheme, 'NewScheme'),
+            new \SoapParam($port, 'NewPort'),
+            new \SoapParam($uRLPath, 'NewURLPath'),
+            new \SoapParam($type, 'NewType'),
+            new \SoapParam($iPv4Address, 'NewIPv4Address'),
+            new \SoapParam($iPv6Address, 'NewIPv6Address'),
+            new \SoapParam($iPv6InterfaceID, 'NewIPv6InterfaceID'),
+            new \SoapParam($mACAddress, 'NewMACAddress'),
             new \SoapParam($hostName, 'NewHostName'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;

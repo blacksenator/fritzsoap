@@ -3,40 +3,40 @@
 namespace blacksenator\fritzsoap;
 
 /**
-  * The class provides the base functions to read and
-  * manipulate data via TR-064 interface on FRITZ!Box
-  * router from AVM:
-  *
-  * With the instantiation of this class or descendants,
-  * all available services of the addressed FRITZ!Box
-  * are determined automatically.
-  * The service parameters and available actions are
-  * provided in a compressed form as XML and can be output
-  * with getServiceDescription().
-  * The matching SOAP client only needs to be called with
-  * the name of the services <services name = "..."> as
-  * class name and gets the correct location and uri from
-  * the XML (see getFritzBoxServices() for details)
-  *
-  * Example (get your avalaible services)
-  *   $fritzbox = new x_contact($url, $user, $password);
-  *   $services = $fritzbox->getServiceDescription();
-  *   $services->asXML('services.xml');
-  *
-  * Example (get info of a service):
-  *   $fritzbox = new x_voip($url, $user, $password);
-  *   $fritzbox->getClient();
-  *   $info = $fritzbox->getInfo()
-  *
-  * Example (get list of network devices)
-  *   $fritzbox = new hosts($url, $user, $password);
-  *   $fritzbox->getClient();
-  *   $meshList = $fritzbox->x_AVM_DE_GetMeshListPath();
-  *
-  * @author Volker Püschel <knuffy@anasco.de>
-  * @copyright Volker Püschel 2021
-  * @license MIT
- **/
+ * The class provides the base functions to read and
+ * manipulate data via TR-064 interface on FRITZ!Box
+ * router from AVM:
+ *
+ * With the instantiation of this class or descendants,
+ * all available services of the addressed FRITZ!Box
+ * are determined automatically.
+ * The service parameters and available actions are
+ * provided in a compressed form as XML and can be output
+ * with getServiceDescription().
+ * The matching SOAP client only needs to be called with
+ * the name of the services <services name = "..."> as
+ * class name and gets the correct location and uri from
+ * the XML (see getFritzBoxServices() for details)
+ *
+ * Example (get your avalaible services)
+ *   $fritzbox = new x_contact($url, $user, $password);
+ *   $services = $fritzbox->getServiceDescription();
+ *   $services->asXML('services.xml');
+ *
+ * Example (get info of a service):
+ *   $fritzbox = new x_voip($url, $user, $password);
+ *   $fritzbox->getClient();
+ *   $info = $fritzbox->getInfo()
+ *
+ * Example (get list of network devices)
+ *   $fritzbox = new hosts($url, $user, $password);
+ *   $fritzbox->getClient();
+ *   $meshList = $fritzbox->x_AVM_DE_GetMeshListPath();
+ *
+ * @author Volker Püschel <knuffy@anasco.de>
+ * @copyright Volker Püschel 2021
+ * @license MIT
+**/
 
 use \SimpleXMLElement;
 use blacksenator\fbvalidateurl\fbvalidateurl;
