@@ -4,7 +4,7 @@
 
 ## Purpose
 
-This class provides functions to read and manipulate data via TR-064 and UPnP (IGD) interfaces on FRITZ!Box routers from [AVM](https://en.avm.de/).
+This class provides functions to read and manipulate data via TR-064 and UPnP (IGD) interfaces on FRITZ!Box routers and FRITZ!Repeater from [AVM](https://en.avm.de/).
 For example, the FRITZ!Box 7590 provides **505** interfaces (**actions**) in **55 services**.
 
 For reference, it is highly recommended to consult the [information AVM provides for interfaces](https://avm.de/service/schnittstellen/)!
@@ -97,14 +97,7 @@ This group of ghosts includes the Control services, of which I found seven with 
 #### Other ghosts
 
 * any (has no actions - generic template?)
-* avmnexus
 * fritzbox (with FRITZ!OS 7.25 no longer available)
-* WANCommonIFC1
-* wancommonifconfig1
-* wandslifconfig1
-* WANDSLLinkC1
-* wandsllinkconfig1
-* WANIPConn1
 * WANIPv6Firewall1
 * x_hostfilter
 
@@ -169,7 +162,7 @@ $fritzbox->x_AVM_DE_DialNumber('030399760');
 
 If calling a class or its functions leads to an error, possible causes could be:
 
-* that your FRITZ!Box does not provide the service (range of functions depending on the FRITZ!Box model)
+* that your FRITZ!Box/FRITZ!Repeater does not provide the service (range of functions depending on the FRITZ!Box model)
 * your settings:
   * the lack of activation of certain functions in the FRITZ!Box (e.g. UPnP or USB remote access)
   * that the FRITZ!Box user does not have the appropriate rights (TR-064 access)

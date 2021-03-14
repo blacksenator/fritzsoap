@@ -560,7 +560,7 @@ class x_voip extends fritzsoap
     /**
      * x_AVM_DE_GetNumbers
      *
-     * get a XML list of your telephone numbers:
+     * get a XML list of your telephone numbers (MSN):
      * <?xml version="1.0"?>
      * <List>
      *     <Item>
@@ -689,9 +689,9 @@ class x_voip extends fritzsoap
     /**
      * x_AVM_DE_GetPhonePort
      *
-     * automatically generated; complete coding if necessary!
+     * return the phone device (e.g.: "DECT: Kitchen")
      *
-     * in: NewIndex (ui2)
+     * in: NewIndex (ui2) 1..n
      * out: NewX_AVM-DE_PhoneName (string)
      *
      * @param int $index
@@ -701,7 +701,7 @@ class x_voip extends fritzsoap
     {
         $result = $this->client->{'X_AVM-DE_GetPhonePort'}(
             new \SoapParam($index, 'NewIndex'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, sprintf('Could not get phone device %s from FRITZ!Box', $index))) {
             return;
         }
 
@@ -735,7 +735,7 @@ class x_voip extends fritzsoap
     /**
      * getVoIPCommonCountryCode
      *
-     * automatically generated; complete coding if necessary!
+     * returns country code setting (e.g. 0049)
      *
      * out: NewVoIPCountryCode (string)
      *
@@ -744,7 +744,7 @@ class x_voip extends fritzsoap
     public function getVoIPCommonCountryCode()
     {
         $result = $this->client->GetVoIPCommonCountryCode();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get country code from FRITZ!Box')) {
             return;
         }
 
@@ -754,7 +754,8 @@ class x_voip extends fritzsoap
     /**
      * x_AVM_DE_GetVoIPCommonCountryCode
      *
-     * automatically generated; complete coding if necessary!
+     * returns conutry code number (e.g. "49")
+     * and its prefix (e.g. "00")
      *
      * out: NewX_AVM-DE_LKZ (string)
      * out: NewX_AVM-DE_LKZPrefix (string)
@@ -764,7 +765,7 @@ class x_voip extends fritzsoap
     public function x_AVM_DE_GetVoIPCommonCountryCode()
     {
         $result = $this->client->{'X_AVM-DE_GetVoIPCommonCountryCode'}();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get country code from FRITZ!Box')) {
             return;
         }
 
@@ -774,7 +775,7 @@ class x_voip extends fritzsoap
     /**
      * setVoIPCommonCountryCode
      *
-     * automatically generated; complete coding if necessary!
+     * @see getVoIPCommonCountryCode
      *
      * in: NewVoIPCountryCode (string)
      *
@@ -785,7 +786,7 @@ class x_voip extends fritzsoap
     {
         $result = $this->client->SetVoIPCommonCountryCode(
             new \SoapParam($voIPCountryCode, 'NewVoIPCountryCode'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not set country code at FRITZ!Box')) {
             return;
         }
 
@@ -795,7 +796,7 @@ class x_voip extends fritzsoap
     /**
      * x_AVM_DE_SetVoIPCommonCountryCode
      *
-     * automatically generated; complete coding if necessary!
+     * @see x_AVM_DE_GetVoIPCommonCountryCode
      *
      * in: NewX_AVM-DE_LKZ (string)
      * in: NewX_AVM-DE_LKZPrefix (string)
@@ -809,7 +810,7 @@ class x_voip extends fritzsoap
         $result = $this->client->{'X_AVM-DE_SetVoIPCommonCountryCode'}(
             new \SoapParam($x_AVM_DE_LKZ, 'NewX_AVM-DE_LKZ'),
             new \SoapParam($x_AVM_DE_LKZPrefix, 'NewX_AVM-DE_LKZPrefix'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not set country code at FRITZ!Box')) {
             return;
         }
 
@@ -865,7 +866,7 @@ class x_voip extends fritzsoap
     /**
      * getVoIPCommonAreaCode
      *
-     * automatically generated; complete coding if necessary!
+     * returns area code (e.g. "030")
      *
      * out: NewVoIPAreaCode (string)
      *
@@ -874,7 +875,7 @@ class x_voip extends fritzsoap
     public function getVoIPCommonAreaCode()
     {
         $result = $this->client->GetVoIPCommonAreaCode();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get area code from FRITZ!Box')) {
             return;
         }
 
@@ -884,7 +885,8 @@ class x_voip extends fritzsoap
     /**
      * x_AVM_DE_GetVoIPCommonAreaCode
      *
-     * automatically generated; complete coding if necessary!
+     * returns area code number (e.g. "30")
+     * and its prefix (e.g. "0")
      *
      * out: NewX_AVM-DE_OKZ (string)
      * out: NewX_AVM-DE_OKZPrefix (string)
@@ -894,7 +896,7 @@ class x_voip extends fritzsoap
     public function x_AVM_DE_GetVoIPCommonAreaCode()
     {
         $result = $this->client->{'X_AVM-DE_GetVoIPCommonAreaCode'}();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get area code from FRITZ!Box')) {
             return;
         }
 
@@ -904,7 +906,7 @@ class x_voip extends fritzsoap
     /**
      * setVoIPCommonAreaCode
      *
-     * automatically generated; complete coding if necessary!
+     * @see getVoIPCommonAreaCode
      *
      * in: NewVoIPAreaCode (string)
      *
@@ -915,7 +917,7 @@ class x_voip extends fritzsoap
     {
         $result = $this->client->SetVoIPCommonAreaCode(
             new \SoapParam($voIPAreaCode, 'NewVoIPAreaCode'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not set area code at FRITZ!Box')) {
             return;
         }
 
@@ -925,7 +927,7 @@ class x_voip extends fritzsoap
     /**
      * x_AVM_DE_SetVoIPCommonAreaCode
      *
-     * automatically generated; complete coding if necessary!
+     * @see x_AVM_DE_GetVoIPCommonAreaCode
      *
      * in: NewX_AVM-DE_OKZ (string)
      * in: NewX_AVM-DE_OKZPrefix (string)
@@ -939,7 +941,7 @@ class x_voip extends fritzsoap
         $result = $this->client->{'X_AVM-DE_SetVoIPCommonAreaCode'}(
             new \SoapParam($x_AVM_DE_OKZ, 'NewX_AVM-DE_OKZ'),
             new \SoapParam($x_AVM_DE_OKZPrefix, 'NewX_AVM-DE_OKZPrefix'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not set area code at FRITZ!Box')) {
             return;
         }
 
