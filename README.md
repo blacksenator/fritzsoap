@@ -97,9 +97,9 @@ This group of ghosts includes the Control services, of which I found seven with 
 #### Other ghosts
 
 * any (has no actions - generic template?)
+* avmnexus
 * fritzbox (with FRITZ!OS 7.25 no longer available)
-* WANIPv6Firewall1
-* x_hostfilter
+* l2tpv3
 
 ## Requirements
 
