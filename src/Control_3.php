@@ -22,7 +22,7 @@ namespace blacksenator\fritzsoap;
 
 use blacksenator\fritzsoap\fritzsoap;
 
-class Control4 extends fritzsoap
+class Control_3 extends fritzsoap
 {
     const
         SERVICE_TYPE = 'urn:avm.de:service:AVM_ServerStatus:1',

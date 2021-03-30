@@ -4,9 +4,9 @@ namespace blacksenator\fritzsoap;
 
 /**
  * The class provides functions to read and manipulate
- * data via TR-064 interface on FRITZ!Box router from AVM.
+ * data via TR-064 interface on FRITZ!Box router from AVM:
  *
- * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/IGD2.pdf
+ * @see https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/IGD2.pdf
  *
  * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
  * THIS FILE IS AUTOMATIC ASSEMBLED!
@@ -21,11 +21,11 @@ namespace blacksenator\fritzsoap;
 
 use blacksenator\fritzsoap\fritzsoap;
 
-class WANDSLLinkC1 extends fritzsoap
+class WANDSLLinkC1_1 extends fritzsoap
 {
     const
         SERVICE_TYPE = 'urn:schemas-upnp-org:service:WANDSLLinkConfig:1',
-        CONTROL_URL  = '/igd2upnp/control/WANDSLLinkC1';
+        CONTROL_URL  = '/igdupnp/control/WANDSLLinkC1';
 
     /**
      * setDSLLinkType
@@ -42,7 +42,7 @@ class WANDSLLinkC1 extends fritzsoap
         $result = $this->client->SetDSLLinkType(
             new \SoapParam($linkType, 'NewLinkType'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
+            return null;
         }
 
         return $result;
@@ -121,7 +121,7 @@ class WANDSLLinkC1 extends fritzsoap
         $result = $this->client->SetDestinationAddress(
             new \SoapParam($destinationAddress, 'NewDestinationAddress'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
+            return null;
         }
 
         return $result;
@@ -161,7 +161,7 @@ class WANDSLLinkC1 extends fritzsoap
         $result = $this->client->SetATMEncapsulation(
             new \SoapParam($aTMEncapsulation, 'NewATMEncapsulation'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
+            return null;
         }
 
         return $result;
@@ -201,7 +201,7 @@ class WANDSLLinkC1 extends fritzsoap
         $result = $this->client->SetFCSPreserved(
             new \SoapParam($fCSPreserved, 'NewFCSPreserved'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
+            return null;
         }
 
         return $result;

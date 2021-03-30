@@ -22,7 +22,7 @@ namespace blacksenator\fritzsoap;
 
 use blacksenator\fritzsoap\fritzsoap;
 
-class Control1 extends fritzsoap
+class Control_2 extends fritzsoap
 {
     const
         SERVICE_TYPE = 'urn:schemas-upnp-org:service:ContentDirectory:1',
@@ -112,14 +112,14 @@ class Control1 extends fritzsoap
     public function browse($objectID, $browseFlag, $filter, $startingIndex, $requestedCount, $sortCriteria)
     {
         $result = $this->client->Browse(
-            new \SoapParam($objectID, 'ObjectID'),
-            new \SoapParam($browseFlag, 'BrowseFlag'),
-            new \SoapParam($filter, 'Filter'),
-            new \SoapParam($startingIndex, 'StartingIndex'),
-            new \SoapParam($requestedCount, 'RequestedCount'),
+            new \SoapParam($objectID, 'ObjectID'), 
+            new \SoapParam($browseFlag, 'BrowseFlag'), 
+            new \SoapParam($filter, 'Filter'), 
+            new \SoapParam($startingIndex, 'StartingIndex'), 
+            new \SoapParam($requestedCount, 'RequestedCount'), 
             new \SoapParam($sortCriteria, 'SortCriteria'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
+            return null;
         }
 
         return $result;
@@ -152,14 +152,14 @@ class Control1 extends fritzsoap
     public function search($containerID, $searchCriteria, $filter, $startingIndex, $requestedCount, $sortCriteria)
     {
         $result = $this->client->Search(
-            new \SoapParam($containerID, 'ContainerID'),
-            new \SoapParam($searchCriteria, 'SearchCriteria'),
-            new \SoapParam($filter, 'Filter'),
-            new \SoapParam($startingIndex, 'StartingIndex'),
-            new \SoapParam($requestedCount, 'RequestedCount'),
+            new \SoapParam($containerID, 'ContainerID'), 
+            new \SoapParam($searchCriteria, 'SearchCriteria'), 
+            new \SoapParam($filter, 'Filter'), 
+            new \SoapParam($startingIndex, 'StartingIndex'), 
+            new \SoapParam($requestedCount, 'RequestedCount'), 
             new \SoapParam($sortCriteria, 'SortCriteria'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
+            return null;
         }
 
         return $result;

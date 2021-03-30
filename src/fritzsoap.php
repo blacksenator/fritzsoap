@@ -154,30 +154,12 @@ class fritzsoap
     }
 
     /**
-     * assemblethe correct server address, depending on
-     * whether it is encrypted or not
-     *
-     * @param array $url
-     * @return void
-     */
-    private function assembleServerAdress(array $url)
-    {
-        if ($url['scheme'] == 'http') {
-            $this->serverAdress = 'http://' . $url['host'] . ':' . self::HTTP_PORT;
-        } elseif ($this->url['scheme'] == 'https') {
-            $this->serverAdress = 'https://' . $url['host'] . ':' . self::HTTPS_PORT;
-        } else {
-            throw new \Exception ('Could not assemble valid server address!');
-        }
-    }
-
-    /**
-     * get all available services and their actions from the FRITZ!Box
-     * in a condenzed XML:
+     * return all available services (in ascending order by name)
+     * and their actions from the FRITZ!Box in a condenzed XML:
      *
      *  <?xml version="1.0"?>
      *  <fritzsoap>
-     *      <services name = "x_contact">
+     *      <services name="x_contact">
      *         <service>urn:dslforum-org:service:X_AVM-DE_OnTel:1</service>
      *         <location>/upnp/control/x_contact</location>
      *         <actions>
@@ -189,28 +171,102 @@ class fritzsoap
      *      ...
      *  </fritzsoap>
      *
+     * or false if no services are identified
+     *
      * @param bool $detailed
      * @return SimpleXMLElement|bool
      */
     protected function getFritzBoxServices($detailed = false)
     {
+        if ($services = $this->getServices($detailed)) {
+            usort($services, [$this, 'sortServices']);              // using callback function $his->sortServices
+            $fritzsoap = new SimpleXMLElement('<fritzsoap />');
+            foreach ($services as $service) {
+                $this->adoptXMLNode($fritzsoap, $service);
+            }
+
+            return $fritzsoap;
+        }
+
+        return false;
+    }
+
+    /**
+     * errorHandling
+     *
+     * returns true if an error had to be handled, otherwise false
+     *
+     * @param mixed $result
+     * @param string $message
+     * @return bool
+     */
+    protected function errorHandling($result, string $message = '')
+    {
+        $msg = $message ?? 'Could not ... from/to FRITZ!Box';           // we do not better know ...
+
+        if (is_soap_fault($result)) {
+            $this->getErrorData($result);
+            error_log(sprintf("Error: %s (%s)! %s", $this->errorCode, $this->errorText, $msg));
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * converting an array to XML
+     *
+     * currently only used in hosts.php and
+     * possibly in the future in other classes
+     *
+     * @see top voted answer to https://stackoverflow.com/questions/1397036/how-to-convert-array-to-simplexml
+     *
+     * @param array $data
+     * @param SimpleXMLElement $xmlData
+     * @return SimpleXMLElement $xmlData
+     */
+    protected function arrayToXML($data, &$xmlData)
+    {
+        foreach ($data as $key => $value) {
+            if (is_numeric($key)) {
+                $key = 'item'.$key;                     //dealing with <0/>..<n/> issues
+            }
+            if (is_array($value)) {
+                $subnode = $xmlData->addChild($key);
+                $this->arrayToXML($value, $subnode);
+            } else {
+                $xmlData->addChild((string)$key, htmlspecialchars((string)$value));
+            }
+        }
+
+        return $xmlData;
+    }
+
+    /**
+     * return service data from description files
+     *
+     * @param bool $detailed
+     * @param array of SimpleXMLElement $services
+     */
+    private function getServices($detailed)
+    {
+        $services = [];
         $stateTable = [];
-        $fritzsoap = new SimpleXMLElement('<fritzsoap />');
         foreach (self::SERVICE_DESCRIPTIONS as $description) {
             $serviceHeaders = $this->getDescriptionXML($this->serverAdress . '/' . $description, 'service');
             foreach ($serviceHeaders as $serviceHeader) {
-                $services = $fritzsoap->addChild('services');
+                $service = new SimpleXMLElement('<services />');
                 $name = explode('/', $serviceHeader->controlURL);
-                $services->addAttribute('name', $name[3]);
-                $services->addAttribute('origin', $description);
-                $services->addChild('serviceType', (string)$serviceHeader->serviceType);
-                $services->addChild('controlURL', (string)$serviceHeader->controlURL);
+                $service->addAttribute('name', $name[3]);
+                $service->addAttribute('origin', $description);
+                $service->addChild('serviceType', (string)$serviceHeader->serviceType);
+                $service->addChild('controlURL', (string)$serviceHeader->controlURL);
                 $actionsDesc = $this->getDescriptionXML($this->serverAdress . $serviceHeader->SCPDURL, 'action');
                 if ($detailed) {
                     $stateVariables = $this->getDescriptionXML($this->serverAdress . $serviceHeader->SCPDURL, 'stateVariable');
                     $stateTable = $this->getStateTable($stateVariables);
                 }
-                $actions = $services->addChild('actions');
+                $actions = $service->addChild('actions');
                 foreach ($actionsDesc as $actionDesc) {
                     if (!$detailed) {
                         $action = $actions->addChild('action', (string)$actionDesc->name);
@@ -229,14 +285,43 @@ class fritzsoap
                         }
                     }
                 }
+            $services[] = $service;
             }
         }
-        $result = $fritzsoap->xpath('//services');
-        if (!count($result)) {
+        if (!count($services)) {
             return false;
         }
 
-        return $fritzsoap;
+        return $services;
+    }
+
+    /**
+     * sorting services by name
+     *
+     * @param string $t1
+     * @param string $t2
+     * @return int
+     */
+    private function sortServices($t1, $t2) {
+        return strcasecmp($t1['name'], $t2['name']);
+    }
+
+    /**
+     * assemble the correct server address, depending on
+     * whether it is encrypted or not
+     *
+     * @param array $url
+     * @return void
+     */
+    private function assembleServerAdress(array $url)
+    {
+        if ($url['scheme'] == 'http') {
+            $this->serverAdress = 'http://' . $url['host'] . ':' . self::HTTP_PORT;
+        } elseif ($this->url['scheme'] == 'https') {
+            $this->serverAdress = 'https://' . $url['host'] . ':' . self::HTTPS_PORT;
+        } else {
+            throw new \Exception ('Could not assemble valid server address!');
+        }
     }
 
     /**
@@ -306,60 +391,24 @@ class fritzsoap
      * @param object $result
      * @return void
      */
-    protected function getErrorData($result)
+    private function getErrorData($result)
     {
         $this->errorCode = $result->detail->UPnPError->errorCode ?? $result->faultcode;
         $this->errorText = $result->detail->UPnPError->errorDescription ?? $result->faultstring;
     }
 
     /**
-     * errorHandling
+     * Attach xml element to parent
+     * https://stackoverflow.com/questions/4778865/php-simplexml-addchild-with-another-simplexmlelement
      *
-     * returns true if an error had to be handled, otherwise false
-     *
-     * @param mixed $result
-     * @param string $message
-     * @return bool
+     * @param SimpleXMLElement $to
+     * @param SimpleXMLElement $from
+     * @return void
      */
-    protected function errorHandling($result, string $message = '')
+    private function adoptXMLNode(SimpleXMLElement $to, SimpleXMLElement $from)
     {
-        $msg = $message ?? 'Could not ... from/to FRITZ!Box';           // we do not better know ...
-
-        if (is_soap_fault($result)) {
-            $this->getErrorData($result);
-            error_log(sprintf("Error: %s (%s)! %s", $this->errorCode, $this->errorText, $msg));
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * converting an array to XML
-     *
-     * currently only used in hosts.php and
-     * possibly in the future in other classes
-     *
-     * @see top voted answer to https://stackoverflow.com/questions/1397036/how-to-convert-array-to-simplexml
-     *
-     * @param array $data
-     * @param SimpleXMLElement $xmlData
-     * @return SimpleXMLElement $xmlData
-     */
-    protected function arrayToXML($data, &$xmlData)
-    {
-        foreach ($data as $key => $value) {
-            if (is_numeric($key)) {
-                $key = 'item'.$key;                     //dealing with <0/>..<n/> issues
-            }
-            if (is_array($value)) {
-                $subnode = $xmlData->addChild($key);
-                $this->arrayToXML($value, $subnode);
-            } else {
-                $xmlData->addChild((string)$key, htmlspecialchars((string)$value));
-            }
-        }
-
-        return $xmlData;
+        $toDom = dom_import_simplexml($to);
+        $fromDom = dom_import_simplexml($from);
+        $toDom->appendChild($toDom->ownerDocument->importNode($fromDom, true));
     }
 }

@@ -22,7 +22,7 @@ namespace blacksenator\fritzsoap;
 
 use blacksenator\fritzsoap\fritzsoap;
 
-class Control6 extends fritzsoap
+class Control_5 extends fritzsoap
 {
     const
         SERVICE_TYPE = 'urn:schemas-upnp-org:service:ConnectionManager:1',
@@ -89,7 +89,7 @@ class Control6 extends fritzsoap
         $result = $this->client->GetCurrentConnectionInfo(
             new \SoapParam($connectionID, 'ConnectionID'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
+            return null;
         }
 
         return $result;

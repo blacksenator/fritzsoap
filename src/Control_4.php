@@ -22,7 +22,7 @@ namespace blacksenator\fritzsoap;
 
 use blacksenator\fritzsoap\fritzsoap;
 
-class Control7 extends fritzsoap
+class Control_4 extends fritzsoap
 {
     const
         SERVICE_TYPE = 'urn:microsoft.com:service:X_MS_MediaReceiverRegistrar:1',
@@ -44,7 +44,7 @@ class Control7 extends fritzsoap
         $result = $this->client->IsAuthorized(
             new \SoapParam($deviceID, 'DeviceID'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
+            return null;
         }
 
         return $result;
@@ -66,7 +66,7 @@ class Control7 extends fritzsoap
         $result = $this->client->IsValidated(
             new \SoapParam($deviceID, 'DeviceID'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
+            return null;
         }
 
         return $result;

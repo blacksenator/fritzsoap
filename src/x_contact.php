@@ -14,6 +14,11 @@ namespace blacksenator\fritzsoap;
  * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
  * +++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
+ * In addition to the designated functions for each action,
+ * this class contains further functions:
+ * - newContact() delivers a xml phonebook contact
+ * - setContact() uses newcontact() and setphonebookEntry()
+ *
  * @author Volker Püschel <knuffy@anasco.de>
  * @copyright Volker Püschel 2019 - 2021
  * @license MIT
@@ -428,9 +433,9 @@ class x_contact extends fritzsoap
      * in: NewPhonebookEntryID (ui4)
      * in: NewPhonebookEntryData (string)
      *
+     * @param string $phonebookEntryData
      * @param int $phonebookID
      * @param int $phonebookEntryID  <uniqueid> if you want to overwrite an existing contact
-     * @param string $phonebookEntryData
      * @return void
      */
     public function setPhonebookEntry($phonebookEntryData, $phonebookID = 0, $phonebookEntryID = '')
@@ -444,56 +449,6 @@ class x_contact extends fritzsoap
         }
 
         return $result;
-    }
-
-        /**
-     * get a xml contact structure:
-     *
-     * <?xml version="1.0" encoding="utf-8"?>
-     * <entry">
-     *     <contact>
-     *         <person>
-     *             <realName>$caller</realName>
-     *         </person>
-     *         <telephony>
-     *             <number id="0" type=$type>$number</number>
-     *         </telephony>
-     *     </contact>
-     * </entry>
-     *
-     * @param string $name
-     * @param string $number
-     * @param string $type phone type (home, work, mobile, fax_work)
-     * @return string XML
-     */
-    public function newContact($name, $number, $type): string
-    {
-        $envelope = new simpleXMLElement('<?xml version="1.0" encoding="utf-8"?><entry />');
-
-        $contact = $envelope->addChild('contact');
-        $contact->addChild('category', '0');
-
-        $person = $contact->addChild('person');
-        $person->addChild('realName', $name);
-
-        $telephony = $contact->addChild('telephony');
-        $telephony->addAttribute('nid', '1');
-
-        $phone = $telephony->addChild('number', $number);
-        $phone->addAttribute('type', $type);
-        $phone->addAttribute('prio', '0');
-        $phone->addAttribute('id', '0');
-
-        $contact->addChild('services');
-        $contact->addChild('setup');
-
-        $features = $contact->addChild('features');
-        $features->addAttribute('doorphone', '0');
-
-        $contact->addChild('mod_time', (string)time());
-        $contact->addChild('uniqueid');
-
-        return $envelope->asXML();
     }
 
     /**
@@ -831,4 +786,73 @@ class x_contact extends fritzsoap
         return $result;
     }
 
+// +++ Additional functions not directly related to an action +++
+
+    /**
+     * return a minimal viable xml contact structure
+     * according to AVM phonebook requirements:
+     *
+     * <?xml version="1.0" encoding="utf-8"?>
+     * <entry">
+     *     <contact>
+     *         <person>
+     *             <realName>$caller</realName>
+     *         </person>
+     *         <telephony>
+     *             <number id="0" type=$type>$number</number>
+     *         </telephony>
+     *         ...
+     *     </contact>
+     * </entry>
+     *
+     * type='other' apears as "sonstige"
+     *
+     * @param string $name
+     * @param string $number
+     * @param string $type phone type (home, work, mobile, fax_work)
+     * @return string XML
+     */
+    public function newContact($name, $number, $type = 'other'): string
+    {
+        $envelope = new simpleXMLElement('<?xml version="1.0" encoding="utf-8"?><entry />');
+
+        $contact = $envelope->addChild('contact');
+        $contact->addChild('category', '0');
+
+        $person = $contact->addChild('person');
+        $person->addChild('realName', $name);
+
+        $telephony = $contact->addChild('telephony');
+        $telephony->addAttribute('nid', '1');
+
+        $phone = $telephony->addChild('number', $number);
+        $phone->addAttribute('type', $type);
+        $phone->addAttribute('prio', '0');
+        $phone->addAttribute('id', '0');
+
+        $contact->addChild('services');
+        $contact->addChild('setup');
+
+        $features = $contact->addChild('features');
+        $features->addAttribute('doorphone', '0');
+
+        $contact->addChild('mod_time', (string)time());
+        $contact->addChild('uniqueid');
+
+        return $envelope->asXML();
+    }
+
+    /**
+     * set a new minimal contact in a phonebook
+     *
+     * @param int $phonebookID
+     * @param string $name <realName>
+     * @param string $number <number>
+     * @param string $type <type='other'>
+     * @return void
+     */
+    public function setContact($phonebookID, $name, $number, $type = null)
+    {
+        $this->setPhonebookEntry($this->newContact($name, $number, $type), $phonebookID);
+    }
 }

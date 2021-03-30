@@ -4,9 +4,9 @@ namespace blacksenator\fritzsoap;
 
 /**
  * The class provides functions to read and manipulate
- * data via TR-064 interface on FRITZ!Box router from AVM.
+ * data via TR-064 interface on FRITZ!Box router from AVM:
  *
- * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/IGD1.pdf
+ * @see https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/IGD1.pdf
  *
  * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
  * THIS FILE IS AUTOMATIC ASSEMBLED!
@@ -21,7 +21,7 @@ namespace blacksenator\fritzsoap;
 
 use blacksenator\fritzsoap\fritzsoap;
 
-class WANCommonIFC1 extends fritzsoap
+class WANCommonIFC1_1 extends fritzsoap
 {
     const
         SERVICE_TYPE = 'urn:schemas-upnp-org:service:WANCommonInterfaceConfig:1',
