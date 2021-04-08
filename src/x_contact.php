@@ -284,8 +284,8 @@ class x_contact extends fritzsoap
     /**
      * getPhonebook
      *
-     * delivers the content of a designated phonebook
-     * requires a client of 'x_contact'
+     * returns the content of a phonebook as a
+     * SimpleXMLElelment object
      *
      * in: NewPhonebookID (ui2)
      * out: NewPhonebookName (string)
@@ -315,9 +315,8 @@ class x_contact extends fritzsoap
         if ($this->errorHandling($result, sprintf("Could not get the phonebook %s", $phonebookID))) {
             return false;
         }
-        $phonebook = simplexml_load_file($result['NewPhonebookURL']);
 
-        return $phonebook->asXML();;
+        return simplexml_load_file($result['NewPhonebookURL']);
     }
 
     /**
@@ -787,6 +786,40 @@ class x_contact extends fritzsoap
     }
 
 // +++ Additional functions not directly related to an action +++
+
+    /**
+     * return a simple array of all numbers from a designated
+     * phone book according to $types - if you want only numbers
+     * of a type: e.g. home, work, mobil, fax, fax_work
+     * Internal numbers beginning with '*' or '#' are skipped
+     *
+     * @param SimpleXMLElement $phoneBook
+     * @param array $types
+     * @return array $numbers
+     */
+    public function getListOfPhoneNumbers($phoneBook, $types = [])
+    {
+        $numbers = [];
+        foreach ($phoneBook->phonebook->contact as $contact) {
+            foreach ($contact->telephony->number as $number) {
+                if ((substr($number, 0, 1) == '*') || (substr($number, 0, 1) == '#')) {
+                    continue;
+                }
+                if (count($types)) {
+                    if (in_array($number['type'], $types)) {
+                        $phoneNumber = (string)$number[0];
+                    } else {
+                        continue;
+                    }
+                } else {
+                    $phoneNumber = (string)$number[0];
+                }
+                $numbers[] = $phoneNumber;
+            }
+        }
+
+        return $numbers;
+    }
 
     /**
      * return a minimal viable xml contact structure

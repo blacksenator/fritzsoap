@@ -144,7 +144,7 @@ $services->asXML('services.xml');
 ```
 
 **Hint:** The function `getServiceDescription()` is available in all classes!
-You can also get a more detailed structure with `getServiceDescription(true)`. In this case, the information from the FRITZ!Box is gathered again and all parameters of the actions are also output, as well as the file name of the XML from which the information originates.
+You can also get a more detailed structure with `getServiceDescription(true)`. In this case, all parameters of the actions are also output, as well as the file name of the XML from which the information originates.
 Example output:
 
 ![alt text](assets/detail_xml.jpg "details about services and actions")
