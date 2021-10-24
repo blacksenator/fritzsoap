@@ -25,12 +25,10 @@ namespace blacksenator\fritzsoap;
  *
  * Example (get info of a service):
  *   $fritzbox = new x_voip($url, $user, $password);
- *   $fritzbox->getClient();
  *   $info = $fritzbox->getInfo()
  *
  * Example (get list of network devices)
  *   $fritzbox = new hosts($url, $user, $password);
- *   $fritzbox->getClient();
  *   $meshList = $fritzbox->x_AVM_DE_GetMeshListPath();
  *
  * @author Volker Püschel <knuffy@anasco.de>
@@ -96,12 +94,25 @@ class fritzsoap
         $class = $this->getClassName()['class'];
         $this->serviceType = $class::SERVICE_TYPE;
         $this->controlURL = $class::CONTROL_URL;
+        $this->getClient();
     }
 
     /**
      * get a new SOAP client
      *
-     * @see https://avm.de/service/schnittstellen
+     * AVM Documentation about SID:
+     * "Once it has been assigned, a session ID is valid
+     * for 20 minutes. The validity is extended automatically
+     * whenever access to the FRITZ!Box is active.
+     * ...
+     * A session can be ended at any time by deleting the session
+     * ID, even before the automatic 10-minute timeout kicks in."
+     *
+     * You must therefore keep in mind that if programs have been
+     * running for a long time, the SID may need to be renewed by
+     * calling this function
+     *
+     * @see https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/AVM_Technical_Note_-_Session_ID_english_2021-05-03.pdf
      *
      * @return void
      */
