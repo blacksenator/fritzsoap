@@ -313,7 +313,8 @@ class fritzsoap
      * @param string $t2
      * @return int
      */
-    private function sortServices($t1, $t2) {
+    private function sortServices($t1, $t2)
+    {
         return strcasecmp($t1['name'], $t2['name']);
     }
 

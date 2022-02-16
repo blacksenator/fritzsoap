@@ -1,6 +1,6 @@
 # fritzsoap
 
-**Attention!** Since version 2.x class structure changed and therefore a new instantiation of the classes and their SOAP-clients (see [Usage](#usage)) is required.
+**First things first!** Since version 2.x class structure changed and therefore a new instantiation of the classes and their SOAP-clients (see [Usage](#usage)) is required.
 
 ## Purpose
 
@@ -16,7 +16,8 @@ This library was created to make the large number of interfaces as easy to use a
 You just have to take care of little to perform a desired SOAP-action. The matching SOAP client only needs to be called with the instantiation of its class and gets automatically the correct **location** (serviceType) and **uri** (locationURL).
 So you just need to know what **action** you need and in what **service** it is provided. Than you know which **class** you need to instantiate and how the function is namened - that is the difficult part!
 
-Would you like to get the current list of callers?
+**Would you like to get the current list of callers?**
+In this particular case the required action is provided by the x_voip service. So therefore the coding is like:
 
 ```PHP
 $fritzbox = new x_contact($url, $user, $password);
@@ -28,13 +29,16 @@ That´s all! **Simple, convenient, straightforward!**
 `fritzsoap.php` is the main class providing general basic objects. All other subclasses are extensions of this class. You usually use this subclasses. **Each subclass refers to exactly one service!** The naming is identical. There is also one function for each action. The **function name matches the name of the action** - following php coding rules: first char lower case and no hyphens!
 For example, the `X_AVM-DE_GetIPTVOptimized` **action** is called with the `x_AVM_DE_GetIPTVOptimized` **function**.
 
-In addition, this class uses [fbvalidateurl](https://packagist.org/packages/blacksenator/fbvalidateurl). So you do not have to worry about whether you enter the router address with or without scheme (`http://`/`https://`), with hostname (`fritz.box`) or IP (`192.168.178.1`).
+### Useful dependency
+
+In addition, this repository uses [fbvalidateurl](https://packagist.org/packages/blacksenator/fbvalidateurl) (is automatically installed by Composer). So you do not have to worry about whether you enter the router address with or without scheme (`http://`/`https://`), with hostname (`fritz.box`) or IP (`192.168.178.1`).
 Based on the validated URL, the **correct SOAP port** is also determined automatically!
 
 ### Refreshing SID
 
-Keep in mind that if programs have been running for a long time, the SID may need to be renewed by calling the `getClient()` function!
-So what does long time mean? The [AVM documentation](https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/AVM_Technical_Note_-_Session_ID_english_2021-05-03.pdf) is also imprecise here: "...*Once it has been assigned, a session ID is valid for **20** minutes. The validity is extended automatically whenever access to the FRITZ!Box is active ... A session can be ended  at any time by deleting the session ID, even before the automatic **10**-minute timeout kicks in*..."
+Keep in mind that if programs have been running for a longer time, the SID may need to be renewed by calling the `getClient()` function!
+So what does long time mean?
+The [AVM documentation](https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/AVM_Technical_Note_-_Session_ID_english_2021-05-03.pdf) is also imprecise here: "...*Once it has been assigned, a session ID is valid for **20** minutes. The validity is extended automatically whenever access to the FRITZ!Box is active*..." and in the same document: "...*A session can be ended at any time by deleting the session ID, even before the automatic **10**-minute timeout kicks in*..."
 
 ## Genesis
 
@@ -97,16 +101,23 @@ But as I said before:
 ### Ghosts
 
 Automatic generation has also originate services that are not or not clearly [documented by AVM](https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/AVM_TR-064_overview.pdf#page=2). Accordingly, these classes have **no link to a reference document in the class comment!**
+
 These presumably refer to specifications from Open Connectivity Foundation (aka UPnP-Forum). But parsing that or keeping track of it manually is far beyond my capabilities.
+
+In all other cases you will find a link like this:
+
+```PHP
+ * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/*.pdf
+```
 
 #### AURA (AVM USB Remote Access)
 
-So far there is one exception: `AURA`. Through a [thread in the IP Phone Forum](https://www.ip-phone-forum.de/threads/v0-4-1-30-09-2009-fritzboxnet-net-bibliothek-f%C3%BCr-fritz-box.190718/) I learned how this service works. The six actions of this service are coded and an [unofficial documentation](docs/auraSCPD.pdf) can be found in the `/docs` folder.
+There is one exception so far: `AURA`. Through a [thread in the IP Phone Forum](https://www.ip-phone-forum.de/threads/v0-4-1-30-09-2009-fritzboxnet-net-bibliothek-f%C3%BCr-fritz-box.190718/) I learned how this service works. The six actions of this service are coded and an [unofficial documentation](docs/auraSCPD.pdf) can be found in the `/docs` folder.
 You must have activated the USB remote access function in the FRITZ!Box to be able to access this service!
 
 #### Control
 
-This group of ghosts includes the `Control` services, of which I found seven with different serviceType and controlURL. The services are therefore mapped accordingly in the classes **Control_1** to **Control_7**.
+The group of ghosts includes the `Control` services, of which I found seven with different serviceType and controlURL. The services are therefore mapped accordingly in the classes **Control_1** to **Control_7**.
 
 #### Other ghosts
 
@@ -150,10 +161,10 @@ $services = $fritzbox->getServiceDescription();
 $services->asXML('services.xml');
 ```
 
-**Hint:** The function `getServiceDescription()` is available in all classes!
+**Hint:** The function `getServiceDescription()` is available in all classes due to inheritance!
 You can also get a more detailed structure with `getServiceDescription(true)`. In this case, the information from the FRITZ!Box is gathered again and all parameters of the actions are also output, as well as the file name of the XML from which the information originates.
-Example output:
 
+Example output (clipping):
 ![alt text](assets/detail_xml.jpg "details about services and actions")
 
 Example to get a list of all your network devices:
@@ -181,7 +192,7 @@ If calling a class or its functions leads to an error, possible causes could be:
 
 ## Wishes
 
-First of all, it has to be said that the TR-064 interface is a great thing. Although around 500 actions give the impression that almost everything of the FRITZ!Box can be output or changed via SOAP, this is of course not true!
+First of all, it has to be said that the TR-064 interface is a great thing. Although around 500 actions give **the impression that almost everything of the FRITZ!Box can be output or changed via SOAP, this is of course not true**!
 From my point of view, Actions (functions) are missing for some interesting output and tasks. Just to highlight a few:
 
 * telephony
@@ -201,4 +212,4 @@ This script is released under MIT license.
 
 ## Author
 
-Copyright (c) 2019 - 2021 Volker Püschel
+Copyright (c) 2019 - 2022 Volker Püschel

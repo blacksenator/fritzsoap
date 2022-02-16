@@ -822,8 +822,7 @@ class x_contact extends fritzsoap
     }
 
     /**
-     * return a minimal viable xml contact structure
-     * according to AVM phonebook requirements:
+     * return a minimal viable xml contact structure according to AVM phonebook requirements:
      *
      * <?xml version="1.0" encoding="utf-8"?>
      * <entry">
