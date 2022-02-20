@@ -5,10 +5,10 @@
 ## Purpose
 
 This class provides functions to read and manipulate data via TR-064 and UPnP (IGD) interfaces on FRITZ!Box routers and FRITZ!Repeater from [AVM](https://en.avm.de/).
-For example, the FRITZ!Box 7590 provides **505** interfaces (**actions**) in **55 services**.
+For example, the FRITZ!Box 7590 provides over **500** interfaces (**actions**) in more than **50 services**.
 
 For reference, it is highly recommended to consult the [information AVM provides for interfaces](https://avm.de/service/schnittstellen/)!
-Despite the large number of actions, not everything that is displayed or parameterized via the FRITZ!OS GUI can be queried or adapted via these interfaces.
+Despite the large number of actions, not everything that is displayed or parameterized via the FRITZ!OS GUI can be queried or adapted via these interfaces (see [Wishes](#wishes)).
 This library was created to make the large number of interfaces as easy to use as possible. **This library makes use of the fact that the available interfaces are declared by each FRITZ!Box itself with descriptive XML files. So there is no need to program something that is already made available in machine-readable form.**
 
 ## Excerpt
@@ -17,7 +17,7 @@ You just have to take care of little to perform a desired SOAP-action. The match
 So you just need to know what **action** you need and in what **service** it is provided. Than you know which **class** you need to instantiate and how the function is namened - that is the difficult part!
 
 **Would you like to get the current list of callers?**
-In this particular case the required action is provided by the x_voip service. So therefore the coding is like:
+In this particular case the required action `GetCallList` is provided by the `x_contact` service. So therefore the coding is like:
 
 ```PHP
 $fritzbox = new x_contact($url, $user, $password);
@@ -26,7 +26,7 @@ $callList = $fritzbox->getCallList();
 
 That´s all! **Simple, convenient, straightforward!**
 
-`fritzsoap.php` is the main class providing general basic objects. All other subclasses are extensions of this class. You usually use this subclasses. **Each subclass refers to exactly one service!** The naming is identical. There is also one function for each action. The **function name matches the name of the action** - following php coding rules: first char lower case and no hyphens!
+The file `fritzsoap.php` is the meta class providing general basic objects. All other files are subclasses as descendants of this meta class. **Each subclass refers to exactly one service!** The naming is identical. In every particular class there is also one function for each action! The **function name matches the name of the action** - following php coding rules: first char lower case and no hyphens!
 For example, the `X_AVM-DE_GetIPTVOptimized` **action** is called with the `x_AVM_DE_GetIPTVOptimized` **function**.
 
 ### Useful dependency
@@ -54,11 +54,12 @@ If, contrary to expectations, you receive services with `getServiceDescription(t
 
 ### Completion
 
-Round about 5% to 10% of the actions are reviewed and coding is ready to use. If so, you will find in the class header comment:
+Round about 15% of the actions are reviewed and coding is ready to use. If so, you will find in the class header comment either a disclaimer:
 `THIS FILE IS AUTOMATIC ASSEMBLED BUT PARTLY REVIEWED!`
-In all other cases:
+or even nothing like this.
+In all other cases you will find a disclaimer:
 `THIS FILE IS AUTOMATIC ASSEMBLED!`
-if this class is still generic.
+if this class is still generic and no single function is reviewed.
 
 If no coding has been reviewed for your desired action in this class - which is probably the case - the existing examples should show how easy it is to complete the code of that function for your desired action (**contributions to extend this class are highly appreciated!**).
 In about half of the cases (if there are no input parameters), it is sufficient to adapt the message for a possible error, since the actions mainly provide arrays with return values that can be further processed by the calling program.
@@ -123,7 +124,7 @@ The group of ghosts includes the `Control` services, of which I found seven with
 
 * `any` (has no actions - generic template?)
 * `avmnexus`
-* `fritzbox` (with FRITZ!OS 7.25 no longer available)
+* `fritzbox` (with FRITZ!OS 7.25 no longer existend in the description XML but recently still available)
 * `l2tpv3`
 
 ## Requirements
@@ -193,18 +194,19 @@ If calling a class or its functions leads to an error, possible causes could be:
 ## Wishes
 
 First of all, it has to be said that the TR-064 interface is a great thing. Although around 500 actions give **the impression that almost everything of the FRITZ!Box can be output or changed via SOAP, this is of course not true**!
-From my point of view, Actions (functions) are missing for some interesting output and tasks. Just to highlight a few:
+From my point of view, actions (functions) are missing for some interesting output and tasks. Just to highlight a few:
 
 * telephony
   * disconnect inbound calls
 * parental controls
-  * get connected devices
-  * change filters of devices
-  * get ticket list
-  * refresh ticket list
+  * get connected devices with their profile
+  * change filters/profile of devices
+  * get ticket list as array with state
 * USB devices
-  * get connected devices
-  * disconnect/reconnect devices
+  * get connected memory devices
+  * disconnect/reconnect those devices
+
+Apart from that, there are a number of actions where it is unclear which value is to be passed as input, or there is no action that provides the input parameter. Last but not least, there are cases where a get-action returns a value (e.g. `NewDeviceHandle`) that is obviously expected as input by the next action `getDeviceByHandle()` - but is not accepted at all.
 
 ## License
 

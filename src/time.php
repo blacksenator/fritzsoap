@@ -9,13 +9,13 @@ namespace blacksenator\fritzsoap;
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/timeSCPD.pdf
  *
  * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
- * THIS FILE IS AUTOMATIC ASSEMBLED!
+ * THIS FILE IS AUTOMATIC ASSEMBLED BUT PARTLY REVIEWED!
  * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
  * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
  * +++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
  * @author Volker Püschel <knuffy@anasco.de>
- * @copyright Volker Püschel 2019 - 2021
+ * @copyright Volker Püschel 2022
  * @license MIT
 **/
 
@@ -30,7 +30,7 @@ class time extends fritzsoap
     /**
      * getInfo
      *
-     * automatically generated; complete coding if necessary!
+     * get time data info
      *
      * out: NewNTPServer1 (string)
      * out: NewNTPServer2 (string)
@@ -46,7 +46,7 @@ class time extends fritzsoap
     public function getInfo()
     {
         $result = $this->client->GetInfo();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get time info from FRITZ!Box')) {
             return;
         }
 
@@ -76,5 +76,4 @@ class time extends fritzsoap
 
         return $result;
     }
-
 }

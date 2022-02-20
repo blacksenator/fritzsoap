@@ -9,13 +9,13 @@ namespace blacksenator\fritzsoap;
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/x_auth.pdf
  *
  * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
- * THIS FILE IS AUTOMATIC ASSEMBLED!
+ * THIS FILE IS AUTOMATIC ASSEMBLED BUT PARTLY REVIEWED!
  * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
  * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
  * +++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
  * @author Volker Püschel <knuffy@anasco.de>
- * @copyright Volker Püschel 2019 - 2021
+ * @copyright Volker Püschel 2022
  * @license MIT
 **/
 
@@ -30,7 +30,7 @@ class x_auth extends fritzsoap
     /**
      * getInfo
      *
-     * automatically generated; complete coding if necessary!
+     * returns info
      *
      * out: NewEnabled (boolean)
      *
@@ -39,7 +39,7 @@ class x_auth extends fritzsoap
     public function getInfo()
     {
         $result = $this->client->GetInfo();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get info from FRITZ!Box')) {
             return;
         }
 
@@ -49,7 +49,7 @@ class x_auth extends fritzsoap
     /**
      * getState
      *
-     * automatically generated; complete coding if necessary!
+     * return state
      *
      * out: NewState (string)
      *
@@ -58,7 +58,7 @@ class x_auth extends fritzsoap
     public function getState()
     {
         $result = $this->client->GetState();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get state from FRITZ!Box')) {
             return;
         }
 
@@ -88,5 +88,4 @@ class x_auth extends fritzsoap
 
         return $result;
     }
-
 }

@@ -197,7 +197,6 @@ class x_filelinks extends fritzsoap
             return;
         }
 
-        return file_get_contents($this->serverAdress . $result);
+        return file_get_contents($this->fritzBoxURL . $result);
     }
-
 }

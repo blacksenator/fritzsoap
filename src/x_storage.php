@@ -15,7 +15,7 @@ namespace blacksenator\fritzsoap;
  * +++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
  * @author Volker Püschel <knuffy@anasco.de>
- * @copyright Volker Püschel 2019 - 2021
+ * @copyright Volker Püschel 2022
  * @license MIT
 **/
 
@@ -30,6 +30,8 @@ class x_storage extends fritzsoap
     /**
      * getInfo
      *
+     * Returns an array with info
+     *
      * out: NewFTPEnable (boolean)
      * out: NewFTPStatus (string)
      * out: NewSMBEnable (boolean)
@@ -42,7 +44,7 @@ class x_storage extends fritzsoap
     public function getInfo()
     {
         $result = $this->client->GetInfo();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get info from FRITZ!Box')) {
             return;
         }
 
@@ -138,7 +140,7 @@ class x_storage extends fritzsoap
     /**
      * getUserInfo
      *
-     * automatically generated; complete coding if necessary!
+     * returns user info
      *
      * out: NewEnable (boolean)
      * out: NewUsername (string)
@@ -149,7 +151,7 @@ class x_storage extends fritzsoap
     public function getUserInfo()
     {
         $result = $this->client->GetUserInfo();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get user info from FRITZ!Box')) {
             return;
         }
 
@@ -182,5 +184,4 @@ class x_storage extends fritzsoap
 
         return $result;
     }
-
 }

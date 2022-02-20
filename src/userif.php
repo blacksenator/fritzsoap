@@ -9,13 +9,13 @@ namespace blacksenator\fritzsoap;
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/userifSCPD.pdf
  *
  * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
- * THIS FILE IS AUTOMATIC ASSEMBLED!
+ * THIS FILE IS AUTOMATIC ASSEMBLED BUT PARTLY REVIEWED!
  * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
  * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
  * +++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
  * @author Volker Püschel <knuffy@anasco.de>
- * @copyright Volker Püschel 2019 - 2021
+ * @copyright Volker Püschel 2022
  * @license MIT
 **/
 
@@ -30,7 +30,7 @@ class userif extends fritzsoap
     /**
      * getInfo
      *
-     * automatically generated; complete coding if necessary!
+     * returns info about user interface
      *
      * out: NewUpgradeAvailable (boolean)
      * out: NewPasswordRequired (boolean)
@@ -47,7 +47,7 @@ class userif extends fritzsoap
     public function getInfo()
     {
         $result = $this->client->GetInfo();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get info from FRITZ!Box')) {
             return;
         }
 
@@ -142,7 +142,7 @@ class userif extends fritzsoap
     /**
      * x_AVM_DE_GetInternationalConfig
      *
-     * automatically generated; complete coding if necessary!
+     * returns internationalisation config data
      *
      * out: NewX_AVM-DE_Language (string)
      * out: NewX_AVM-DE_Country (string)
@@ -156,7 +156,7 @@ class userif extends fritzsoap
     public function x_AVM_DE_GetInternationalConfig()
     {
         $result = $this->client->{'X_AVM-DE_GetInternationalConfig'}();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get international config data from FRITZ!Box')) {
             return;
         }
 
@@ -193,7 +193,7 @@ class userif extends fritzsoap
     /**
      * x_AVM_DE_GetInfo
      *
-     * automatically generated; complete coding if necessary!
+     * returns German update info
      *
      * out: NewX_AVM-DE_AutoUpdateMode (string)
      * out: NewX_AVM-DE_UpdateTime (dateTime)
@@ -207,7 +207,7 @@ class userif extends fritzsoap
     public function x_AVM_DE_GetInfo()
     {
         $result = $this->client->{'X_AVM-DE_GetInfo'}();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not German update info from FRITZ!Box')) {
             return;
         }
 
@@ -234,5 +234,4 @@ class userif extends fritzsoap
 
         return $result;
     }
-
 }

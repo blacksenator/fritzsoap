@@ -9,13 +9,13 @@ namespace blacksenator\fritzsoap;
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/x_remoteSCPD.pdf
  *
  * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
- * THIS FILE IS AUTOMATIC ASSEMBLED!
+ * THIS FILE IS AUTOMATIC ASSEMBLED BUT PARTLY REVIEWED!
  * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
  * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
  * +++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
  * @author Volker Püschel <knuffy@anasco.de>
- * @copyright Volker Püschel 2019 - 2021
+ * @copyright Volker Püschel 2022
  * @license MIT
 **/
 
@@ -30,7 +30,7 @@ class x_remote extends fritzsoap
     /**
      * getInfo
      *
-     * automatically generated; complete coding if necessary!
+     * returns myFritz info
      *
      * out: NewEnabled (boolean)
      * out: NewPort (string)
@@ -41,7 +41,7 @@ class x_remote extends fritzsoap
     public function getInfo()
     {
         $result = $this->client->GetInfo();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get info from FRITZ!Box')) {
             return;
         }
 
@@ -103,7 +103,7 @@ class x_remote extends fritzsoap
     /**
      * getDDNSInfo
      *
-     * automatically generated; complete coding if necessary!
+     * returns DynDNS info
      *
      * out: NewEnabled (boolean)
      * out: NewProviderName (string)
@@ -121,7 +121,7 @@ class x_remote extends fritzsoap
     public function getDDNSInfo()
     {
         $result = $this->client->GetDDNSInfo();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get DynDNS info from FRITZ!Box')) {
             return;
         }
 
@@ -131,7 +131,13 @@ class x_remote extends fritzsoap
     /**
      * getDDNSProviders
      *
-     * automatically generated; complete coding if necessary!
+     * returns the list of DynDNS providers as XML:
+     * <List>
+     *     <Item>
+     *         <ProviderName/>
+     *         <InfoURL/>
+     *     </Item>
+     * </List>
      *
      * out: NewProviderList (string)
      *
@@ -140,7 +146,7 @@ class x_remote extends fritzsoap
     public function getDDNSProviders()
     {
         $result = $this->client->GetDDNSProviders();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get DynDNS providers from FRITZ!Box')) {
             return;
         }
 
@@ -191,5 +197,4 @@ class x_remote extends fritzsoap
 
         return $result;
     }
-
 }

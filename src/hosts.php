@@ -315,7 +315,7 @@ class hosts extends fritzsoap
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return;
         }
-        $meshListArray = json_decode(file_get_contents($this->serverAdress . $result), true);
+        $meshListArray = json_decode(file_get_contents($this->fritzBoxURL . $result), true);
         $xml = new SimpleXMLElement('<?xml version="1.0"?><data></data>');
 
         return $this->arrayToXML($meshListArray, $xml);

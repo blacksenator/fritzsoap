@@ -9,13 +9,13 @@ namespace blacksenator\fritzsoap;
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/x_homeplugSCPD.pdf
  *
  * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
- * THIS FILE IS AUTOMATIC ASSEMBLED!
+ * THIS FILE IS AUTOMATIC ASSEMBLED BUT PARTLY REVIEWED!
  * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
  * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
  * +++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
  * @author Volker Püschel <knuffy@anasco.de>
- * @copyright Volker Püschel 2019 - 2021
+ * @copyright Volker Püschel 2022
  * @license MIT
 **/
 
@@ -30,7 +30,7 @@ class x_homeplug extends fritzsoap
     /**
      * getNumberOfDeviceEntries
      *
-     * automatically generated; complete coding if necessary!
+     * return number of devices
      *
      * out: NewNumberOfEntries (ui2)
      *
@@ -39,7 +39,7 @@ class x_homeplug extends fritzsoap
     public function getNumberOfDeviceEntries()
     {
         $result = $this->client->GetNumberOfDeviceEntries();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get number of devices from FRITZ!Box')) {
             return;
         }
 
@@ -119,5 +119,4 @@ class x_homeplug extends fritzsoap
 
         return $result;
     }
-
 }

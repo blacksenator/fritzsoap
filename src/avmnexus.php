@@ -8,15 +8,9 @@ namespace blacksenator\fritzsoap;
  * No specific documentation available!
  *
  * @see: https://avm.de/service/schnittstellen/
- *
- * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
- * THIS FILE IS AUTOMATIC ASSEMBLED!
- * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
- * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
- * +++++++++++++++++++++++++++++++++++++++++++++++++++++
- *
+ * *
  * @author Volker Püschel <knuffy@anasco.de>
- * @copyright Volker Püschel 2019 - 2021
+ * @copyright Volker Püschel 2022
  * @license MIT
 **/
 
@@ -31,7 +25,7 @@ class avmnexus extends fritzsoap
     /**
      * getNexusPort
      *
-     * automatically generated; complete coding if necessary!
+     * returns nexus port adress
      *
      * out: NewNexusPort (ui2)
      *
@@ -40,11 +34,10 @@ class avmnexus extends fritzsoap
     public function getNexusPort()
     {
         $result = $this->client->GetNexusPort();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get nexus port from FRITZ!Box')) {
             return;
         }
 
         return $result;
     }
-
 }

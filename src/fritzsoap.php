@@ -67,7 +67,7 @@ class fritzsoap
     private $url = [];
     private $user;
     private $password;
-    protected $serverAdress;
+    protected $fritzBoxURL;
     protected $serviceType;
     protected $controlURL;
     protected $client = null;
@@ -81,7 +81,6 @@ class fritzsoap
      * @param string $url
      * @param string $user
      * @param string $password
-     * @param SimpleXMLElement $services
      * @return void
      */
     public function __construct($url, $user, $password)
@@ -119,7 +118,7 @@ class fritzsoap
     public function getClient()
     {
         $this->client = new \SoapClient(null, [
-            'location'   => $this->serverAdress . $this->controlURL,
+            'location'   => $this->fritzBoxURL . $this->controlURL,
             'uri'        => $this->serviceType,
             'noroot'     => self::SOAP_NOROOT,
             'login'      => $this->user,
@@ -161,7 +160,7 @@ class fritzsoap
      */
     public function getServerAdress(): string
     {
-        return $this->serverAdress;
+        return $this->fritzBoxURL;
     }
 
     /**
@@ -264,7 +263,7 @@ class fritzsoap
         $services = [];
         $stateTable = [];
         foreach (self::SERVICE_DESCRIPTIONS as $description) {
-            $serviceHeaders = $this->getDescriptionXML($this->serverAdress . '/' . $description, 'service');
+            $serviceHeaders = $this->getDescriptionXML($this->fritzBoxURL . '/' . $description, 'service');
             foreach ($serviceHeaders as $serviceHeader) {
                 $service = new SimpleXMLElement('<services />');
                 $name = explode('/', $serviceHeader->controlURL);
@@ -272,9 +271,9 @@ class fritzsoap
                 $service->addAttribute('origin', $description);
                 $service->addChild('serviceType', (string)$serviceHeader->serviceType);
                 $service->addChild('controlURL', (string)$serviceHeader->controlURL);
-                $actionsDesc = $this->getDescriptionXML($this->serverAdress . $serviceHeader->SCPDURL, 'action');
+                $actionsDesc = $this->getDescriptionXML($this->fritzBoxURL . $serviceHeader->SCPDURL, 'action');
                 if ($detailed) {
-                    $stateVariables = $this->getDescriptionXML($this->serverAdress . $serviceHeader->SCPDURL, 'stateVariable');
+                    $stateVariables = $this->getDescriptionXML($this->fritzBoxURL . $serviceHeader->SCPDURL, 'stateVariable');
                     $stateTable = $this->getStateTable($stateVariables);
                 }
                 $actions = $service->addChild('actions');
@@ -328,9 +327,9 @@ class fritzsoap
     private function assembleServerAdress(array $url)
     {
         if ($url['scheme'] == 'http') {
-            $this->serverAdress = 'http://' . $url['host'] . ':' . self::HTTP_PORT;
+            $this->fritzBoxURL = 'http://' . $url['host'] . ':' . self::HTTP_PORT;
         } elseif ($this->url['scheme'] == 'https') {
-            $this->serverAdress = 'https://' . $url['host'] . ':' . self::HTTPS_PORT;
+            $this->fritzBoxURL = 'https://' . $url['host'] . ':' . self::HTTPS_PORT;
         } else {
             throw new \Exception ('Could not assemble valid server address!');
         }

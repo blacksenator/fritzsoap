@@ -94,5 +94,4 @@ class Control_1 extends fritzsoap
 
         return $result;
     }
-
 }

@@ -7,15 +7,16 @@ namespace blacksenator\fritzsoap;
  * data via TR-064 interface on FRITZ!Box router from AVM:
  *
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/x_hostfilterSCPD.pdf
+ * @see: https://en.avm.de/service/knowledge-base/dok/FRITZ-Box-7590/3408_Extending-the-online-time-permitted-in-the-parental-controls-with-tickets/
  *
  * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
- * THIS FILE IS AUTOMATIC ASSEMBLED!
+ * THIS FILE IS AUTOMATIC ASSEMBLED BUT PARTLY REVIEWED!
  * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
  * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
  * +++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
  * @author Volker Püschel <knuffy@anasco.de>
- * @copyright Volker Püschel 2019 - 2021
+ * @copyright Volker Püschel 2022
  * @license MIT
 **/
 
@@ -30,7 +31,11 @@ class x_hostfilter extends fritzsoap
     /**
      * markTicket
      *
-     * automatically generated; complete coding if necessary!
+     * returns a ticket from the list for parental controls
+     * and mark it similar to the Button "share ticket" (where
+     * it is copied to the clipboard).
+     * If you request more than unmarked tickets (max. 10)
+     * the return is a 714 error.
      *
      * out: NewTicketID (string)
      *
@@ -39,7 +44,7 @@ class x_hostfilter extends fritzsoap
     public function markTicket()
     {
         $result = $this->client->MarkTicket();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not mark ticket at FRITZ!Box')) {
             return;
         }
 
@@ -49,7 +54,11 @@ class x_hostfilter extends fritzsoap
     /**
      * getTicketIDStatus
      *
-     * automatically generated; complete coding if necessary!
+     * returns the status >marked< or >unmarked<
+     * to a given ticket number. Returns >invalid<
+     * if ticket number is outside of ticket list.
+     * If input string is not equal 6 char or contains
+     * no numerics it cause a 402 error.
      *
      * in: NewTicketID (string)
      * out: NewTicketIDStatus (string)
@@ -61,7 +70,8 @@ class x_hostfilter extends fritzsoap
     {
         $result = $this->client->GetTicketIDStatus(
             new \SoapParam($ticketID, 'NewTicketID'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        $message = sprintf('Could not get status of ticket %s from FRITZ!Box', $ticketID);
+        if ($this->errorHandling($result, $message)) {
             return;
         }
 
@@ -71,14 +81,14 @@ class x_hostfilter extends fritzsoap
     /**
      * discardAllTickets
      *
-     * automatically generated; complete coding if necessary!
+     * resets ticket list
      *
      * @return void
      */
     public function discardAllTickets()
     {
         $result = $this->client->DiscardAllTickets();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not discard all tickets at FRITZ!Box')) {
             return;
         }
 
@@ -131,5 +141,4 @@ class x_hostfilter extends fritzsoap
 
         return $result;
     }
-
 }

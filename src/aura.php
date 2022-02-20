@@ -14,8 +14,14 @@ namespace blacksenator\fritzsoap;
  * To use this class, the USB-Fernanschluss (USB remote
  * connection function must be activated in the FRITZ!Box!
  *
+ * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
+ * THIS FILE IS AUTOMATIC ASSEMBLED BUT PARTLY REVIEWED!
+ * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
+ * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
+ * +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ *
  * @author Volker Püschel <knuffy@anasco.de>
- * @copyright Volker Püschel 2019 - 2021
+ * @copyright Volker Püschel 2022
  * @license MIT
 **/
 
@@ -30,7 +36,7 @@ class aura extends fritzsoap
     /**
      * getVersion
      *
-     * automatically generated; complete coding if necessary!
+     * returns version information
      *
      * out: NewServerVersion (string)
      * out: NewProtocolVersion (string)
@@ -40,7 +46,7 @@ class aura extends fritzsoap
     public function getVersion()
     {
         $result = $this->client->GetVersion();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get AURA version from FRITZ!Box')) {
             return;
         }
 
@@ -50,7 +56,7 @@ class aura extends fritzsoap
     /**
      * getListInfo
      *
-     * automatically generated; complete coding if necessary!
+     * returns number of conected USB remote devices
      *
      * out: NewNumber (ui2)
      *
@@ -59,7 +65,7 @@ class aura extends fritzsoap
     public function getListInfo()
     {
         $result = $this->client->GetListInfo();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get list info from FRITZ!Box')) {
             return;
         }
 
@@ -69,7 +75,10 @@ class aura extends fritzsoap
     /**
      * getDeviceByIndex
      *
-     * automatically generated; complete coding if necessary!
+     * returns info about USB remote device.
+     * Index starts with >0<. An index greater than
+     * the number of connected decvices cause a 713
+     * error.
      *
      * in: NewIndex (ui2)
      * out: NewDeviceHandle (ui2)
@@ -89,7 +98,8 @@ class aura extends fritzsoap
     {
         $result = $this->client->GetDeviceByIndex(
             new \SoapParam($index, 'NewIndex'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        $message = sprintf('Could not get USB device info #%s from FRITZ!Box', $index);
+        if ($this->errorHandling($result, $message)) {
             return;
         }
 
@@ -166,5 +176,4 @@ class aura extends fritzsoap
 
         return $result;
     }
-
 }

@@ -8,14 +8,8 @@ namespace blacksenator\fritzsoap;
  * according to
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/wanethlinkconfigSCPD.pdf
  *
- * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
- * THIS FILE IS AUTOMATIC ASSEMBLED!
- * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
- * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
- * +++++++++++++++++++++++++++++++++++++++++++++++++++++
- *
  * @author Volker Püschel <knuffy@anasco.de>
- * @copyright Volker Püschel 2019 - 2021
+ * @copyright Volker Püschel 2022
  * @license MIT
 **/
 
@@ -30,7 +24,7 @@ class wanethlinkconfig1 extends fritzsoap
     /**
      * getEthernetLinkStatus
      *
-     * automatically generated; complete coding if necessary!
+     * returns ethernet link state
      *
      * out: NewEthernetLinkStatus (string)
      *
@@ -39,11 +33,10 @@ class wanethlinkconfig1 extends fritzsoap
     public function getEthernetLinkStatus()
     {
         $result = $this->client->GetEthernetLinkStatus();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get ethernet link state from FRITZ!Box')) {
             return;
         }
 
         return $result;
     }
-
 }

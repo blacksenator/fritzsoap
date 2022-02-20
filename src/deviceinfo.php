@@ -9,13 +9,13 @@ namespace blacksenator\fritzsoap;
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/deviceinfoSCPD.pdf
  *
  * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
- * THIS FILE IS AUTOMATIC ASSEMBLED!
+ * THIS FILE IS AUTOMATIC ASSEMBLED BUT PARTLY REVIEWED!
  * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
  * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
  * +++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
  * @author Volker Püschel <knuffy@anasco.de>
- * @copyright Volker Püschel 2019 - 2021
+ * @copyright Volker Püschel 2022
  * @license MIT
 **/
 
@@ -30,7 +30,7 @@ class deviceinfo extends fritzsoap
     /**
      * getInfo
      *
-     * automatically generated; complete coding if necessary!
+     * returns device info
      *
      * out: NewManufacturerName (string)
      * out: NewManufacturerOUI (string)
@@ -50,7 +50,7 @@ class deviceinfo extends fritzsoap
     public function getInfo()
     {
         $result = $this->client->GetInfo();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get device info from FRITZ!Box')) {
             return;
         }
 
@@ -81,7 +81,7 @@ class deviceinfo extends fritzsoap
     /**
      * getDeviceLog
      *
-     * automatically generated; complete coding if necessary!
+     * returns device log entries
      *
      * out: NewDeviceLog (string)
      *
@@ -90,7 +90,7 @@ class deviceinfo extends fritzsoap
     public function getDeviceLog()
     {
         $result = $this->client->GetDeviceLog();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get device log from FRITZ!Box')) {
             return;
         }
 
@@ -100,7 +100,7 @@ class deviceinfo extends fritzsoap
     /**
      * getSecurityPort
      *
-     * automatically generated; complete coding if necessary!
+     * returns security port adress
      *
      * out: NewSecurityPort (ui2)
      *
@@ -109,11 +109,10 @@ class deviceinfo extends fritzsoap
     public function getSecurityPort()
     {
         $result = $this->client->GetSecurityPort();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get security port adress from FRITZ!Box')) {
             return;
         }
 
         return $result;
     }
-
 }

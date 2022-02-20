@@ -7,15 +7,9 @@ namespace blacksenator\fritzsoap;
  * data via TR-064 interface on FRITZ!Box router from AVM.
  *
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/x_tam.pdf
- *
- * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
- * THIS FILE IS AUTOMATIC ASSEMBLED BUT PARTLY REVIEWED!
- * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
- * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
- * +++++++++++++++++++++++++++++++++++++++++++++++++++++
- *
+ * *
  * @author Volker Püschel <knuffy@anasco.de>
- * @copyright Volker Püschel 2019 - 2021
+ * @copyright Volker Püschel 2022
  * @license MIT
 **/
 
@@ -49,7 +43,7 @@ class x_tam extends fritzsoap
     {
         $result = $this->client->GetInfo(
             new \SoapParam($index, 'NewIndex'));
-        if ($this->errorHandling($result, 'Could not get info from FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get tam info from FRITZ!Box')) {
             return;
         }
 
@@ -59,7 +53,13 @@ class x_tam extends fritzsoap
     /**
      * setEnable
      *
-     * automatically generated; complete coding if necessary!
+     * enable or disable a given tam by index
+     * Index starts with 0!
+     * The boolean value should be set as >0< or >1<.
+     * A >true< or >false< will cause no error, but
+     * You can not enable with >true< but disable with
+     * >false<!
+     * That's why it's intercepted in the coding.
      *
      * in: NewIndex (ui2)
      * in: NewEnable (boolean)
@@ -70,10 +70,13 @@ class x_tam extends fritzsoap
      */
     public function setEnable($index, $enable)
     {
+        $enable = $enable ? 1 : 0;
         $result = $this->client->SetEnable(
             new \SoapParam($index, 'NewIndex'),
             new \SoapParam($enable, 'NewEnable'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        $bStr = $enable ? "enable" : "disable";
+        $message = sprintf('Could not %s tam #%s on FRITZ!Box', $bStr, $index);
+        if ($this->errorHandling($result, $message)) {
             return;
         }
 
@@ -83,29 +86,46 @@ class x_tam extends fritzsoap
     /**
      * getMessageList
      *
-     * automatically generated; complete coding if necessary!
+     * Returns a XML with list of callers on the
+     * answering machine:
+     * <?xml version="1.0" encoding="UTF-8"?>
+     * <Root>
+     *     <Message>
+     *         <Index/>
+     *         <Tam/>
+     *         <Called/>
+     *         <Date/>
+     *         <Duration/>
+     *         <Inbook/>
+     *         <Name/>
+     *         <New/>
+     *         <Number/>
+     *         <Path/>
+     *    </Message>
+     * </Root>
      *
      * in: NewIndex (ui2)
      * out: NewURL (string)
      *
      * @param int $index
-     * @return string
+     * @return SimpleXMLElemnt
      */
     public function getMessageList($index)
     {
         $result = $this->client->GetMessageList(
             new \SoapParam($index, 'NewIndex'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get message list from FRITZ!Box')) {
             return;
         }
 
-        return $result;
+        return simplexml_load_file($result);
     }
 
     /**
      * markMessage
      *
-     * automatically generated; complete coding if necessary!
+     * marking a designated message on a given
+     * answering machine as read or unread
      *
      * in: NewIndex (ui2)
      * in: NewMessageIndex (ui2)
@@ -118,11 +138,14 @@ class x_tam extends fritzsoap
      */
     public function markMessage($index, $messageIndex, $markedAsRead)
     {
+        $markedAsRead = $markedAsRead ? 1 : 0;
         $result = $this->client->MarkMessage(
             new \SoapParam($index, 'NewIndex'),
             new \SoapParam($messageIndex, 'NewMessageIndex'),
             new \SoapParam($markedAsRead, 'NewMarkedAsRead'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        $bStr = $markedAsRead ? "read" : "unread";
+        $message = sprintf('Could not mark message #%s as %s on answering machine #%s of FRITZ!Box', $messageIndex, $bStr, $index);
+        if ($this->errorHandling($result, $message)) {
             return;
         }
 
@@ -132,7 +155,8 @@ class x_tam extends fritzsoap
     /**
      * deleteMessage
      *
-     * automatically generated; complete coding if necessary!
+     * delete a designated message from a given
+     * answering machine
      *
      * in: NewIndex (ui2)
      * in: NewMessageIndex (ui2)
@@ -146,7 +170,8 @@ class x_tam extends fritzsoap
         $result = $this->client->DeleteMessage(
             new \SoapParam($index, 'NewIndex'),
             new \SoapParam($messageIndex, 'NewMessageIndex'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        $message = sprintf('Could not delete message #%s from answering machine #%s on FRITZ!Box', $messageIndex, $index);
+        if ($this->errorHandling($result, $message)) {
             return;
         }
 
@@ -156,7 +181,19 @@ class x_tam extends fritzsoap
     /**
      * getList
      *
-     * automatically generated; complete coding if necessary!
+     * returns a list of answering machines in XML format:
+     * <List>
+     *     <TAMRunning/>
+     *     <Stick/>
+     *     <Status/>
+     *     <Capacity/>
+     *     <Item>
+     *         <Index/>
+     *         <Display/>
+     *         <Enable/>
+     *         <Name/>
+     *     </Item>
+     * </List>
      *
      * out: NewTAMList (string)
      *
@@ -165,11 +202,10 @@ class x_tam extends fritzsoap
     public function getList()
     {
         $result = $this->client->GetList();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get tam list from FRITZ!Box')) {
             return;
         }
 
         return $result;
     }
-
 }
