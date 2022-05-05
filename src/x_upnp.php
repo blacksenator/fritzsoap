@@ -3,19 +3,13 @@
 namespace blacksenator\fritzsoap;
 
 /**
- * The class provides functions to read and manipulate
- * data via TR-064 interface on FRITZ!Box router from AVM.
+ * The class provides functions to read and manipulate data via TR-064 interface
+ * on FRITZ!Box router from AVM.
  *
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/x_upnp.pdf
  *
- * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
- * THIS FILE IS AUTOMATIC ASSEMBLED BUT PARTLY REVIEWED!
- * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
- * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
- * +++++++++++++++++++++++++++++++++++++++++++++++++++++
- *
  * @author Volker Püschel <knuffy@anasco.de>
- * @copyright Volker Püschel 2022
+ * @copyright Volker Püschel 20219 - 2022
  * @license MIT
 **/
 
@@ -29,8 +23,6 @@ class x_upnp extends fritzsoap
 
     /**
      * getInfo
-     *
-     * automatically generated; complete coding if necessary!
      *
      * out: NewEnable (boolean)
      * out: NewUPnPMediaServer (boolean)

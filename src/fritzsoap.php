@@ -3,20 +3,15 @@
 namespace blacksenator\fritzsoap;
 
 /**
- * The class provides the base functions to read and
- * manipulate data via TR-064 interface on FRITZ!Box
- * router from AVM:
+ * The class provides the base functions to read and manipulate data via TR-064
+ * interface on FRITZ!Box router from AVM:
  *
- * With the instantiation of this class or descendants,
- * all available services of the addressed FRITZ!Box
- * are determined automatically.
- * The service parameters and available actions are
- * provided in a compressed form as XML and can be output
- * with getServiceDescription().
- * The matching SOAP client only needs to be called with
- * the name of the services <services name = "..."> as
- * class name and gets the correct location and uri from
- * the XML (see getFritzBoxServices() for details)
+ * With the instantiation of this class or descendants, all available services
+ * and actions of the addressed FRITZ!Box are available. The service parameters
+ * and available actions are provided in a compressed form as XML and can be
+ * output with getServiceDescription().
+ * The matching SOAP client only needs to be called with the name of the
+ * services <services name = "..."> as class name
  *
  * Example (get your avalaible services)
  *   $fritzbox = new x_contact($url, $user, $password);
@@ -32,7 +27,7 @@ namespace blacksenator\fritzsoap;
  *   $meshList = $fritzbox->x_AVM_DE_GetMeshListPath();
  *
  * @author Volker Püschel <knuffy@anasco.de>
- * @copyright Volker Püschel 2021
+ * @copyright Volker Püschel 2019 - 2022
  * @license MIT
 **/
 
@@ -60,9 +55,9 @@ class fritzsoap
         ],
         HTTP_PORT       = '49000',
         HTTPS_PORT      = '49443',
+        SOAP_EXCEPTIONS = false,
         SOAP_NOROOT     = true,
-        SOAP_TRACE      = true,
-        SOAP_EXCEPTIONS = false;
+        SOAP_TRACE      = true;
 
     private $url = [];
     private $user;
@@ -100,16 +95,15 @@ class fritzsoap
      * get a new SOAP client
      *
      * AVM Documentation about SID:
-     * "Once it has been assigned, a session ID is valid
-     * for 20 minutes. The validity is extended automatically
-     * whenever access to the FRITZ!Box is active.
+     * "Once it has been assigned, a session ID is valid for 20 minutes. The
+     * validity is extended automatically whenever access to the FRITZ!Box is
+     * active.
      * ...
-     * A session can be ended at any time by deleting the session
-     * ID, even before the automatic 10-minute timeout kicks in."
+     * A session can be ended at any time by deleting the session ID, even
+     * before the automatic 10-minute timeout kicks in."
      *
-     * You must therefore keep in mind that if programs have been
-     * running for a long time, the SID may need to be renewed by
-     * calling this function
+     * You must therefore keep in mind that if programs have been running for a
+     * long time, the SID may need to be renewed by calling this function
      *
      * @see https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/AVM_Technical_Note_-_Session_ID_english_2021-05-03.pdf
      *
@@ -120,20 +114,19 @@ class fritzsoap
         $this->client = new \SoapClient(null, [
             'location'   => $this->fritzBoxURL . $this->controlURL,
             'uri'        => $this->serviceType,
-            'noroot'     => self::SOAP_NOROOT,
             'login'      => $this->user,
             'password'   => $this->password,
-            'trace'      => self::SOAP_TRACE,
             'exceptions' => self::SOAP_EXCEPTIONS,
+            'noroot'     => self::SOAP_NOROOT,
+            'trace'      => self::SOAP_TRACE,
         ]);
     }
 
     /**
      * get the determined services
      *
-     * returns the identified services
-     * use $detailed = true if more
-     * details are required (time consuming!)
+     * returns the identified services use $detailed = true if more details are
+     * required (time consuming!)
      *
      * @param bool $detailed
      * @return SimpleXMLElement
@@ -202,6 +195,17 @@ class fritzsoap
     }
 
     /**
+     * return the corresponding string to boolean value
+     *
+     * @param bool $state
+     * @return string
+     */
+    protected function boolToState(bool $state)
+    {
+        return $state ? "enable" : "disable";
+    }
+
+    /**
      * errorHandling
      *
      * returns true if an error had to be handled, otherwise false
@@ -226,10 +230,10 @@ class fritzsoap
     /**
      * converting an array to XML
      *
-     * currently only used in hosts.php and
-     * possibly in the future in other classes
+     * currently only used in hosts.php and possibly in the future in other
+     * classes
      *
-     * @see top voted answer to https://stackoverflow.com/questions/1397036/how-to-convert-array-to-simplexml
+     * @see https://stackoverflow.com/questions/1397036/how-to-convert-array-to-simplexml
      *
      * @param array $data
      * @param SimpleXMLElement $xmlData
@@ -318,8 +322,8 @@ class fritzsoap
     }
 
     /**
-     * assemble the correct server address, depending on
-     * whether it is encrypted or not
+     * assemble the correct server address, depending on whether it is encrypted
+     * or not
      *
      * @param array $url
      * @return void

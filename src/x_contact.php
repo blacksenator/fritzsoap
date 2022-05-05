@@ -3,8 +3,8 @@
 namespace blacksenator\fritzsoap;
 
 /**
- * The class provides functions to read and manipulate
- * data via TR-064 interface on FRITZ!Box router from AVM:
+ * The class provides functions to read and manipulate data via TR-064 interface
+ * on FRITZ!Box router from AVM:
  *
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/x_contactSCPD.pdf
  *
@@ -14,13 +14,16 @@ namespace blacksenator\fritzsoap;
  * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
  * +++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * In addition to the designated functions for each action,
- * this class contains further functions:
+ * In addition to the designated functions for each action, this class contains
+ * further functions:
+ * - getListOfPhoneNumbers() simple array of all numbers from a phonebook
  * - newContact() delivers a xml phonebook contact
- * - setContact() uses newcontact() and setphonebookEntry()
+ * - setContact() uses newcontact() and setPhonebookEntry()
+ *   this is the easiest way to add a new contact: you just need name, number,
+ *   the ID of the dedicated phonebook and optional the phone type (quite simple!)
  *
  * @author Volker Püschel <knuffy@anasco.de>
- * @copyright Volker Püschel 2019 - 2021
+ * @copyright Volker Püschel 2019 - 2022
  * @license MIT
 **/
 
@@ -262,7 +265,8 @@ class x_contact extends fritzsoap
     /**
      * getPhonebookList
      *
-     * get a list of phonebooks implemented on the FRITZ!Box
+     * Returns a list of phonebooks implemented on the FRITZ!Box. Therefore
+     * internal phonebooks (e.g. 258 are not included)
      *
      * out: NewPhonebookList
      *
@@ -284,8 +288,9 @@ class x_contact extends fritzsoap
     /**
      * getPhonebook
      *
-     * returns the content of a phonebook as a
-     * SimpleXMLElelment object
+     * returns the content of a phonebook as a SimpleXMLElelment object
+     * If you want to get phonebook "258" (Call barring for incoming calls) use
+     * getCallBarringist()
      *
      * in: NewPhonebookID (ui2)
      * out: NewPhonebookName (string)
@@ -570,20 +575,21 @@ class x_contact extends fritzsoap
     /**
      * getCallBarringList
      *
-     * automatically generated; complete coding if necessary!
+     * returns list of call barring numbers (phonebook 258) equivalent to
+     * Telefonie->Rufbehandlung->Rufsperren->Rufsperren für ankommende Anrufe
      *
      * out: NewPhonebookURL (string)
      *
-     * @return string
+     * @return SimpleXMLElement
      */
     public function getCallBarringList()
     {
         $result = $this->client->GetCallBarringList();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get barring list from FRITZ!Box')) {
             return;
         }
 
-        return $result;
+        return simplexml_load_file($result);
     }
 
     /**
@@ -822,7 +828,8 @@ class x_contact extends fritzsoap
     }
 
     /**
-     * return a minimal viable xml contact structure according to AVM phonebook requirements:
+     * return a minimal viable xml contact structure according to AVM phonebook
+     * requirements:
      *
      * <?xml version="1.0" encoding="utf-8"?>
      * <entry">

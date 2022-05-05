@@ -3,9 +3,10 @@
 namespace blacksenator\fritzsoap;
 
 /**
- * The class provides functions to read and manipulate
- * data via TR-064 interface on FRITZ!Box router from AVM.
+ * The class provides functions to read and manipulate data via TR-064 interface
+ * on FRITZ!Box router from AVM.
  * No documentation available!
+ *
  * @see: https://avm.de/service/schnittstellen/
  *
  * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
@@ -18,7 +19,7 @@ namespace blacksenator\fritzsoap;
  * +++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
  * @author Volker Püschel <knuffy@anasco.de>
- * @copyright Volker Püschel 2019 - 2021
+ * @copyright Volker Püschel 2019 - 2022
  * @license MIT
 **/
 
@@ -38,6 +39,8 @@ class fritzbox extends fritzsoap
      * in: NewLogPort
      * in: NewLogLevel
      *
+     * legacy: input information no longer available :(
+     * @return void
      */
     public function setLogParam()
     {
@@ -57,15 +60,15 @@ class fritzbox extends fritzsoap
      * out: NewMaclist
      * out: NewMaclistChangeCounter
      *
+     * @return array
      */
     public function getMaclist()
     {
         $result = $this->client->GetMaclist();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get MAC list from FRITZ!Box')) {
             return;
         }
 
         return $result;
     }
-
 }

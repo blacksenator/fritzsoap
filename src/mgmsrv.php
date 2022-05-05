@@ -3,8 +3,8 @@
 namespace blacksenator\fritzsoap;
 
 /**
- * The class provides functions to read and manipulate
- * data via TR-064 interface on FRITZ!Box router from AVM:
+ * The class provides functions to read and manipulate data via TR-064 interface
+ * on FRITZ!Box router from AVM:
  *
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/mgmsrvSCPD.pdf
  *
@@ -15,7 +15,7 @@ namespace blacksenator\fritzsoap;
  * +++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
  * @author Volker Püschel <knuffy@anasco.de>
- * @copyright Volker Püschel 2022
+ * @copyright Volker Püschel 20219 - 2022
  * @license MIT
 **/
 
@@ -214,7 +214,7 @@ class mgmsrv extends fritzsoap
     /**
      * x_AVM_DE_GetTR069FirmwareDownloadEnabled
      *
-     * automatically generated; complete coding if necessary!
+     * return state of TR-069 (remote configuration)
      *
      * out: NewTR069FirmwareDownloadEnabled (boolean)
      *
@@ -223,7 +223,7 @@ class mgmsrv extends fritzsoap
     public function x_AVM_DE_GetTR069FirmwareDownloadEnabled()
     {
         $result = $this->client->{'X_AVM-DE_GetTR069FirmwareDownloadEnabled'}();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get TR-069 state from FRITZ!Box')) {
             return;
         }
 

@@ -3,8 +3,8 @@
 namespace blacksenator\fritzsoap;
 
 /**
- * The class provides functions to read and manipulate
- * data via TR-064 interface on FRITZ!Box router from AVM:
+ * The class provides functions to read and manipulate data via TR-064 interface
+ * on FRITZ!Box router from AVM:
  *
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/x_voip-avm.pdf
  *
@@ -14,12 +14,15 @@ namespace blacksenator\fritzsoap;
  * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
  * +++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
- * A lot of functions (actions) require as input argument
- * an VoiPIndex. You can figure out this data with
- * x_AVM_DE_GetNumbers(): List->Item->Index
+ * A lot of functions (actions) require as input argument an VoiPIndex. You can
+ * figure out this data with x_AVM_DE_GetNumbers(): List->Item->Index
+ *
+ * In addition to the designated functions for each action, this class contains
+ * further functions:
+ * - getPhonePorts() extends x_AVM_DE_GetPhonePort()
  *
  * @author Volker Püschel <knuffy@anasco.de>
- * @copyright Volker Püschel 2022
+ * @copyright Volker Püschel 20219 - 2022
  * @license MIT
 **/
 
@@ -30,7 +33,8 @@ class x_voip extends fritzsoap
 {
     const
         SERVICE_TYPE = 'urn:dslforum-org:service:X_VoIP:1',
-        CONTROL_URL  = '/upnp/control/x_voip';
+        CONTROL_URL  = '/upnp/control/x_voip',
+        MAX_PHONE_DEVICES = 20;                         // see: getPhonePorts()
 
     /**
      * getInfoEx
@@ -330,7 +334,8 @@ class x_voip extends fritzsoap
      * @param string $x_AVM_DE_OutGoingNumber
      * @return void
      */
-    public function x_AVM_DE_SetClient($x_AVM_DE_ClientIndex, $x_AVM_DE_ClientPassword, $x_AVM_DE_PhoneName, $x_AVM_DE_OutGoingNumber)
+    public function x_AVM_DE_SetClient($x_AVM_DE_ClientIndex, $x_AVM_DE_ClientPassword,
+                                        $x_AVM_DE_PhoneName, $x_AVM_DE_OutGoingNumber)
     {
         $result = $this->client->{'X_AVM-DE_SetClient'}(
             new \SoapParam($x_AVM_DE_ClientIndex, 'NewX_AVM-DE_ClientIndex'),
@@ -362,7 +367,9 @@ class x_voip extends fritzsoap
      * @param string $x_AVM_DE_OutGoingNumber
      * @return void
      */
-    public function x_AVM_DE_SetClient2($x_AVM_DE_ClientIndex, $x_AVM_DE_ClientPassword, $x_AVM_DE_ClientId, $x_AVM_DE_PhoneName, $x_AVM_DE_OutGoingNumber)
+    public function x_AVM_DE_SetClient2($x_AVM_DE_ClientIndex, $x_AVM_DE_ClientPassword,
+                                        $x_AVM_DE_ClientId, $x_AVM_DE_PhoneName,
+                                        $x_AVM_DE_OutGoingNumber)
     {
         $result = $this->client->{'X_AVM-DE_SetClient2'}(
             new \SoapParam($x_AVM_DE_ClientIndex, 'NewX_AVM-DE_ClientIndex'),
@@ -462,7 +469,10 @@ class x_voip extends fritzsoap
      * @param bool $x_AVM_DE_ExternalRegistration
      * @return void
      */
-    public function x_AVM_DE_SetClient3($x_AVM_DE_ClientIndex, $x_AVM_DE_ClientPassword, $x_AVM_DE_ClientId, $x_AVM_DE_PhoneName, $x_AVM_DE_OutGoingNumber, $x_AVM_DE_InComingNumbers, $x_AVM_DE_ExternalRegistration)
+    public function x_AVM_DE_SetClient3($x_AVM_DE_ClientIndex, $x_AVM_DE_ClientPassword,
+                                        $x_AVM_DE_ClientId, $x_AVM_DE_PhoneName,
+                                        $x_AVM_DE_OutGoingNumber, $x_AVM_DE_InComingNumbers,
+                                        $x_AVM_DE_ExternalRegistration)
     {
         $result = $this->client->{'X_AVM-DE_SetClient3'}(
             new \SoapParam($x_AVM_DE_ClientIndex, 'NewX_AVM-DE_ClientIndex'),
@@ -502,7 +512,10 @@ class x_voip extends fritzsoap
      * @param string $x_AVM_DE_InComingNumbers
      * @return string
      */
-    public function x_AVM_DE_SetClient4($x_AVM_DE_ClientIndex, $x_AVM_DE_ClientPassword, $x_AVM_DE_ClientUsername, $x_AVM_DE_PhoneName, $x_AVM_DE_ClientId, $x_AVM_DE_OutGoingNumber, $x_AVM_DE_InComingNumbers)
+    public function x_AVM_DE_SetClient4($x_AVM_DE_ClientIndex, $x_AVM_DE_ClientPassword,
+                                        $x_AVM_DE_ClientUsername, $x_AVM_DE_PhoneName,
+                                        $x_AVM_DE_ClientId, $x_AVM_DE_OutGoingNumber,
+                                        $x_AVM_DE_InComingNumbers)
     {
         $result = $this->client->{'X_AVM-DE_SetClient4'}(
             new \SoapParam($x_AVM_DE_ClientIndex, 'NewX_AVM-DE_ClientIndex'),
@@ -634,9 +647,9 @@ class x_voip extends fritzsoap
     /**
      * x_AVM_DE_DialSetConfig
      *
-     * Assigning the telephony device to "click to dial" (Wählhilfe)
-     * If "click to dial" was not activated, it will be activated with
-     * the assignment
+     * Assigning the telephony device to "click to dial" (Wählhilfe). If
+     * "click to dial" was not activated, it will be activated with the assignment
+     * or deactivated with an empty string ('').
      *
      * The input string must consists of "[type]: [name]":
      * - [type] values are: FON1, FON2, ISDN, DECT
@@ -665,10 +678,10 @@ class x_voip extends fritzsoap
     /**
      * x_AVM_DE_DialNumber
      *
-     * dial a number
-     * precondition: you must activate a telephony device
-     * to "click to dial" (Wählhilfe) otherwise this will
-     * cause a 501 error
+     * Dial a number. Outgoing calls, internal numbers ('*[n]') and keyboard
+     * codes are supported.
+     * Precondition: you must activate a telephony device to "click to dial"
+     * (Wählhilfe) otherwise this will cause a 501 error
      *
      * @see: x_AVM_DE_DialSetConfig
      *
@@ -711,22 +724,26 @@ class x_voip extends fritzsoap
      *
      * return the phone device (e.g.: "DECT: Kitchen")
      *
-     * There is no action (function) to determine the number
-     * of devices. The Index starts with 1! An index greater
-     * than the count will cause a 713 error
+     * There is no action (function) to determine the number of devices. The
+     * Index starts with 1! An index greater than the count will cause a 713 error
+     *
+     * @see alternative additional function getPhonePorts()
      *
      * in: NewIndex (ui2) 1..n
      * out: NewX_AVM-DE_PhoneName (string)
      *
      * @param int $index
+     * @param bool $error
      * @return string
      */
-    public function x_AVM_DE_GetPhonePort($index)
+    public function x_AVM_DE_GetPhonePort(int $index, bool $error = true)
     {
         $result = $this->client->{'X_AVM-DE_GetPhonePort'}(
             new \SoapParam($index, 'NewIndex'));
-        if ($this->errorHandling($result, sprintf('Could not get phone device %s from FRITZ!Box', $index))) {
-            return;
+        if ($error) {
+            if ($this->errorHandling($result, sprintf('Could not get phone device %s from FRITZ!Box', $index))) {
+                return;
+            }
         }
 
         return $result;
@@ -744,7 +761,8 @@ class x_voip extends fritzsoap
      * @param bool $x_AVM_DE_DelayedCallNotification
      * @return void
      */
-    public function x_AVM_DE_SetDelayedCallNotification($x_AVM_DE_ClientIndex, $x_AVM_DE_DelayedCallNotification)
+    public function x_AVM_DE_SetDelayedCallNotification($x_AVM_DE_ClientIndex,
+                                                        $x_AVM_DE_DelayedCallNotification)
     {
         $result = $this->client->{'X_AVM-DE_SetDelayedCallNotification'}(
             new \SoapParam($x_AVM_DE_ClientIndex, 'NewX_AVM-DE_ClientIndex'),
@@ -1018,7 +1036,7 @@ class x_voip extends fritzsoap
         $result = $this->client->SetVoIPEnableAreaCode(
             new \SoapParam($voIPAccountIndex, 'NewVoIPAccountIndex'),
             new \SoapParam($voIPEnableAreaCode, 'NewVoIPEnableAreaCode'));
-        $bStr = $voIPEnableAreaCode ? "enable" : "disable";
+        $bStr = $this->boolToState($voIPEnableAreaCode);
         $message = sprintf('Could not %s area code of number #%s on FRITZ!Box', $bStr, $voIPAccountIndex);
         if ($this->errorHandling($result, $message)) {
             return;
@@ -1031,8 +1049,7 @@ class x_voip extends fritzsoap
      * x_AVM_DE_GetAlarmClock
      *
      * returns alarm clock settings
-     * The Index starts with 0! An index greater
-     * than 2 will cause a 714 error.
+     * The Index starts with 0! An index greater than 2 will cause a 714 error.
      *
      * in: NewIndex (ui2)
      * out: NewX_AVM-DE_AlarmClockEnable (boolean)
@@ -1061,11 +1078,9 @@ class x_voip extends fritzsoap
      *
      * enable or disable a n alarm clock
      *
-     * The Index starts with 0! An index greater
-     * than 2 will cause a 714 error.
-     * The boolean value must be set as >0< or >1<.
-     * A >true< or >false< will cause a 402 error.
-     * That's why it's intercepted in the coding.
+     * The Index starts with 0! An index greater than 2 will cause a 714 error.
+     * The boolean value must be set as >0< or >1<. A >true< or >false< will
+     * cause a 402 error. That's why it's intercepted in the coding.
      *
      * in: NewIndex (ui2)
      * in: NewX_AVM-DE_AlarmClockEnable (boolean)
@@ -1080,7 +1095,7 @@ class x_voip extends fritzsoap
         $result = $this->client->{'X_AVM-DE_SetAlarmClockEnable'}(
             new \SoapParam($index, 'NewIndex'),
             new \SoapParam($x_AVM_DE_AlarmClockEnable, 'NewX_AVM-DE_AlarmClockEnable'));
-        $bStr = $x_AVM_DE_AlarmClockEnable ? "enable" : "disable";
+        $bStr = $this->boolToState($x_AVM_DE_AlarmClockEnable);
         $message = sprintf('Could not %s alarm clock #%s on FRITZ!Box', $bStr, $index);
         if ($this->errorHandling($result, $message)) {
             return;
@@ -1092,10 +1107,9 @@ class x_voip extends fritzsoap
     /**
      * x_AVM_DE_GetNumberOfAlarmClocks
      *
-     * returns the number of alarm clocks regardless if they
-     * are activated or not
-     * As far as I Know there are always three alarm clocks
-     * available - so therefore this function makes no sense!
+     * returns the number of alarm clocks regardless if they are activated or not
+     * As far as I Know there are always three alarm clocks available - so
+     * therefore this function makes no sense!
      *
      * out: NewX_AVM-DE_NumberOfAlarmClocks (ui2)
      *
@@ -1109,5 +1123,40 @@ class x_voip extends fritzsoap
         }
 
         return $result;
+    }
+
+    // +++ Additional functions not directly related to an action +++
+
+    /**
+     * Returns an array with the installed telephony devices
+     * Example:
+     *    [1] => FON1: Tor
+     *    [2] => ISDN: ISDN/DECT Rundruf
+     *    [3] => ISDN: ISDN-Telefonanlage
+     *    [4] => DECT: Lager
+     *
+     * According to AVM documentation 20 devices could be connected:
+     * - 6x DECT
+     * - 10x IP
+     * - 3x FON
+     * - 1x S0
+     *
+     * see: https://avm.de/service/wissensdatenbank/dok/FRITZ-Box-7590/1634_Anzahl-Telefonie-und-DECT-Gerate-die-mit-FRITZ-Box-verwendet-werden-konnen/
+     *
+     * @return array
+     */
+    public function getPhonePorts()
+    {
+        $phonePorts = [];
+        for ($i = 1; $i <= self::MAX_PHONE_DEVICES; $i++) {
+            $phonePort = $this->x_AVM_DE_GetPhonePort($i, false);
+            if (!is_soap_fault($phonePort)) {
+                $phonePorts[$i] = $phonePort;
+            } else {
+                break;          // interrupts loop with first appearing soapfault
+            }
+        }
+
+        return $phonePorts;
     }
 }

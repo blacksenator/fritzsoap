@@ -3,8 +3,8 @@
 namespace blacksenator\fritzsoap;
 
 /**
- * The class provides functions to read and manipulate
- * data via TR-064 interface on FRITZ!Box router from AVM.
+ * The class provides functions to read and manipulate data via TR-064 interface
+ * on FRITZ!Box router from AVM.
  *
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/x_homeauto.pdf
  *
@@ -14,8 +14,12 @@ namespace blacksenator\fritzsoap;
  * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
  * +++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
+ * In addition to the designated functions for each action, this class contains
+ * further functions:
+ * - getDevices() extends getInfo()
+ *
  * @author Volker Püschel <knuffy@anasco.de>
- * @copyright Volker Püschel 2022
+ * @copyright Volker Püschel 20219 - 2022
  * @license MIT
 **/
 
@@ -25,7 +29,8 @@ class x_homeauto extends fritzsoap
 {
     const
         SERVICE_TYPE = 'urn:dslforum-org:service:X_AVM-DE_Homeauto:1',
-        CONTROL_URL  = '/upnp/control/x_homeauto';
+        CONTROL_URL  = '/upnp/control/x_homeauto',
+        MAX_DEVICES = 60;
 
     /**
      * getInfo
@@ -53,10 +58,9 @@ class x_homeauto extends fritzsoap
     /**
      * getGenericDeviceInfos
      *
-     * returns detailed info and state of home
-     * automation devices. The Index starts with
-     * >0<. An index greater than the number of
-     * joint devices cause a 713 error.
+     * returns detailed info and state of home automation devices. The Index
+     * starts with >0<. An index greater than the number of joint devices cause
+     * a 713 error.
      *
      * in: NewIndex (ui2)
      * out: NewAIN (string)
@@ -91,15 +95,18 @@ class x_homeauto extends fritzsoap
      * out: NewHkrComfortTemperature (i4)
      *
      * @param int $index
+     * @param bool
      * @return array
      */
-    public function getGenericDeviceInfos($index)
+    public function getGenericDeviceInfos($index, bool $error = true)
     {
         $result = $this->client->GetGenericDeviceInfos(
             new \SoapParam($index, 'NewIndex'));
-        $message = sprintf('Could not get info of device #%s from/to FRITZ!Box', $index);
-        if ($this->errorHandling($result, $message)) {
-            return;
+        if ($error) {
+            $message = sprintf('Could not get info of device #%s from/to FRITZ!Box', $index);
+            if ($this->errorHandling($result, $message)) {
+                return;
+            }
         }
 
         return $result;
@@ -201,5 +208,37 @@ class x_homeauto extends fritzsoap
         }
 
         return $result;
+    }
+
+    // +++ Additional functions not directly related to an action +++
+
+    /**
+     * Returns an array with the installed homeauto devices
+     * Example:
+     *    [0] => 'Device 1'
+     *    [1] => 'Device 2'
+     *    [3] => ...
+     *
+     * If you only wnat to know the number of DECT devices you can use
+     * getNumberOfDectEntries() from class x_dect.
+     *
+     * According to AVM documentation more than 50 devices could be connected
+     * see: https://avm.de/service/wissensdatenbank/dok/FRITZ-Box-7590/1634_Anzahl-Telefonie-und-DECT-Gerate-die-mit-FRITZ-Box-verwendet-werden-konnen/
+     *
+     * @return array
+     */
+    public function getDevices()
+    {
+        $devices = [];
+        for ($i = 0; $i <= self::MAX_DEVICES; $i++) {
+            $device = $this->getGenericDeviceInfos($i, false);
+            if (!is_soap_fault($device)) {
+                $devices[$i] = $device['NewDeviceName'];
+            } else {
+                break;          // interrupts loop with first appearing soapfault
+            }
+        }
+
+        return $devices;
     }
 }

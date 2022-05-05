@@ -3,8 +3,8 @@
 namespace blacksenator\fritzsoap;
 
 /**
- * The class provides functions to read and manipulate
- * data via TR-064 interface on FRITZ!Box router from AVM:
+ * The class provides functions to read and manipulate data via TR-064 interface
+ * on FRITZ!Box router from AVM:
  *
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/x_hostfilterSCPD.pdf
  * @see: https://en.avm.de/service/knowledge-base/dok/FRITZ-Box-7590/3408_Extending-the-online-time-permitted-in-the-parental-controls-with-tickets/
@@ -16,7 +16,7 @@ namespace blacksenator\fritzsoap;
  * +++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
  * @author Volker Püschel <knuffy@anasco.de>
- * @copyright Volker Püschel 2022
+ * @copyright Volker Püschel 20219 - 2022
  * @license MIT
 **/
 

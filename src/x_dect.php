@@ -3,19 +3,17 @@
 namespace blacksenator\fritzsoap;
 
 /**
- * The class provides functions to read and manipulate
- * data via TR-064 interface on FRITZ!Box router from AVM:
+ * The class provides functions to read and manipulate data via TR-064 interface
+ * on FRITZ!Box router from AVM:
  *
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/x_dectSCPD.pdf
  *
- * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
- * THIS FILE IS AUTOMATIC ASSEMBLED!
- * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
- * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
- * +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ * In addition to the designated functions for each action, this class contains
+ * further functions:
+ * - getDectList()
  *
  * @author Volker Püschel <knuffy@anasco.de>
- * @copyright Volker Püschel 2019 - 2021
+ * @copyright Volker Püschel 2019 - 2022
  * @license MIT
 **/
 
@@ -30,7 +28,8 @@ class x_dect extends fritzsoap
     /**
      * getNumberOfDectEntries
      *
-     * automatically generated; complete coding if necessary!
+     * Returns the number of dect devices.
+     * Required rights: AppRight or PhoneRight or HomeautoRight
      *
      * out: NewNumberOfEntries (ui2)
      *
@@ -39,7 +38,7 @@ class x_dect extends fritzsoap
     public function getNumberOfDectEntries()
     {
         $result = $this->client->GetNumberOfDectEntries();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get the number of DECT entries from FRITZ!Box')) {
             return;
         }
 
@@ -49,7 +48,9 @@ class x_dect extends fritzsoap
     /**
      * getGenericDectEntry
      *
-     * automatically generated; complete coding if necessary!
+     * Read values/states for dect devices by index. Index can have a value from
+     * 0..>NumberOfEntries< from getNumerOfDectEntries().
+     * Required rights: AppRight or PhoneRight or HomeautoRight
      *
      * in: NewIndex (ui2)
      * out: NewID (string)
@@ -67,7 +68,7 @@ class x_dect extends fritzsoap
     {
         $result = $this->client->GetGenericDectEntry(
             new \SoapParam($index, 'NewIndex'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, sprintf('Could not get data from device #%s at FRITZ!Box', $index))) {
             return;
         }
 
@@ -77,7 +78,9 @@ class x_dect extends fritzsoap
     /**
      * getSpecificDectEntry
      *
-     * automatically generated; complete coding if necessary!
+     * Read values/states for dect devices by ID. ID can have a value from 1..6
+     * for DECT handsets or 16..415 for DECT ULE devices.
+     * Required rights: AppRight or PhoneRight or HomeautoRight
      *
      * in: NewID (string)
      * out: NewActive (boolean)
@@ -94,7 +97,8 @@ class x_dect extends fritzsoap
     {
         $result = $this->client->GetSpecificDectEntry(
             new \SoapParam($iD, 'NewID'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        $message = sprintf('Could not get data from device with ID%s from FRITZ!Box', $iD);
+        if ($this->errorHandling($result, $message)) {
             return;
         }
 
@@ -104,7 +108,9 @@ class x_dect extends fritzsoap
     /**
      * dectDoUpdate
      *
-     * automatically generated; complete coding if necessary!
+     * Trigger to start an update for a dect devices by ID. ID can have a value
+     * from 1..6 for DECT handsets or 16..415 for DECT ULE devices.
+     * Required rights: AppRight
      *
      * in: NewID (string)
      *
@@ -115,17 +121,18 @@ class x_dect extends fritzsoap
     {
         $result = $this->client->DectDoUpdate(
             new \SoapParam($iD, 'NewID'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, sprintf('Could not update DECT device #%s at FRITZ!Box', $iD))) {
             return;
         }
-
         return $result;
     }
 
     /**
      * getDectListPath
      *
-     * automatically generated; complete coding if necessary!
+     * This function is undocumented in x_dectSCPD.pdf!
+     * It returns only the path inclusiv SID, but no scheme, host and port!
+     * Example: '/devicedectlist.lua?sid=2e295138ae8296aa'
      *
      * out: NewDectListPath (string)
      *
@@ -134,11 +141,27 @@ class x_dect extends fritzsoap
     public function getDectListPath()
     {
         $result = $this->client->GetDectListPath();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get DECT list path from FRITZ!Box')) {
             return;
         }
 
         return $result;
     }
 
+    // +++ Additional functions not directly related to an action +++
+
+    /**
+     * getDectList
+     *
+     * returns the list of DECT devices available from the location given with
+     * getDectListPath()
+     *
+     * @return simpleXMLElement
+     */
+    public function getDectList()
+    {
+        $url = $this->getServerAdress() . $this->getDectListPath();
+
+        return simplexml_load_file($url);
+    }
 }

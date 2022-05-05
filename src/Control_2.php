@@ -3,8 +3,8 @@
 namespace blacksenator\fritzsoap;
 
 /**
- * The class provides functions to read and manipulate
- * data via TR-064 interface on FRITZ!Box router from AVM.
+ * The class provides functions to read and manipulate data via TR-064 interface
+ * on FRITZ!Box router from AVM.
  * No specific documentation available!
  *
  * @see: https://avm.de/service/schnittstellen/
@@ -16,7 +16,7 @@ namespace blacksenator\fritzsoap;
  * +++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
  * @author Volker Püschel <knuffy@anasco.de>
- * @copyright Volker Püschel 2019 - 2021
+ * @copyright Volker Püschel 2019 - 2022
  * @license MIT
 **/
 
@@ -112,11 +112,11 @@ class Control_2 extends fritzsoap
     public function browse($objectID, $browseFlag, $filter, $startingIndex, $requestedCount, $sortCriteria)
     {
         $result = $this->client->Browse(
-            new \SoapParam($objectID, 'ObjectID'), 
-            new \SoapParam($browseFlag, 'BrowseFlag'), 
-            new \SoapParam($filter, 'Filter'), 
-            new \SoapParam($startingIndex, 'StartingIndex'), 
-            new \SoapParam($requestedCount, 'RequestedCount'), 
+            new \SoapParam($objectID, 'ObjectID'),
+            new \SoapParam($browseFlag, 'BrowseFlag'),
+            new \SoapParam($filter, 'Filter'),
+            new \SoapParam($startingIndex, 'StartingIndex'),
+            new \SoapParam($requestedCount, 'RequestedCount'),
             new \SoapParam($sortCriteria, 'SortCriteria'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return null;
@@ -152,11 +152,11 @@ class Control_2 extends fritzsoap
     public function search($containerID, $searchCriteria, $filter, $startingIndex, $requestedCount, $sortCriteria)
     {
         $result = $this->client->Search(
-            new \SoapParam($containerID, 'ContainerID'), 
-            new \SoapParam($searchCriteria, 'SearchCriteria'), 
-            new \SoapParam($filter, 'Filter'), 
-            new \SoapParam($startingIndex, 'StartingIndex'), 
-            new \SoapParam($requestedCount, 'RequestedCount'), 
+            new \SoapParam($containerID, 'ContainerID'),
+            new \SoapParam($searchCriteria, 'SearchCriteria'),
+            new \SoapParam($filter, 'Filter'),
+            new \SoapParam($startingIndex, 'StartingIndex'),
+            new \SoapParam($requestedCount, 'RequestedCount'),
             new \SoapParam($sortCriteria, 'SortCriteria'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
             return null;
@@ -164,5 +164,4 @@ class Control_2 extends fritzsoap
 
         return $result;
     }
-
 }

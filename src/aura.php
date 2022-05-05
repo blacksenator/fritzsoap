@@ -3,16 +3,16 @@
 namespace blacksenator\fritzsoap;
 
 /**
- * The class provides functions to read and manipulate
- * data via TR-064 interface on FRITZ!Box router from AVM.
+ * The class provides functions to read and manipulate data via TR-064 interface
+ * on FRITZ!Box router from AVM.
  *
- * There is no official AVM documentation about AURA
- * (AVM USB Remote Access) available!
+ * There is no official AVM documentation about AURA (AVM USB Remote Access)
+ * available!
  *
  * @see: https://avm.de/service/schnittstellen/
  *
- * To use this class, the USB-Fernanschluss (USB remote
- * connection function must be activated in the FRITZ!Box!
+ * To use this class, the USB-Fernanschluss (USB remote connection function must
+ * be activated in the FRITZ!Box!
  *
  * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
  * THIS FILE IS AUTOMATIC ASSEMBLED BUT PARTLY REVIEWED!
@@ -21,7 +21,7 @@ namespace blacksenator\fritzsoap;
  * +++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
  * @author Volker Püschel <knuffy@anasco.de>
- * @copyright Volker Püschel 2022
+ * @copyright Volker Püschel 2019 - 2022
  * @license MIT
 **/
 

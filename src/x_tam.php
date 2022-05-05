@@ -3,13 +3,17 @@
 namespace blacksenator\fritzsoap;
 
 /**
- * The class provides functions to read and manipulate
- * data via TR-064 interface on FRITZ!Box router from AVM.
+ * The class provides functions to read and manipulate data via TR-064 interface
+ * on FRITZ!Box router from AVM.
  *
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/x_tam.pdf
- * *
+ *
+ * In addition to the designated functions for each action, this class contains
+ * further functions:
+ * - getTAMs() extends getInfo()
+
  * @author Volker Püschel <knuffy@anasco.de>
- * @copyright Volker Püschel 2022
+ * @copyright Volker Püschel 20219 - 2022
  * @license MIT
 **/
 
@@ -19,7 +23,8 @@ class x_tam extends fritzsoap
 {
     const
         SERVICE_TYPE = 'urn:dslforum-org:service:X_AVM-DE_TAM:1',
-        CONTROL_URL  = '/upnp/control/x_tam';
+        CONTROL_URL  = '/upnp/control/x_tam',
+        MAX_TAMS = 4;                                           // see getTAMs()
 
     /**
      * getInfo
@@ -37,14 +42,17 @@ class x_tam extends fritzsoap
      * out: NewPhoneNumbers (string)
      *
      * @param int $index
+     * @param bool $error
      * @return array
      */
-    public function getInfo($index)
+    public function getInfo(int $index, bool $error = true)
     {
         $result = $this->client->GetInfo(
             new \SoapParam($index, 'NewIndex'));
-        if ($this->errorHandling($result, 'Could not get tam info from FRITZ!Box')) {
-            return;
+        if ($error) {
+            if ($this->errorHandling($result, sprintf('Could not get the info about TAM #%s from FRITZ!Box', $index))) {
+                return;
+            }
         }
 
         return $result;
@@ -53,13 +61,12 @@ class x_tam extends fritzsoap
     /**
      * setEnable
      *
-     * enable or disable a given tam by index
-     * Index starts with 0!
-     * The boolean value should be set as >0< or >1<.
-     * A >true< or >false< will cause no error, but
-     * You can not enable with >true< but disable with
-     * >false<!
-     * That's why it's intercepted in the coding.
+     * enable or disable a given TAM (telephone answering machine) by index.
+     * Index starts with 0! Setting the status that already exists returns or
+     * disabling returns >null<.
+     * The boolean value should be set as >0< or >1<. A >true< or >false< will
+     * cause no error, but you can not enable with >true< but disable with
+     * >false<! That's why it's intercepted in the coding.
      *
      * in: NewIndex (ui2)
      * in: NewEnable (boolean)
@@ -68,14 +75,14 @@ class x_tam extends fritzsoap
      * @param bool $enable
      * @return void
      */
-    public function setEnable($index, $enable)
+    public function setEnable(int $index, bool $enable)
     {
-        $enable = $enable ? 1 : 0;
+        $enable = $enable ? 1 : 0;                          // sanitize boolean
         $result = $this->client->SetEnable(
             new \SoapParam($index, 'NewIndex'),
             new \SoapParam($enable, 'NewEnable'));
-        $bStr = $enable ? "enable" : "disable";
-        $message = sprintf('Could not %s tam #%s on FRITZ!Box', $bStr, $index);
+        $bStr = $this->boolToState($enable);
+        $message = sprintf('Could not %s TAM #%s on FRITZ!Box', $bStr, $index);
         if ($this->errorHandling($result, $message)) {
             return;
         }
@@ -86,8 +93,7 @@ class x_tam extends fritzsoap
     /**
      * getMessageList
      *
-     * Returns a XML with list of callers on the
-     * answering machine:
+     * Returns a XML with list of callers on the answering machine:
      * <?xml version="1.0" encoding="UTF-8"?>
      * <Root>
      *     <Message>
@@ -110,7 +116,7 @@ class x_tam extends fritzsoap
      * @param int $index
      * @return SimpleXMLElemnt
      */
-    public function getMessageList($index)
+    public function getMessageList(int $index)
     {
         $result = $this->client->GetMessageList(
             new \SoapParam($index, 'NewIndex'));
@@ -124,8 +130,7 @@ class x_tam extends fritzsoap
     /**
      * markMessage
      *
-     * marking a designated message on a given
-     * answering machine as read or unread
+     * marking a designated message on a given answering machine as read or unread
      *
      * in: NewIndex (ui2)
      * in: NewMessageIndex (ui2)
@@ -136,7 +141,7 @@ class x_tam extends fritzsoap
      * @param bool $markedAsRead
      * @return void
      */
-    public function markMessage($index, $messageIndex, $markedAsRead)
+    public function markMessage(int $index, int $messageIndex, bool $markedAsRead)
     {
         $markedAsRead = $markedAsRead ? 1 : 0;
         $result = $this->client->MarkMessage(
@@ -155,8 +160,7 @@ class x_tam extends fritzsoap
     /**
      * deleteMessage
      *
-     * delete a designated message from a given
-     * answering machine
+     * delete a designated message from a given answering machine
      *
      * in: NewIndex (ui2)
      * in: NewMessageIndex (ui2)
@@ -165,7 +169,7 @@ class x_tam extends fritzsoap
      * @param int $messageIndex
      * @return void
      */
-    public function deleteMessage($index, $messageIndex)
+    public function deleteMessage(int $index, int $messageIndex)
     {
         $result = $this->client->DeleteMessage(
             new \SoapParam($index, 'NewIndex'),
@@ -207,5 +211,29 @@ class x_tam extends fritzsoap
         }
 
         return $result;
+    }
+
+    // +++ Additional functions not directly related to an action +++
+
+    /**
+     * Returns an array with the installed telephony answering machines
+     *
+     * see: https://avm.de/service/wissensdatenbank/dok/FRITZ-Box-7590/1634_Anzahl-Telefonie-und-DECT-Gerate-die-mit-FRITZ-Box-verwendet-werden-konnen/
+     *
+     * @return array
+     */
+    public function getTAMs()
+    {
+        $tams = [];
+        for ($i = 0; $i <= self::MAX_TAMS; $i++) {
+            $tamInfo = $this->getInfo($i, false);
+            if (!is_soap_fault($tamInfo)) {
+                $tams[$i] = $tamInfo;
+            } else {
+                break;          // interrupts loop with first appearing soapfault
+            }
+        }
+
+        return $tams;
     }
 }

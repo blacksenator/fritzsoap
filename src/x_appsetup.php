@@ -3,19 +3,19 @@
 namespace blacksenator\fritzsoap;
 
 /**
- * The class provides functions to read and manipulate
- * data via TR-064 interface on FRITZ!Box router from AVM.
+ * The class provides functions to read and manipulate data via TR-064 interface
+ * on FRITZ!Box router from AVM.
  *
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/x_appsetup.pdf
  *
  * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
- * THIS FILE IS AUTOMATIC ASSEMBLED!
+* THIS FILE IS AUTOMATIC ASSEMBLED BUT PARTLY REVIEWED!
  * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
  * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
  * +++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
  * @author Volker Püschel <knuffy@anasco.de>
- * @copyright Volker Püschel 2019 - 2021
+ * @copyright Volker Püschel 2019 - 2022
  * @license MIT
 **/
 
@@ -30,7 +30,7 @@ class x_appsetup extends fritzsoap
     /**
      * getInfo
      *
-     * automatically generated; complete coding if necessary!
+     * returns info about length and charsets of attributes
      *
      * out: NewMinCharsAppId (ui2)
      * out: NewMaxCharsAppId (ui2)
@@ -66,7 +66,7 @@ class x_appsetup extends fritzsoap
     public function getInfo()
     {
         $result = $this->client->GetInfo();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get info from FRITZ!Box')) {
             return;
         }
 
@@ -76,7 +76,7 @@ class x_appsetup extends fritzsoap
     /**
      * getConfig
      *
-     * automatically generated; complete coding if necessary!
+     * returns given rights
      *
      * out: NewConfigRight (string)
      * out: NewAppRight (string)
@@ -92,7 +92,7 @@ class x_appsetup extends fritzsoap
     public function getConfig()
     {
         $result = $this->client->GetConfig();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get config from FRITZ!Box')) {
             return;
         }
 
@@ -149,7 +149,9 @@ class x_appsetup extends fritzsoap
      * @param bool $appInternetRights
      * @return void
      */
-    public function registerApp($appId, $appDisplayName, $appDeviceMAC, $appUsername, $appPassword, $appRight, $nasRight, $phoneRight, $homeautoRight, $appInternetRights)
+    public function registerApp($appId, $appDisplayName, $appDeviceMAC, $appUsername,
+                                $appPassword, $appRight, $nasRight, $phoneRight,
+                                $homeautoRight, $appInternetRights)
     {
         $result = $this->client->RegisterApp(
             new \SoapParam($appId, 'NewAppId'),
@@ -187,7 +189,8 @@ class x_appsetup extends fritzsoap
      * @param string $iPSecXauthPassword
      * @return void
      */
-    public function setAppVPN($appId, $iPSecIdentifier, $iPSecPreSharedKey, $iPSecXauthUsername, $iPSecXauthPassword)
+    public function setAppVPN($appId, $iPSecIdentifier, $iPSecPreSharedKey,
+                                $iPSecXauthUsername, $iPSecXauthPassword)
     {
         $result = $this->client->SetAppVPN(
             new \SoapParam($appId, 'NewAppId'),
@@ -220,7 +223,8 @@ class x_appsetup extends fritzsoap
      * @param string $iPSecXauthPassword
      * @return void
      */
-    public function setAppVPNwithPFS($appId, $iPSecIdentifier, $iPSecPreSharedKey, $iPSecXauthUsername, $iPSecXauthPassword)
+    public function setAppVPNwithPFS($appId, $iPSecIdentifier, $iPSecPreSharedKey,
+                                    $iPSecXauthUsername, $iPSecXauthPassword)
     {
         $result = $this->client->SetAppVPNwithPFS(
             new \SoapParam($appId, 'NewAppId'),
@@ -280,7 +284,8 @@ class x_appsetup extends fritzsoap
      * @param string $appAVMPasswordHash
      * @return array
      */
-    public function setAppMessageReceiver($appId, $cryptAlgos, $appAVMAddress, $appAVMPasswordHash)
+    public function setAppMessageReceiver($appId, $cryptAlgos, $appAVMAddress,
+                                            $appAVMPasswordHash)
     {
         $result = $this->client->SetAppMessageReceiver(
             new \SoapParam($appId, 'NewAppId'),
@@ -318,7 +323,7 @@ class x_appsetup extends fritzsoap
     /**
      * getAppRemoteInfo
      *
-     * automatically generated; complete coding if necessary!
+     * returns remote information
      *
      * out: NewSubnetMask (string)
      * out: NewIPAddress (string)
@@ -334,11 +339,10 @@ class x_appsetup extends fritzsoap
     public function getAppRemoteInfo()
     {
         $result = $this->client->GetAppRemoteInfo();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get info from FRITZ!Box')) {
             return;
         }
 
         return $result;
     }
-
 }
