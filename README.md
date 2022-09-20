@@ -4,6 +4,8 @@
 
 ## Purpose
 
+<img align="right" src="assets/fritzsoap.png"/>
+
 This class provides functions to read and manipulate data via TR-064 and UPnP (IGD) interfaces on FRITZ!Box routers and FRITZ!Repeater from [AVM](https://en.avm.de/).
 For example, the FRITZ!Box 7590 provides over **500** interfaces (**actions**) in more than **50 services**.
 
