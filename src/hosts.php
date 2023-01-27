@@ -356,14 +356,19 @@ class hosts extends fritzsoap
      * getHostList
      *
      * returns the list of host devices available from the location given with
-     * x_AVM_DE_GetHostListPath()
+     * x_AVM_DE_GetHostListPath(). You can choose if the output should contain
+     * all known devices (default) or only currently active host devices.
      *
+     * @param bool $onlyActive
      * @return simpleXMLElement
      */
-    public function getHostList()
+    public function getHostList(bool $onlyActive = false)
     {
         $url = $this->getServerAdress() . $this->x_AVM_DE_GetHostListPath();
-
-        return simplexml_load_file($url);
+        $hostList = simplexml_load_file($url);
+        if ($onlyActive) {
+            return $hostList->xpath('Item[Active="1"]');
+        }
+        return $hostList;
     }
 }
