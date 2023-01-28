@@ -370,8 +370,7 @@ class hosts extends fritzsoap
         $hostList = simplexml_load_file($url);
         if ($onlyActive) {
             $hostListxml = '<?xml version="1.0"?><Item>';
-            $activeHosts = $hostList->xpath('Item[Active="1"]');
-            foreach($activeHosts as $host)
+            foreach($hostList->xpath('Item[Active="1"]') as $host)
                 if(empty($interfaceType) || (string) $host->InterfaceType == $interfaceType)
                     $hostListxml .= $host->asXML();
             return new \SimpleXMLElement($hostListxml.'</Item>');
