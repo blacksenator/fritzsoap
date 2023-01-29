@@ -373,7 +373,7 @@ class hosts extends fritzsoap
             foreach($hostList->xpath('Item[Active="1"]') as $host)
                 if(empty($interfaceType) || (string) $host->InterfaceType == $interfaceType)
                     $hostListxml .= $host->asXML();
-            return new \SimpleXMLElement('<?xml version="1.0"?><Item>' . $hostListxml . '</Item>');
+            return new \SimpleXMLElement('<?xml version="1.0"?><List>' . $hostListxml . '</List>');
         }
         return $hostList;
     }
