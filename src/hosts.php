@@ -369,11 +369,11 @@ class hosts extends fritzsoap
         $url = $this->getServerAdress() . $this->x_AVM_DE_GetHostListPath();
         $hostList = simplexml_load_file($url);
         if ($active) {
-            $hostListxml = '<?xml version="1.0"?><Item>';
+            $hostListxml = '';
             foreach($hostList->xpath('Item[Active="1"]') as $host)
                 if(empty($interfaceType) || (string) $host->InterfaceType == $interfaceType)
                     $hostListxml .= $host->asXML();
-            return new \SimpleXMLElement($hostListxml . '</Item>');
+            return new \SimpleXMLElement('<?xml version="1.0"?><Item>' . $hostListxml . '</Item>');
         }
         return $hostList;
     }
