@@ -356,14 +356,25 @@ class hosts extends fritzsoap
      * getHostList
      *
      * returns the list of host devices available from the location given with
-     * x_AVM_DE_GetHostListPath()
+     * x_AVM_DE_GetHostListPath(). You can choose if the output should contain
+     * all known devices (default) or only currently active host devices optionally
+     * filtered by interface type.
      *
+     * @param bool $active
+     * @param string $interfaceType [802.11|Ethernet|HomePlug]
      * @return simpleXMLElement
      */
-    public function getHostList()
+    public function getHostList(bool $active = false, string $interfaceType = '')
     {
         $url = $this->getServerAdress() . $this->x_AVM_DE_GetHostListPath();
-
-        return simplexml_load_file($url);
+        $hostList = simplexml_load_file($url);
+        if ($active) {
+            $hostListxml = '';
+            foreach($hostList->xpath('Item[Active="1"]') as $host)
+                if(empty($interfaceType) || (string) $host->InterfaceType == $interfaceType)
+                    $hostListxml .= $host->asXML();
+            return new \SimpleXMLElement('<?xml version="1.0"?><List>' . $hostListxml . '</List>');
+        }
+        return $hostList;
     }
 }
