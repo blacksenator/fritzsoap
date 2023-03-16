@@ -16,6 +16,7 @@ namespace blacksenator\fritzsoap;
  *
  * In addition to the designated functions for each action, this class contains
  * further functions:
+ * - sanitizeNumber() numbers containing only digits
  * - getListOfPhoneNumbers() simple array of all numbers from a phonebook
  * - newContact() delivers a xml phonebook contact
  * - setContact() uses newcontact() and setPhonebookEntry()
@@ -23,7 +24,7 @@ namespace blacksenator\fritzsoap;
  *   the ID of the dedicated phonebook and optional the phone type (quite simple!)
  *
  * @author Volker Püschel <knuffy@anasco.de>
- * @copyright Volker Püschel 2019 - 2022
+ * @copyright Volker Püschel 2019 - 2023
  * @license MIT
 **/
 
@@ -794,33 +795,66 @@ class x_contact extends fritzsoap
 // +++ Additional functions not directly related to an action +++
 
     /**
-     * return a simple array of all numbers from a designated
-     * phone book according to $types - if you want only numbers
-     * of a type: e.g. home, work, mobil, fax, fax_work
-     * Internal numbers beginning with '*' or '#' are skipped
+     * Sanitize the number string to ensure there are no characters other than
+     * digits
+     *
+     * @param string $number
+     * @param bool $keepAsterisks
+     * @return string $number
+     */
+    public function sanitizeNumber(string $number, $keepAsterisks = true): string
+    {
+        trim($number);
+        // if number starts with "+" (wildcard for foreign prefix)
+        if (substr($number, 0, 1) == '+') {
+            $number = '00' . substr($number, 1);        // will replaced with 00
+        }
+        // foreign number contains additional trunk prefix in brackets
+        if ((substr($number, 0, 2) == '00') && strpos($number, '(0)', 2)) {
+            $number = str_replace('(0)', '', $number);
+        }
+        // if number ends with "*" (main or central number)
+        if ((substr(trim($number), -1) == '*') && $keepAsterisks) {
+            $number = preg_replace('/[^0-9]/', '', $number) . '*';
+        } else {
+            $number = preg_replace('/[^0-9]/', '', $number);
+        }
+
+        return $number;                                         // only digits
+    }
+
+    /**
+     * returns a simple array of all external numbers from a designated phone
+     * book according to $types. You can choose if you want only numbers of a
+     * certain type: e.g. home, work, mobil, fax, fax_work, other. By default
+     * all numbers are sanitized (only digits!) with this one exception: an
+     * asteriks at the end of a number, indicating a central (main) number is
+     * is generally kept. Internal numbers beginning with '*' or '#' are
+     * generally skipped.
      *
      * @param SimpleXMLElement $phoneBook
      * @param array $types
+     * @param bool $sanitize
      * @return array $numbers
      */
-    public function getListOfPhoneNumbers($phoneBook, $types = [])
+    public function getListOfPhoneNumbers($phoneBook, $types = [], $sanitize = true)
     {
         $numbers = [];
         foreach ($phoneBook->phonebook->contact as $contact) {
-            foreach ($contact->telephony->number as $number) {
-                if ((substr($number, 0, 1) == '*') || (substr($number, 0, 1) == '#')) {
+            foreach ($contact->telephony->number as $telephonyNumber) {
+                if (
+                    (substr($telephonyNumber, 0, 1) == '*') ||
+                    (substr($telephonyNumber, 0, 1) == '#') ||
+                    (count($types) && (!in_array($telephonyNumber['type'], $types)))
+                    ) {
                     continue;
                 }
-                if (count($types)) {
-                    if (in_array($number['type'], $types)) {
-                        $phoneNumber = (string)$number[0];
-                    } else {
-                        continue;
-                    }
+                if ($sanitize) {
+                    $number = $this->sanitizeNumber($telephonyNumber[0]);
                 } else {
-                    $phoneNumber = (string)$number[0];
+                    $number = (string)$telephonyNumber[0];
                 }
-                $numbers[] = $phoneNumber;
+                $numbers[] = $number;
             }
         }
 
@@ -851,7 +885,7 @@ class x_contact extends fritzsoap
      * @param string $type phone type (home, work, mobile, fax_work)
      * @return string XML
      */
-    public function newContact($name, $number, $type = 'other'): string
+    public function newContact($name, $number, $type = 'other', $image = ''): string
     {
         $envelope = new simpleXMLElement('<?xml version="1.0" encoding="utf-8"?><entry />');
 
@@ -860,6 +894,7 @@ class x_contact extends fritzsoap
 
         $person = $contact->addChild('person');
         $person->addChild('realName', $name);
+        $person->addChild('imageURL', $image);
 
         $telephony = $contact->addChild('telephony');
         $telephony->addAttribute('nid', '1');
@@ -888,10 +923,12 @@ class x_contact extends fritzsoap
      * @param string $name <realName>
      * @param string $number <number>
      * @param string $type <type='other'>
+     * @param string $image
      * @return void
      */
-    public function setContact($phonebookID, $name, $number, $type = null)
+    public function setContact($phonebookID, $name, $number, $type = null, $image = null)
     {
-        $this->setPhonebookEntry($this->newContact($name, $number, $type), $phonebookID);
+        $type ?? 'other';
+        $this->setPhonebookEntry($this->newContact($name, $number, $type, $image), $phonebookID);
     }
 }

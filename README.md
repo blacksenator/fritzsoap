@@ -281,4 +281,4 @@ This script is released under MIT license.
 
 ## Author
 
-Copyright (c) 2019 - 2022 Volker Püschel
+Copyright (c) 2019 - 2023 Volker Püschel

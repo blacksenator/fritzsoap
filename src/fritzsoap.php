@@ -27,7 +27,7 @@ namespace blacksenator\fritzsoap;
  *   $meshList = $fritzbox->x_AVM_DE_GetMeshListPath();
  *
  * @author Volker Püschel <knuffy@anasco.de>
- * @copyright Volker Püschel 2019 - 2022
+ * @copyright Volker Püschel 2019 - 2023
  * @license MIT
 **/
 
@@ -38,19 +38,20 @@ class fritzsoap
 {
     const
         SERVICE_DESCRIPTIONS = [                // see: https://boxmatrix.info/wiki/XML-Files ('*desc.xml (static)')
-            'aura.xml',                         // found on my 7490 OS7.12, but not on 7590 OS7.21
-            'tr64desc.xml',                     // found on my 7490 OS7.12
-            'igddesc.xml',                      // found on my 7490 OS7.12
-            'avmnexusdesc.xml',                 // found on my 7490 OS7.12
+            'aura.xml',
+            'avmnexusdesc.xml',
+            'fboxdesc.xml',
             'GPMDevDesc.xml',
-            'igd2desc.xml',                     // found on my 7490 OS7.12
-            'l2tpv3.xml',                       // found on my 7490 OS7.12
+            'igddesc.xml',
+            'igd2desc.xml',
+            'l2tpv3.xml',
             'MediaRendererDevDesc.xml',
-            'MediaServerDevDesc.xml',           // found on my 7490 OS7.12
-            'MediaServerDevDesc-xbox.xml',      // found on my 7490 OS7.12
+            'MediaServerDevDesc.xml',
+            'MediaServerDevDesc-xbox.xml',
             'onlinestoredesc.xml',
             'satipdesc.xml',
             'TMediaCenterDevDesc.xml',
+            'tr64desc.xml',                             // main description file
             'usbdesc.xml',
         ],
         HTTP_PORT       = '49000',
