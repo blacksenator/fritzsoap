@@ -16,6 +16,7 @@ namespace blacksenator\fritzsoap;
  *
  * In addition to the designated functions for each action, this class contains
  * further functions:
+ * - setCountryCode() if you are using sanitizing outside Germany (default '0049')
  * - sanitizeNumber() numbers containing only digits
  * - getListOfPhoneNumbers() simple array of all numbers from a phonebook
  * - newContact() delivers a xml phonebook contact
@@ -36,6 +37,8 @@ class x_contact extends fritzsoap
     const
         SERVICE_TYPE = 'urn:dslforum-org:service:X_AVM-DE_OnTel:1',
         CONTROL_URL  = '/upnp/control/x_contact';
+
+    private $countryCode = '0049';
 
     /**
      * getInfo
@@ -795,6 +798,27 @@ class x_contact extends fritzsoap
 // +++ Additional functions not directly related to an action +++
 
     /**
+     * set a different country code. Default is '0049'. Input has to follow the
+     * pattern two zeros, followed by a digit from 1 to 9, followed by none up
+     * to a maximum of three digits (0-9).
+     * Examples:
+     * 001 (USA/Canada)
+     * 0020 (Egypt)
+     * 003906 (Vatican City)
+     *
+     * @param string $countryCode
+     * @return void
+     */
+    public function setCountryCode(string $countryCode)
+    {
+        if (preg_match('/^00[1-9]{1}[0-9]{0,3}$/', $countryCode)) {
+            $this->countryCode = $countryCode;
+        } else {
+            throw new \Exception('You entered an invalid conuntry code');
+        }
+    }
+
+    /**
      * Sanitize the number string to ensure there are no characters other than
      * digits
      *
@@ -804,7 +828,7 @@ class x_contact extends fritzsoap
      */
     public function sanitizeNumber(string $number, $keepAsterisks = true): string
     {
-        trim($number);
+        $number = trim($number);
         // if number starts with "+" (wildcard for foreign prefix)
         if (substr($number, 0, 1) == '+') {
             $number = '00' . substr($number, 1);        // will replaced with 00
@@ -813,6 +837,8 @@ class x_contact extends fritzsoap
         if ((substr($number, 0, 2) == '00') && strpos($number, '(0)', 2)) {
             $number = str_replace('(0)', '', $number);
         }
+        // delete countrycode with trunk prefix
+        $number = str_replace($this->countryCode, '0', $number);
         // if number ends with "*" (main or central number)
         if ((substr(trim($number), -1) == '*') && $keepAsterisks) {
             $number = preg_replace('/[^0-9]/', '', $number) . '*';
