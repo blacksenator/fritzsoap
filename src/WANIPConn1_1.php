@@ -42,7 +42,7 @@ class WANIPConn1_1 extends fritzsoap
         $result = $this->client->SetConnectionType(
             new \SoapParam($connectionType, 'NewConnectionType'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return null;
+            return;
         }
 
         return $result;
@@ -134,7 +134,7 @@ class WANIPConn1_1 extends fritzsoap
         $result = $this->client->SetAutoDisconnectTime(
             new \SoapParam($autoDisconnectTime, 'NewAutoDisconnectTime'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return null;
+            return;
         }
 
         return $result;
@@ -155,7 +155,7 @@ class WANIPConn1_1 extends fritzsoap
         $result = $this->client->SetIdleDisconnectTime(
             new \SoapParam($idleDisconnectTime, 'NewIdleDisconnectTime'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return null;
+            return;
         }
 
         return $result;
@@ -176,7 +176,7 @@ class WANIPConn1_1 extends fritzsoap
         $result = $this->client->SetWarnDisconnectDelay(
             new \SoapParam($warnDisconnectDelay, 'NewWarnDisconnectDelay'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return null;
+            return;
         }
 
         return $result;
@@ -303,7 +303,7 @@ class WANIPConn1_1 extends fritzsoap
         $result = $this->client->GetGenericPortMappingEntry(
             new \SoapParam($portMappingIndex, 'NewPortMappingIndex'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return null;
+            return;
         }
 
         return $result;
@@ -335,7 +335,7 @@ class WANIPConn1_1 extends fritzsoap
             new \SoapParam($externalPort, 'NewExternalPort'),
             new \SoapParam($protocol, 'NewProtocol'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return null;
+            return;
         }
 
         return $result;
@@ -377,7 +377,7 @@ class WANIPConn1_1 extends fritzsoap
             new \SoapParam($portMappingDescription, 'NewPortMappingDescription'),
             new \SoapParam($leaseDuration, 'NewLeaseDuration'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return null;
+            return;
         }
 
         return $result;
@@ -404,7 +404,7 @@ class WANIPConn1_1 extends fritzsoap
             new \SoapParam($externalPort, 'NewExternalPort'),
             new \SoapParam($protocol, 'NewProtocol'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return null;
+            return;
         }
 
         return $result;
@@ -539,7 +539,7 @@ class WANIPConn1_1 extends fritzsoap
             new \SoapParam($protocol, 'NewProtocol'),
             new \SoapParam($manage, 'NewManage'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return null;
+            return;
         }
 
         return $result;
@@ -573,7 +573,7 @@ class WANIPConn1_1 extends fritzsoap
             new \SoapParam($manage, 'NewManage'),
             new \SoapParam($numberOfPorts, 'NewNumberOfPorts'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return null;
+            return;
         }
 
         return $result;
@@ -616,7 +616,7 @@ class WANIPConn1_1 extends fritzsoap
             new \SoapParam($portMappingDescription, 'NewPortMappingDescription'),
             new \SoapParam($leaseDuration, 'NewLeaseDuration'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return null;
+            return;
         }
 
         return $result;

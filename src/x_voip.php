@@ -22,7 +22,7 @@ namespace blacksenator\fritzsoap;
  * - getPhonePorts() extends x_AVM_DE_GetPhonePort()
  *
  * @author Volker Püschel <knuffy@anasco.de>
- * @copyright Volker Püschel 20219 - 2022
+ * @copyright Volker Püschel 2019 - 2023
  * @license MIT
 **/
 
@@ -669,7 +669,7 @@ class x_voip extends fritzsoap
         $result = $this->client->{'X_AVM-DE_DialSetConfig'}(
             new \SoapParam($x_AVM_DE_PhoneName, 'NewX_AVM-DE_PhoneName'));
         if ($this->errorHandling($result, 'Could not set telephony device as "click to dial" at FRITZ!Box')) {
-            return null;
+            return;
         }
 
         return $result;

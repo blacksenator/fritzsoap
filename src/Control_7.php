@@ -5,7 +5,8 @@ namespace blacksenator\fritzsoap;
 /**
  * The class provides functions to read and manipulate data via TR-064 interface
  * on FRITZ!Box router from AVM.
- * No specific documentation available!
+ * No specific documentation available! As of FRITZ!OS 7.50, control services
+ * can no longer be found in the description files
  *
  * @see: https://avm.de/service/schnittstellen/
  *
@@ -44,7 +45,7 @@ class Control_7 extends fritzsoap
         $result = $this->client->IsAuthorized(
             new \SoapParam($deviceID, 'DeviceID'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return null;
+            return;
         }
 
         return $result;
@@ -66,7 +67,7 @@ class Control_7 extends fritzsoap
         $result = $this->client->IsValidated(
             new \SoapParam($deviceID, 'DeviceID'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return null;
+            return;
         }
 
         return $result;

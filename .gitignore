@@ -1,7 +1,8 @@
 /generator.php
 /composer.lock
-/test.php
+/tester.php
 /auto/
 /vendor/
 /src/classgenerator.php
 /docs/auraSCPD.docx
+/legacy

@@ -42,7 +42,7 @@ class WANDSLLinkC1_2 extends fritzsoap
         $result = $this->client->SetDSLLinkType(
             new \SoapParam($linkType, 'NewLinkType'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return null;
+            return;
         }
 
         return $result;
@@ -121,7 +121,7 @@ class WANDSLLinkC1_2 extends fritzsoap
         $result = $this->client->SetDestinationAddress(
             new \SoapParam($destinationAddress, 'NewDestinationAddress'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return null;
+            return;
         }
 
         return $result;
@@ -161,7 +161,7 @@ class WANDSLLinkC1_2 extends fritzsoap
         $result = $this->client->SetATMEncapsulation(
             new \SoapParam($aTMEncapsulation, 'NewATMEncapsulation'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return null;
+            return;
         }
 
         return $result;
@@ -201,7 +201,7 @@ class WANDSLLinkC1_2 extends fritzsoap
         $result = $this->client->SetFCSPreserved(
             new \SoapParam($fCSPreserved, 'NewFCSPreserved'));
         if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return null;
+            return;
         }
 
         return $result;

@@ -28,7 +28,7 @@ $callList = $fritzbox->getCallList();
 
 That´s all! **Simple, convenient, straightforward!**
 
-The file `fritzsoap.php` is the meta class providing general basic objects. All other files are subclasses as descendants of this meta class.
+The file `fritzsoap.php` is the meta class providing general basic objects. All other files are subclasses as descendants of this meta class. The **direct instantiation of fritzsoap leads to an error**.
 
 ### Classes and methods
 
@@ -148,16 +148,16 @@ In all other cases you will find a link like this:
 There is one exception so far: `AURA`. Through a [thread in the IP Phone Forum](https://www.ip-phone-forum.de/threads/v0-4-1-30-09-2009-fritzboxnet-net-bibliothek-f%C3%BCr-fritz-box.190718/) I learned how this service works. The six actions of this service are coded and an [unofficial documentation](docs/auraSCPD.pdf) can be found in the `/docs` folder.
 You must have activated the USB remote access function in the FRITZ!Box to be able to access this service!
 
+#### Some other ghosts
+
+* `any` has no actions - generic template?
+* `avmnexus`
+* `fritzbox` disappeared with FRITZ!OS 7.29 (or before?) but reappeared with 7.50
+* `l2tpv3`
+
 #### Control
 
-The group of ghosts includes the `Control` services, of which I found seven with different serviceType and controlURL. The services are therefore mapped accordingly in the classes **Control_1** to **Control_7**.
-
-#### Other ghosts
-
-* `any` (has no actions - generic template?)
-* `avmnexus`
-* `fritzbox` (with FRITZ!OS 7.25 no longer existend in the description XML but recently still available here)
-* `l2tpv3`
+Up to and including FRITZ!OS 7.29 there was a group of `Control` services of the same name, of which I found seven with different serviceType and controlURL. The services are therefore mapped accordingly in the classes **Control_1** to **Control_7**. With FRITZ!OS 7.50 no longer included in the description files, I keep them here for the sake of completeness.
 
 ## Requirements
 
@@ -170,7 +170,7 @@ You can install it through Composer:
 
 ```js
 "require": {
-    "blacksenator/fritzsoap": "^2.4"
+    "blacksenator/fritzsoap": "^2.8"
 },
 ```
 
@@ -184,13 +184,20 @@ git clone https://github.com/blacksenator/fritzsoap.git
 
 ### Authentication
 
-There are a number of services that could be called as UPnP even without credentials. For reasons of simplification, no distinction was made in the constructor of the respective classes.
+There are a few services (IDG-related) that can be called without credentials:
+
+* WANCommonIFC1
+* WANDSLLinkC1
+* WANIPConn1
+* WANIPv6Firewall1
+
+All others require the specification of the FRITZ!Box URL, user and password.
 
 ### Examples
 
 Below are a few examples of how the provided actions or additional functions can be called:
 
-If you wanna get a file with the available services of your FRITZ!Box or FRITZ!Repeater:
+If you wanna get a file with all the available services of your FRITZ!Box or FRITZ!Repeater:
 
 ```PHP
 require_once('vendor/autoload.php');
@@ -202,12 +209,12 @@ $services = $fritzbox->getServiceDescription();
 $services->asXML('services.xml');
 ```
 
-**Hint:** The function `getServiceDescription()` is available in all classes due to inheritance!
-You can also get a more detailed structure with `getServiceDescription(true)`. In this case, the information from the FRITZ!Box is gathered again and all parameters of the actions are also output, as well as the file name of the XML from which the information originates.
+**Hint:** The function `getServiceDescription()` is available in all classes due to inheritance and available without any credentials and provides a good overview! You can also get a more detailed structure with `getServiceDescription(true)`. In this case all parameters of the actions are also output, as well as the file name of the XML from which the information originates.
 
 Example output (clipping):
 ![alt text](assets/detail_xml.jpg "details about services and actions")
 
+But now some more practical applications:
 Example to get a list of all your network devices:
 
 ```PHP

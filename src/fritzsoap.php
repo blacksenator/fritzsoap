@@ -26,64 +26,69 @@ namespace blacksenator\fritzsoap;
  *   $fritzbox = new hosts($url, $user, $password);
  *   $meshList = $fritzbox->x_AVM_DE_GetMeshListPath();
  *
+ * @see https://boxmatrix.info/wiki/XML-Files ('*desc.xml (static)') as an
+ * overview of service description files (self::SERVICE_DESCR)
+ *
  * @author Volker Püschel <knuffy@anasco.de>
  * @copyright Volker Püschel 2019 - 2023
  * @license MIT
 **/
 
 use \SimpleXMLElement;
-use blacksenator\fbvalidateurl\fbvalidateurl;
 
 class fritzsoap
 {
+    use AdressTrait;
+
     const
-        SERVICE_DESCRIPTIONS = [                // see: https://boxmatrix.info/wiki/XML-Files ('*desc.xml (static)')
+        FB_URL     = 'fritz.box',
+        HTTP_PORT  = '49000',
+        HTTPS_PORT = '49443',
+        SERVICE_DESCR = [
             'aura.xml',
             'avmnexusdesc.xml',
             'fboxdesc.xml',
-            'GPMDevDesc.xml',
+            'GPMDevDesc.xml',                   // not available on my system
             'igddesc.xml',
             'igd2desc.xml',
             'l2tpv3.xml',
-            'MediaRendererDevDesc.xml',
-            'MediaServerDevDesc.xml',
-            'MediaServerDevDesc-xbox.xml',
-            'onlinestoredesc.xml',
+            'MediaRendererDevDesc.xml',         // not available on my system
+            'MediaServerDevDesc.xml',           // not available on my system
+            'MediaServerDevDesc-xbox.xml',      // not available on my system
+            'onlinestoredesc.xml',              // not available on my system
             'satipdesc.xml',
             'TMediaCenterDevDesc.xml',
-            'tr64desc.xml',                             // main description file
-            'usbdesc.xml',
+            'tr64desc.xml',                     // main description file
+            'usbdesc.xml',                      // not available on my system
         ],
-        HTTP_PORT       = '49000',
-        HTTPS_PORT      = '49443',
         SOAP_EXCEPTIONS = false,
         SOAP_NOROOT     = true,
         SOAP_TRACE      = true;
 
-    private $url = [];
-    private $user;
-    private $password;
-    protected $fritzBoxURL;
-    protected $serviceType;
-    protected $controlURL;
-    protected $client = null;
-    protected $errorCode;
-    protected $errorText;
+    private
+        $url = [],
+        $user,
+        $password;
+    protected
+        $fritzBoxURL,
+        $serviceType,
+        $controlURL,
+        $client = null,
+        $errorCode,
+        $errorText;
 
     /**
      * instantiation
-     * credentials are optional for UPnP services?
+     * credentials are optional for IDG services (WAN*)
      *
      * @param string $url
      * @param string $user
      * @param string $password
      * @return void
      */
-    public function __construct($url, $user, $password)
+    public function __construct($url = self::FB_URL, $user = '', $password = '')
     {
-        $validator = new fbvalidateurl;
-        $this->url = $validator->getValidURL($url);
-        $this->assembleServerAdress($this->url);
+        $this->setResourceAdresses($url);
         $this->user = $user;
         $this->password = $password;
         $class = $this->getClassName()['class'];
@@ -138,26 +143,6 @@ class fritzsoap
     }
 
     /**
-     * get the validated URL parameters
-     *
-     * @return array
-     */
-    public function getURL(): array
-    {
-        return $this->url;
-    }
-
-    /**
-     * get the server adress
-     *
-     * @return string
-     */
-    public function getServerAdress(): string
-    {
-        return $this->fritzBoxURL;
-    }
-
-    /**
      * return all available services (in ascending order by name)
      * and their actions from the FRITZ!Box in a condenzed XML:
      *
@@ -183,8 +168,8 @@ class fritzsoap
     protected function getFritzBoxServices($detailed = false)
     {
         if ($services = $this->getServices($detailed)) {
-            usort($services, [$this, 'sortServices']);              // using callback function $his->sortServices
-            $fritzsoap = new SimpleXMLElement('<fritzsoap />');
+            usort($services, [$this, 'sortServices']);  // using callback function $this->sortServices
+            $fritzsoap = new SimpleXMLElement('<?xml version="1.0" encoding="utf-8"?><fritzsoap />');
             foreach ($services as $service) {
                 $this->adoptXMLNode($fritzsoap, $service);
             }
@@ -217,7 +202,7 @@ class fritzsoap
      */
     protected function errorHandling($result, string $message = '')
     {
-        $msg = $message ?? 'Could not ... from/to FRITZ!Box';           // we do not better know ...
+        $msg = $message ?? 'Could not ... from/to FRITZ!Box';   // we do not better know ...
 
         if (is_soap_fault($result)) {
             $this->getErrorData($result);
@@ -267,10 +252,10 @@ class fritzsoap
     {
         $services = [];
         $stateTable = [];
-        foreach (self::SERVICE_DESCRIPTIONS as $description) {
+        foreach (self::SERVICE_DESCR as $description) {
             $serviceHeaders = $this->getDescriptionXML($this->fritzBoxURL . '/' . $description, 'service');
             foreach ($serviceHeaders as $serviceHeader) {
-                $service = new SimpleXMLElement('<services />');
+                $service = new SimpleXMLElement('<service />');
                 $name = explode('/', $serviceHeader->controlURL);
                 $service->addAttribute('name', $name[3]);
                 $service->addAttribute('origin', $description);
@@ -320,24 +305,6 @@ class fritzsoap
     private function sortServices($t1, $t2)
     {
         return strcasecmp($t1['name'], $t2['name']);
-    }
-
-    /**
-     * assemble the correct server address, depending on whether it is encrypted
-     * or not
-     *
-     * @param array $url
-     * @return void
-     */
-    private function assembleServerAdress(array $url)
-    {
-        if ($url['scheme'] == 'http') {
-            $this->fritzBoxURL = 'http://' . $url['host'] . ':' . self::HTTP_PORT;
-        } elseif ($this->url['scheme'] == 'https') {
-            $this->fritzBoxURL = 'https://' . $url['host'] . ':' . self::HTTPS_PORT;
-        } else {
-            throw new \Exception ('Could not assemble valid server address!');
-        }
     }
 
     /**
@@ -415,7 +382,8 @@ class fritzsoap
 
     /**
      * Attach xml element to parent
-     * https://stackoverflow.com/questions/4778865/php-simplexml-addchild-with-another-simplexmlelement
+     *
+     * @see https://stackoverflow.com/questions/4778865/php-simplexml-addchild-with-another-simplexmlelement
      *
      * @param SimpleXMLElement $to
      * @param SimpleXMLElement $from
