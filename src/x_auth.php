@@ -8,12 +8,6 @@ namespace blacksenator\fritzsoap;
  *
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/x_auth.pdf
  *
- * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
- * THIS FILE IS AUTOMATIC ASSEMBLED BUT PARTLY REVIEWED!
- * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
- * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
- * +++++++++++++++++++++++++++++++++++++++++++++++++++++
- *
  * @author Volker Püschel <knuffy@anasco.de>
  * @copyright Volker Püschel 2019 - 2023
  * @license MIT
@@ -68,8 +62,6 @@ class x_auth extends fritzsoap
     /**
      * setConfig
      *
-     * automatically generated; complete coding if necessary!
-     *
      * in: NewAction (string)
      * out: NewState (string)
      * out: NewToken (string)
@@ -82,7 +74,7 @@ class x_auth extends fritzsoap
     {
         $result = $this->client->SetConfig(
             new \SoapParam($action, 'NewAction'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not set config to FRITZ!Box')) {
             return;
         }
 

@@ -8,12 +8,6 @@ namespace blacksenator\fritzsoap;
  *
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/x_storageSCPD.pdf
  *
- * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
- * THIS FILE IS AUTOMATIC ASSEMBLED BUT PARTLY REVIEWED!
- * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
- * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
- * +++++++++++++++++++++++++++++++++++++++++++++++++++++
- *
  * @author Volker Püschel <knuffy@anasco.de>
  * @copyright Volker Püschel 2019 - 2023
  * @license MIT
@@ -74,8 +68,6 @@ class x_storage extends fritzsoap
     /**
      * setFTPServer
      *
-     * automatically generated; complete coding if necessary!
-     *
      * in: NewFTPEnable (boolean)
      *
      * @param bool $fTPEnable
@@ -85,17 +77,13 @@ class x_storage extends fritzsoap
     {
         $result = $this->client->SetFTPServer(
             new \SoapParam($fTPEnable, 'NewFTPEnable'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $state = $this->boolToState($fTPEnable);
+        $message = sprintf('Could not %s FTP server at FRITZ!Box', $state);
+        $this->errorHandling($result, $message);
     }
 
     /**
      * setFTPServerWAN
-     *
-     * automatically generated; complete coding if necessary!
      *
      * in: NewFTPWANEnable (boolean)
      * in: NewFTPWANSSLOnly (boolean)
@@ -109,17 +97,13 @@ class x_storage extends fritzsoap
         $result = $this->client->SetFTPServerWAN(
             new \SoapParam($fTPWANEnable, 'NewFTPWANEnable'),
             new \SoapParam($fTPWANSSLOnly, 'NewFTPWANSSLOnly'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+            $state = $this->boolToState($fTPWANEnable);
+            $message = sprintf('Could not %s FTP server WAN at FRITZ!Box', $state);
+            $this->errorHandling($result, $message);
     }
 
     /**
      * setSMBServer
-     *
-     * automatically generated; complete coding if necessary!
      *
      * in: NewSMBEnable (boolean)
      *
@@ -130,11 +114,9 @@ class x_storage extends fritzsoap
     {
         $result = $this->client->SetSMBServer(
             new \SoapParam($sMBEnable, 'NewSMBEnable'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $state = $this->boolToState($sMBEnable);
+        $message = sprintf('Could not %s SMB server at FRITZ!Box', $state);
+        $this->errorHandling($result, $message);
     }
 
     /**
@@ -161,8 +143,6 @@ class x_storage extends fritzsoap
     /**
      * setUserConfig
      *
-     * automatically generated; complete coding if necessary!
-     *
      * in: NewEnable (boolean)
      * in: NewPassword (string)
      * in: NewX_AVM-DE_NetworkAccessReadOnly (boolean)
@@ -178,10 +158,6 @@ class x_storage extends fritzsoap
             new \SoapParam($enable, 'NewEnable'),
             new \SoapParam($password, 'NewPassword'),
             new \SoapParam($x_AVM_DE_NetworkAccessReadOnly, 'NewX_AVM-DE_NetworkAccessReadOnly'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not set user config on FRITZ!Box');
     }
 }

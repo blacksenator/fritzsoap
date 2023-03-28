@@ -69,11 +69,7 @@ class mgmsrv extends fritzsoap
     {
         $result = $this->client->SetManagementServerURL(
             new \SoapParam($uRL, 'NewURL'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -90,11 +86,7 @@ class mgmsrv extends fritzsoap
     {
         $result = $this->client->SetManagementServerUsername(
             new \SoapParam($username, 'NewUsername'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -111,11 +103,7 @@ class mgmsrv extends fritzsoap
     {
         $result = $this->client->SetManagementServerPassword(
             new \SoapParam($password, 'NewPassword'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -138,11 +126,7 @@ class mgmsrv extends fritzsoap
             new \SoapParam($periodicInformEnable, 'NewPeriodicInformEnable'),
             new \SoapParam($periodicInformInterval, 'NewPeriodicInformInterval'),
             new \SoapParam($periodicInformTime, 'NewPeriodicInformTime'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -162,11 +146,7 @@ class mgmsrv extends fritzsoap
         $result = $this->client->SetConnectionRequestAuthentication(
             new \SoapParam($connectionRequestUsername, 'NewConnectionRequestUsername'),
             new \SoapParam($connectionRequestPassword, 'NewConnectionRequestPassword'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -183,11 +163,7 @@ class mgmsrv extends fritzsoap
     {
         $result = $this->client->SetUpgradeManagement(
             new \SoapParam($upgradesManaged, 'NewUpgradesManaged'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -204,11 +180,7 @@ class mgmsrv extends fritzsoap
     {
         $result = $this->client->X_SetTR069Enable(
             new \SoapParam($tR069Enabled, 'NewTR069Enabled'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -244,10 +216,6 @@ class mgmsrv extends fritzsoap
     {
         $result = $this->client->{'X_AVM-DE_SetTR069FirmwareDownloadEnabled'}(
             new \SoapParam($tR069FirmwareDownloadEnabled, 'NewTR069FirmwareDownloadEnabled'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 }

@@ -9,12 +9,6 @@ namespace blacksenator\fritzsoap;
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/x_hostfilterSCPD.pdf
  * @see: https://en.avm.de/service/knowledge-base/dok/FRITZ-Box-7590/3408_Extending-the-online-time-permitted-in-the-parental-controls-with-tickets/
  *
- * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
- * THIS FILE IS AUTOMATIC ASSEMBLED BUT PARTLY REVIEWED!
- * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
- * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
- * +++++++++++++++++++++++++++++++++++++++++++++++++++++
- *
  * @author Volker Püschel <knuffy@anasco.de>
  * @copyright Volker Püschel 2019 - 2023
  * @license MIT
@@ -31,11 +25,10 @@ class x_hostfilter extends fritzsoap
     /**
      * markTicket
      *
-     * returns a ticket from the list for parental controls
-     * and mark it similar to the Button "share ticket" (where
-     * it is copied to the clipboard).
-     * If you request more than unmarked tickets (max. 10)
-     * the return is a 714 error.
+     * returns a ticket from the list for parental controls and mark it similar
+     * to the Button "share ticket" (where it is copied to the clipboard). If
+     * you request more than unmarked tickets (max. 10) the return is a 714
+     * error
      *
      * out: NewTicketID (string)
      *
@@ -54,11 +47,9 @@ class x_hostfilter extends fritzsoap
     /**
      * getTicketIDStatus
      *
-     * returns the status >marked< or >unmarked<
-     * to a given ticket number. Returns >invalid<
-     * if ticket number is outside of ticket list.
-     * If input string is not equal 6 char or contains
-     * no numerics it cause a 402 error.
+     * returns the status >marked< or >unmarked< to a given ticket number.
+     * Returns >invalid< if ticket number is outside of ticket list. If input
+     * string is not equal 6 char or contains no numerics it cause a 402 error
      *
      * in: NewTicketID (string)
      * out: NewTicketIDStatus (string)
@@ -88,17 +79,11 @@ class x_hostfilter extends fritzsoap
     public function discardAllTickets()
     {
         $result = $this->client->DiscardAllTickets();
-        if ($this->errorHandling($result, 'Could not discard all tickets at FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not discard all tickets at FRITZ!Box');
     }
 
     /**
      * disallowWANAccessByIP
-     *
-     * automatically generated; complete coding if necessary!
      *
      * in: NewIPv4Address (string)
      * in: NewDisallow (boolean)
@@ -112,17 +97,12 @@ class x_hostfilter extends fritzsoap
         $result = $this->client->DisallowWANAccessByIP(
             new \SoapParam($iPv4Address, 'NewIPv4Address'),
             new \SoapParam($disallow, 'NewDisallow'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $message = sprintf('Could not dissallow WAN access by IP %s at FRITZ!Box', $iPv4Address);
+        $this->errorHandling($result, $message);
     }
 
     /**
      * getWANAccessByIP
-     *
-     * automatically generated; complete coding if necessary!
      *
      * in: NewIPv4Address (string)
      * out: NewDisallow (boolean)
@@ -135,7 +115,8 @@ class x_hostfilter extends fritzsoap
     {
         $result = $this->client->GetWANAccessByIP(
             new \SoapParam($iPv4Address, 'NewIPv4Address'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        $message = sprintf('Could not get WAN access by IP %s from FRITZ!Box', $iPv4Address);
+        if ($this->errorHandling($result, $message)) {
             return;
         }
 

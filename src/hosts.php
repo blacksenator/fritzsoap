@@ -142,11 +142,7 @@ class hosts extends fritzsoap
         $result = $this->client->{'X_AVM-DE_SetHostNameByMACAddress'}(
             new \SoapParam($mACAddress, 'NewMACAddress'),
             new \SoapParam($hostName, 'NewHostName'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -188,11 +184,7 @@ class hosts extends fritzsoap
         $result = $this->client->{'X_AVM-DE_SetAutoWakeOnLANByMACAddress'}(
             new \SoapParam($mACAddress, 'NewMACAddress'),
             new \SoapParam($autoWOLEnabled, 'NewAutoWOLEnabled'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -209,11 +201,7 @@ class hosts extends fritzsoap
     {
         $result = $this->client->{'X_AVM-DE_WakeOnLANByMACAddress'}(
             new \SoapParam($mACAddress, 'NewMACAddress'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -258,11 +246,7 @@ class hosts extends fritzsoap
     public function x_AVM_DE_HostsCheckUpdate()
     {
         $result = $this->client->{'X_AVM-DE_HostsCheckUpdate'}();
-        if ($this->errorHandling($result, 'Could not check for host update on FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -279,11 +263,7 @@ class hosts extends fritzsoap
     {
         $result = $this->client->{'X_AVM-DE_HostDoUpdate'}(
             new \SoapParam($mACAddress, 'NewMACAddress'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**

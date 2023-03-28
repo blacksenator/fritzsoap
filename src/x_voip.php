@@ -8,12 +8,6 @@ namespace blacksenator\fritzsoap;
  *
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/x_voip-avm.pdf
  *
- * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
- * THIS FILE IS AUTOMATIC ASSEMBLED BUT PARTLY REVIEWED!
- * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
- * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
- * +++++++++++++++++++++++++++++++++++++++++++++++++++++
- *
  * A lot of functions (actions) require as input argument an VoiPIndex. You can
  * figure out this data with x_AVM_DE_GetNumbers(): List->Item->Index
  *
@@ -68,7 +62,7 @@ class x_voip extends fritzsoap
     public function getInfoEx()
     {
         $result = $this->client->GetInfoEx();
-        if ($this->errorHandling($result, 'Could not get values from FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get extended infos from FRITZ!Box')) {
             return;
         }
 
@@ -78,8 +72,7 @@ class x_voip extends fritzsoap
     /**
      * x_AVM_DE_AddVoIPAccount
      *
-     * adds another voip account
-     * keep in mind the maximum of voip accounts:
+     * Adds another voip account. keep in mind the maximum of voip accounts:
      * getMaxVoIPNumbers()
      *
      * in: NewVoIPAccountIndex (ui2)
@@ -109,11 +102,7 @@ class x_voip extends fritzsoap
             new \SoapParam($voIPPassword, 'NewVoIPPassword'),
             new \SoapParam($voIPOutboundProxy, 'NewVoIPOutboundProxy'),
             new \SoapParam($voIPSTUNServer, 'NewVoIPSTUNServer'));
-        if ($this->errorHandling($result, 'Could not add new VoIP account to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -157,11 +146,7 @@ class x_voip extends fritzsoap
     {
         $result = $this->client->{'X_AVM-DE_DelVoIPAccount'}(
             new \SoapParam($voIPAccountIndex, 'NewVoIPAccountIndex'));
-        if ($this->errorHandling($result, sprintf('Could not delete VoIP account %s from FRITZ!Box', $voIPAccountIndex))) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, sprintf('Could not delete VoIP account %s from FRITZ!Box', $voIPAccountIndex));
     }
 
     /**
@@ -185,8 +170,6 @@ class x_voip extends fritzsoap
     /**
      * setConfig
      *
-     * set config
-     *
      * in: NewFaxT38Enable (boolean)
      * in: NewVoiceCoding (string)
      *
@@ -199,18 +182,15 @@ class x_voip extends fritzsoap
         $result = $this->client->SetConfig(
             new \SoapParam($faxT38Enable, 'NewFaxT38Enable'),
             new \SoapParam($voiceCoding, 'NewVoiceCoding'));
-        if ($this->errorHandling($result, 'Could not set config to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $state = $this->boolToState($faxT38Enable);
+        $message = sprintf('Could not %s FAX config %s at FRITZ!Box', $state, $voiceCoding);
+        $this->errorHandling($result, $message);
     }
 
     /**
      * getMaxVoIPNumbers
      *
-     * returns the maximum number
-     * of VoIP numbers (accounts)
+     * returns the maximum number of VoIP numbers (accounts)
      *
      * out: NewMaxVoIPNumbers (ui2)
      *
@@ -267,8 +247,6 @@ class x_voip extends fritzsoap
     /**
      * x_AVM_DE_GetClient
      *
-     * automatically generated; complete coding if necessary!
-     *
      * in: NewX_AVM-DE_ClientIndex (ui2)
      * out: NewX_AVM-DE_ClientUsername (string)
      * out: NewX_AVM-DE_ClientRegistrar (string)
@@ -283,7 +261,8 @@ class x_voip extends fritzsoap
     {
         $result = $this->client->{'X_AVM-DE_GetClient'}(
             new \SoapParam($x_AVM_DE_ClientIndex, 'NewX_AVM-DE_ClientIndex'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        $message = sprintf('Could not get VoIP client %s from FRITZ!Box', $x_AVM_DE_ClientIndex);
+        if ($this->errorHandling($result, $message)) {
             return;
         }
 
@@ -292,8 +271,6 @@ class x_voip extends fritzsoap
 
     /**
      * x_AVM_DE_GetClient2
-     *
-     * automatically generated; complete coding if necessary!
      *
      * in: NewX_AVM-DE_ClientIndex (ui2)
      * out: NewX_AVM-DE_ClientUsername (string)
@@ -311,7 +288,8 @@ class x_voip extends fritzsoap
     {
         $result = $this->client->{'X_AVM-DE_GetClient2'}(
             new \SoapParam($x_AVM_DE_ClientIndex, 'NewX_AVM-DE_ClientIndex'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        $message = sprintf('Could not get VoIP client %s from FRITZ!Box', $x_AVM_DE_ClientIndex);
+        if ($this->errorHandling($result, $message)) {
             return;
         }
 
@@ -320,8 +298,6 @@ class x_voip extends fritzsoap
 
     /**
      * x_AVM_DE_SetClient
-     *
-     * automatically generated; complete coding if necessary!
      *
      * in: NewX_AVM-DE_ClientIndex (ui2)
      * in: NewX_AVM-DE_ClientPassword (string)
@@ -342,17 +318,12 @@ class x_voip extends fritzsoap
             new \SoapParam($x_AVM_DE_ClientPassword, 'NewX_AVM-DE_ClientPassword'),
             new \SoapParam($x_AVM_DE_PhoneName, 'NewX_AVM-DE_PhoneName'),
             new \SoapParam($x_AVM_DE_OutGoingNumber, 'NewX_AVM-DE_OutGoingNumber'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $message = sprintf('Could not set VoIP client %s at FRITZ!Box', $x_AVM_DE_ClientIndex);
+        $this->errorHandling($result, $message);
     }
 
     /**
      * x_AVM_DE_SetClient2
-     *
-     * automatically generated; complete coding if necessary!
      *
      * in: NewX_AVM-DE_ClientIndex (ui2)
      * in: NewX_AVM-DE_ClientPassword (string)
@@ -377,17 +348,12 @@ class x_voip extends fritzsoap
             new \SoapParam($x_AVM_DE_ClientId, 'NewX_AVM-DE_ClientId'),
             new \SoapParam($x_AVM_DE_PhoneName, 'NewX_AVM-DE_PhoneName'),
             new \SoapParam($x_AVM_DE_OutGoingNumber, 'NewX_AVM-DE_OutGoingNumber'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $message = sprintf('Could not set VoIP client %s at FRITZ!Box', $x_AVM_DE_ClientIndex);
+        $this->errorHandling($result, $message);
     }
 
     /**
      * x_AVM_DE_GetClient3
-     *
-     * automatically generated; complete coding if necessary!
      *
      * in: NewX_AVM-DE_ClientIndex (ui2)
      * out: NewX_AVM-DE_ClientUsername (string)
@@ -408,7 +374,8 @@ class x_voip extends fritzsoap
     {
         $result = $this->client->{'X_AVM-DE_GetClient3'}(
             new \SoapParam($x_AVM_DE_ClientIndex, 'NewX_AVM-DE_ClientIndex'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        $message = sprintf('Could not get VoIP client %s from FRITZ!Box', $x_AVM_DE_ClientIndex);
+        if ($this->errorHandling($result, $message)) {
             return;
         }
 
@@ -417,8 +384,6 @@ class x_voip extends fritzsoap
 
     /**
      * x_AVM_DE_GetClientByClientId
-     *
-     * automatically generated; complete coding if necessary!
      *
      * in: NewX_AVM-DE_ClientId (string)
      * out: NewX_AVM-DE_ClientId (string)
@@ -440,7 +405,8 @@ class x_voip extends fritzsoap
     {
         $result = $this->client->{'X_AVM-DE_GetClientByClientId'}(
             new \SoapParam($x_AVM_DE_ClientId, 'NewX_AVM-DE_ClientId'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        $message = sprintf('Could not get VoIP client with ID %s from FRITZ!Box', $x_AVM_DE_ClientId);
+        if ($this->errorHandling($result, $message)) {
             return;
         }
 
@@ -449,8 +415,6 @@ class x_voip extends fritzsoap
 
     /**
      * x_AVM_DE_SetClient3
-     *
-     * automatically generated; complete coding if necessary!
      *
      * in: NewX_AVM-DE_ClientIndex (ui2)
      * in: NewX_AVM-DE_ClientPassword (string)
@@ -482,17 +446,12 @@ class x_voip extends fritzsoap
             new \SoapParam($x_AVM_DE_OutGoingNumber, 'NewX_AVM-DE_OutGoingNumber'),
             new \SoapParam($x_AVM_DE_InComingNumbers, 'NewX_AVM-DE_InComingNumbers'),
             new \SoapParam($x_AVM_DE_ExternalRegistration, 'NewX_AVM-DE_ExternalRegistration'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $message = sprintf('Could not set VoIP client with index %s at FRITZ!Box', $x_AVM_DE_ClientIndex);
+        $this->errorHandling($result, $message);
     }
 
     /**
      * x_AVM_DE_SetClient4
-     *
-     * automatically generated; complete coding if necessary!
      *
      * in: NewX_AVM-DE_ClientIndex (ui2)
      * in: NewX_AVM-DE_ClientPassword (string)
@@ -525,7 +484,8 @@ class x_voip extends fritzsoap
             new \SoapParam($x_AVM_DE_ClientId, 'NewX_AVM-DE_ClientId'),
             new \SoapParam($x_AVM_DE_OutGoingNumber, 'NewX_AVM-DE_OutGoingNumber'),
             new \SoapParam($x_AVM_DE_InComingNumbers, 'NewX_AVM-DE_InComingNumbers'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        $message = sprintf('Could not set VoIP client with index %s at FRITZ!Box', $x_AVM_DE_ClientIndex);
+        if ($this->errorHandling($result, $message)) {
             return;
         }
 
@@ -601,8 +561,6 @@ class x_voip extends fritzsoap
     /**
      * x_AVM_DE_DeleteClient
      *
-     * automatically generated; complete coding if necessary!
-     *
      * in: NewX_AVM-DE_ClientIndex (ui2)
      *
      * @param int $x_AVM_DE_ClientIndex
@@ -612,11 +570,8 @@ class x_voip extends fritzsoap
     {
         $result = $this->client->{'X_AVM-DE_DeleteClient'}(
             new \SoapParam($x_AVM_DE_ClientIndex, 'NewX_AVM-DE_ClientIndex'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $message = sprintf('Could not delete client %s at FRITZ!Box', $x_AVM_DE_ClientIndex);
+        $this->errorHandling($result, $message);
     }
 
     /**
@@ -647,9 +602,9 @@ class x_voip extends fritzsoap
     /**
      * x_AVM_DE_DialSetConfig
      *
-     * Assigning the telephony device to "click to dial" (Wählhilfe). If
-     * "click to dial" was not activated, it will be activated with the assignment
-     * or deactivated with an empty string ('').
+     * Assigning the telephony device to "click to dial" (Wählhilfe). If "click
+     * to dial" was not activated, it will be activated with the assignment or
+     * deactivated with an empty string ('').
      *
      * The input string must consists of "[type]: [name]":
      * - [type] values are: FON1, FON2, ISDN, DECT
@@ -668,11 +623,7 @@ class x_voip extends fritzsoap
     {
         $result = $this->client->{'X_AVM-DE_DialSetConfig'}(
             new \SoapParam($x_AVM_DE_PhoneName, 'NewX_AVM-DE_PhoneName'));
-        if ($this->errorHandling($result, 'Could not set telephony device as "click to dial" at FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not set telephony device as "click to dial" at FRITZ!Box');
     }
 
     /**
@@ -692,11 +643,7 @@ class x_voip extends fritzsoap
     {
         $result = $this->client->{'X_AVM-DE_DialNumber'}(
             new \SoapParam($phoneNumber, 'NewX_AVM-DE_PhoneNumber'));
-        if ($this->errorHandling($result, sprintf("Could not dial the number %s", $phoneNumber))) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, sprintf("Could not dial the number %s", $phoneNumber));
     }
 
     /**
@@ -712,11 +659,7 @@ class x_voip extends fritzsoap
     public function x_AVM_DE_DialHangup()
     {
         $result = $this->client->{'X_AVM-DE_DialHangup'}();
-        if ($this->errorHandling($result, 'Could not hang up current dial on FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not hang up current dial on FRITZ!Box');
     }
 
     /**
@@ -725,7 +668,8 @@ class x_voip extends fritzsoap
      * return the phone device (e.g.: "DECT: Kitchen")
      *
      * There is no action (function) to determine the number of devices. The
-     * Index starts with 1! An index greater than the count will cause a 713 error
+     * Index starts with 1! An index greater than the count will cause a 713
+     * error
      *
      * @see alternative additional function getPhonePorts()
      *
@@ -741,7 +685,8 @@ class x_voip extends fritzsoap
         $result = $this->client->{'X_AVM-DE_GetPhonePort'}(
             new \SoapParam($index, 'NewIndex'));
         if ($error) {
-            if ($this->errorHandling($result, sprintf('Could not get phone device %s from FRITZ!Box', $index))) {
+            $message = sprintf('Could not get phone device %s from FRITZ!Box', $index);
+            if ($this->errorHandling($result, $message)) {
                 return;
             }
         }
@@ -751,8 +696,6 @@ class x_voip extends fritzsoap
 
     /**
      * x_AVM_DE_SetDelayedCallNotification
-     *
-     * automatically generated; complete coding if necessary!
      *
      * in: NewX_AVM-DE_ClientIndex (ui2)
      * in: NewX_AVM-DE_DelayedCallNotification (boolean)
@@ -767,11 +710,8 @@ class x_voip extends fritzsoap
         $result = $this->client->{'X_AVM-DE_SetDelayedCallNotification'}(
             new \SoapParam($x_AVM_DE_ClientIndex, 'NewX_AVM-DE_ClientIndex'),
             new \SoapParam($x_AVM_DE_DelayedCallNotification, 'NewX_AVM-DE_DelayedCallNotification'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $message = sprintf('Could not set delayed call notification at FRITZ!Box');
+        $this->errorHandling($result, $message);
     }
 
     /**
@@ -796,8 +736,7 @@ class x_voip extends fritzsoap
     /**
      * x_AVM_DE_GetVoIPCommonCountryCode
      *
-     * returns country code number (e.g. "49")
-     * and its prefix (e.g. "00")
+     * returns country code number (e.g. "49") and its prefix (e.g. "00")
      *
      * out: NewX_AVM-DE_LKZ (string)
      * out: NewX_AVM-DE_LKZPrefix (string)
@@ -828,11 +767,8 @@ class x_voip extends fritzsoap
     {
         $result = $this->client->SetVoIPCommonCountryCode(
             new \SoapParam($voIPCountryCode, 'NewVoIPCountryCode'));
-        if ($this->errorHandling($result, 'Could not set country code at FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $message = sprintf('Could not set country code %s at FRITZ!Box', $voIPCountryCode);
+        $this->errorHandling($result, $message);
     }
 
     /**
@@ -852,19 +788,15 @@ class x_voip extends fritzsoap
         $result = $this->client->{'X_AVM-DE_SetVoIPCommonCountryCode'}(
             new \SoapParam($x_AVM_DE_LKZ, 'NewX_AVM-DE_LKZ'),
             new \SoapParam($x_AVM_DE_LKZPrefix, 'NewX_AVM-DE_LKZPrefix'));
-        if ($this->errorHandling($result, 'Could not set country code at FRITZ!Box')) {
-            return;
+        $message = sprintf('Could not set country code %s %s at FRITZ!Box', $x_AVM_DE_LKZ, $x_AVM_DE_LKZPrefix);
+        $this->errorHandling($result, $message);
         }
-
-        return $result;
-    }
 
     /**
      * getVoIPEnableCountryCode
      *
-     * return status of country code settings as a 0 or 1
-     * The Index starts with 0! An index greater
-     * than the number of numbers will cause a 713 error
+     * return status of country code settings as a 0 or 1. The Index starts with
+     * 0! An index greater than the number of numbers will cause a 713 error
      *
      * in: NewVoIPAccountIndex (ui2)
      * out: NewVoIPEnableCountryCode (boolean)
@@ -887,8 +819,6 @@ class x_voip extends fritzsoap
     /**
      * setVoIPEnableCountryCode
      *
-     * automatically generated; complete coding if necessary!
-     *
      * in: NewVoIPAccountIndex (ui2)
      * in: NewVoIPEnableCountryCode (boolean)
      *
@@ -901,11 +831,9 @@ class x_voip extends fritzsoap
         $result = $this->client->SetVoIPEnableCountryCode(
             new \SoapParam($voIPAccountIndex, 'NewVoIPAccountIndex'),
             new \SoapParam($voIPEnableCountryCode, 'NewVoIPEnableCountryCode'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $state = $this->boolToState($voIPEnableCountryCode);
+        $message = sprintf('Could not %s country code with index %s at FRITZ!Box', $state, $voIPAccountIndex);
+        $this->errorHandling($result, $message);
     }
 
     /**
@@ -930,8 +858,7 @@ class x_voip extends fritzsoap
     /**
      * x_AVM_DE_GetVoIPCommonAreaCode
      *
-     * returns area code number (e.g. "30")
-     * and its prefix (e.g. "0")
+     * returns area code number (e.g. "30") and its prefix (e.g. "0")
      *
      * out: NewX_AVM-DE_OKZ (string)
      * out: NewX_AVM-DE_OKZPrefix (string)
@@ -962,11 +889,8 @@ class x_voip extends fritzsoap
     {
         $result = $this->client->SetVoIPCommonAreaCode(
             new \SoapParam($voIPAreaCode, 'NewVoIPAreaCode'));
-        if ($this->errorHandling($result, 'Could not set area code at FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $message = sprintf('Could not set area code %s at FRITZ!Box', $voIPAreaCode);
+        $this->errorHandling($result, $message);
     }
 
     /**
@@ -986,19 +910,14 @@ class x_voip extends fritzsoap
         $result = $this->client->{'X_AVM-DE_SetVoIPCommonAreaCode'}(
             new \SoapParam($x_AVM_DE_OKZ, 'NewX_AVM-DE_OKZ'),
             new \SoapParam($x_AVM_DE_OKZPrefix, 'NewX_AVM-DE_OKZPrefix'));
-        if ($this->errorHandling($result, 'Could not set area code at FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not set area code at FRITZ!Box');
     }
 
     /**
      * getVoIPEnableAreaCode
      *
-     * return status of area code settings as a 0 or 1
-     * The Index starts with 0! An index greater
-     * than the number of numbers will cause a 713 error.
+     * return status of area code settings as a 0 or 1. The Index starts with 0!
+     * An index greater than the number of numbers will cause a 713 error.
      *
      * in: NewVoIPAccountIndex (ui2)
      * out: NewVoIPEnableAreaCode (boolean)
@@ -1010,7 +929,7 @@ class x_voip extends fritzsoap
     {
         $result = $this->client->GetVoIPEnableAreaCode(
             new \SoapParam($voIPAccountIndex, 'NewVoIPAccountIndex'));
-        $message = sprintf('Could not get area code status of number %s from FRITZ!Box', $voIPAccountIndex);
+        $message = sprintf('Could not get area code status with index %s from FRITZ!Box', $voIPAccountIndex);
         if ($this->errorHandling($result, $message)) {
             return;
         }
@@ -1021,8 +940,8 @@ class x_voip extends fritzsoap
     /**
      * setVoIPEnableAreaCode
      *
-     * The Index starts with 0! An index greater
-     * than the number of numbers will cause a 713 error.
+     * The Index starts with 0! An index greater than the number of numbers will
+     * cause a 713 error.
      *
      * in: NewVoIPAccountIndex (ui2)
      * in: NewVoIPEnableAreaCode (boolean)
@@ -1036,20 +955,16 @@ class x_voip extends fritzsoap
         $result = $this->client->SetVoIPEnableAreaCode(
             new \SoapParam($voIPAccountIndex, 'NewVoIPAccountIndex'),
             new \SoapParam($voIPEnableAreaCode, 'NewVoIPEnableAreaCode'));
-        $bStr = $this->boolToState($voIPEnableAreaCode);
-        $message = sprintf('Could not %s area code of number #%s on FRITZ!Box', $bStr, $voIPAccountIndex);
-        if ($this->errorHandling($result, $message)) {
-            return;
-        }
-
-        return $result;
+        $state = $this->boolToState($voIPEnableAreaCode);
+        $message = sprintf('Could not %s area code with index %s on FRITZ!Box', $state, $voIPAccountIndex);
+        $this->errorHandling($result, $message);
     }
 
     /**
      * x_AVM_DE_GetAlarmClock
      *
-     * returns alarm clock settings
-     * The Index starts with 0! An index greater than 2 will cause a 714 error.
+     * returns alarm clock settings. The Index starts with 0! An index greater
+     * than 2 will cause a 714 error.
      *
      * in: NewIndex (ui2)
      * out: NewX_AVM-DE_AlarmClockEnable (boolean)
@@ -1065,7 +980,7 @@ class x_voip extends fritzsoap
     {
         $result = $this->client->{'X_AVM-DE_GetAlarmClock'}(
             new \SoapParam($index, 'NewIndex'));
-            $message = sprintf('Could not get settings of alarm clock #%s from FRITZ!Box', $index);
+        $message = sprintf('Could not get settings of alarm clock %s from FRITZ!Box', $index);
         if ($this->errorHandling($result, $message)) {
             return;
         }
@@ -1095,13 +1010,9 @@ class x_voip extends fritzsoap
         $result = $this->client->{'X_AVM-DE_SetAlarmClockEnable'}(
             new \SoapParam($index, 'NewIndex'),
             new \SoapParam($x_AVM_DE_AlarmClockEnable, 'NewX_AVM-DE_AlarmClockEnable'));
-        $bStr = $this->boolToState($x_AVM_DE_AlarmClockEnable);
-        $message = sprintf('Could not %s alarm clock #%s on FRITZ!Box', $bStr, $index);
-        if ($this->errorHandling($result, $message)) {
-            return;
-        }
-
-        return $result;
+        $state = $this->boolToState($x_AVM_DE_AlarmClockEnable);
+        $message = sprintf('Could not %s alarm clock %s on FRITZ!Box', $state, $index);
+        $this->errorHandling($result, $message);
     }
 
     /**

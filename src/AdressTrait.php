@@ -44,7 +44,7 @@ trait AdressTrait
         }
     }
 
-        /**
+    /**
      * get the validated URL parameters
      *
      * @return array

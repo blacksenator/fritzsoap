@@ -86,12 +86,7 @@ If, contrary to expectations, **you receive services** with `getServiceDescripti
 
 ### Completion
 
-Round about 20% of the actions are reviewed and coding is ready to use. If so, you will find in the class header comment either a disclaimer:
-`THIS FILE IS AUTOMATIC ASSEMBLED BUT PARTLY REVIEWED!`
-or even nothing like this.
-In all other cases you will find a disclaimer:
-`THIS FILE IS AUTOMATIC ASSEMBLED!`
-if this class is still generic and no single function is reviewed yet.
+Most of the actions are reviewed and coding is ready to use. In all other cases you will find in the class header comment either a disclaimer: `THIS FILE IS AUTOMATIC ASSEMBLED BUT PARTLY REVIEWED!` or `THIS FILE IS AUTOMATIC ASSEMBLED!` if this class is still generic and nothing is reviewed yet.
 
 If no coding has been reviewed for your desired action the existing examples should show how easy it is to complete the code of that function for your desired action (**contributions to extend this class are highly appreciated!**).
 In about half of the cases (if there are no input parameters), it is sufficient to adapt the message for a possible error, since the actions mainly provide arrays with return values that can be further processed by the calling program.
@@ -116,15 +111,11 @@ public function setSwitch($aIN, $switchState)
     $result = $this->client->SetSwitch(
         new \SoapParam($aIN, 'NewAIN'),
         new \SoapParam($switchState, 'NewSwitchState'));
-    if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-        return;
-    }
+    $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
 }
 ```
 
-You will find the input or output parameter (arguments) in the comment section and in the function coding - if it has any.
-
-To facilitate the completion of this creation take a look at the finished functions to adjust function arguments and/or the return of the function (e.g. `x_contact.php` or `x_voip.php` are the most productive sources at the moment).
+You will find the input or output parameter (arguments) in the comment section and in the function coding - if it has any. To facilitate the completion of this creation just take a closer look at finished functions.
 
 But as I said before:
 
@@ -281,6 +272,10 @@ From my point of view, actions (functions) are missing for some interesting outp
   * disconnect/reconnect those devices
 
 Apart from that, there are a number of actions where it is unclear which value is to be passed as input, or there is no action that provides the input parameter. Last but not least, there are cases where a get-action returns a value (e.g. `NewDeviceHandle`) that is obviously expected as input by the next action `getDeviceByHandle()` - but is not accepted at all.
+
+## Disclaimer
+
+FRITZ!Box, FRITZ!Repeater, FRITZ!OS are trademarks of [AVM](https://avm.de/). This software is **in no way affiliated** with AVM and only uses the [interfaces published by them](https://avm.de/service/schnittstellen/).
 
 ## License
 

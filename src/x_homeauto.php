@@ -179,11 +179,7 @@ class x_homeauto extends fritzsoap
         $result = $this->client->SetDeviceName(
             new \SoapParam($aIN, 'NewAIN'),
             new \SoapParam($deviceName, 'NewDeviceName'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -203,11 +199,7 @@ class x_homeauto extends fritzsoap
         $result = $this->client->SetSwitch(
             new \SoapParam($aIN, 'NewAIN'),
             new \SoapParam($switchState, 'NewSwitchState'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     // +++ Additional functions not directly related to an action +++

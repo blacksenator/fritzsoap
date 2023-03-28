@@ -8,12 +8,6 @@ namespace blacksenator\fritzsoap;
  *
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/timeSCPD.pdf
  *
- * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
- * THIS FILE IS AUTOMATIC ASSEMBLED BUT PARTLY REVIEWED!
- * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
- * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
- * +++++++++++++++++++++++++++++++++++++++++++++++++++++
- *
  * @author Volker Püschel <knuffy@anasco.de>
  * @copyright Volker Püschel 2019 - 2023
  * @license MIT
@@ -56,8 +50,6 @@ class time extends fritzsoap
     /**
      * setNTPServers
      *
-     * automatically generated; complete coding if necessary!
-     *
      * in: NewNTPServer1 (string)
      * in: NewNTPServer2 (string)
      *
@@ -70,10 +62,6 @@ class time extends fritzsoap
         $result = $this->client->SetNTPServers(
             new \SoapParam($nTPServer1, 'NewNTPServer1'),
             new \SoapParam($nTPServer2, 'NewNTPServer2'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not set  NTP server at FRITZ!Box');
     }
 }

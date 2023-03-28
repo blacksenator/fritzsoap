@@ -9,16 +9,10 @@ namespace blacksenator\fritzsoap;
  * There is no official AVM documentation about AURA (AVM USB Remote Access)
  * available!
  *
- * @see: https://avm.de/service/schnittstellen/
+ * @see: docs\auraSCPD.pdf
  *
  * To use this class, the USB-Fernanschluss (USB remote connection function must
  * be activated in the FRITZ!Box!
- *
- * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
- * THIS FILE IS AUTOMATIC ASSEMBLED BUT PARTLY REVIEWED!
- * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
- * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
- * +++++++++++++++++++++++++++++++++++++++++++++++++++++
  *
  * @author Volker Püschel <knuffy@anasco.de>
  * @copyright Volker Püschel 2019 - 2023
@@ -75,10 +69,8 @@ class aura extends fritzsoap
     /**
      * getDeviceByIndex
      *
-     * returns info about USB remote device.
-     * Index starts with >0<. An index greater than
-     * the number of connected decvices cause a 713
-     * error.
+     * returns info about USB remote device. Index starts with >0<. An index
+     * greater than the number of connected decvices cause a 713 error.
      *
      * in: NewIndex (ui2)
      * out: NewDeviceHandle (ui2)
@@ -109,8 +101,6 @@ class aura extends fritzsoap
     /**
      * getDeviceByHandle
      *
-     * automatically generated; complete coding if necessary!
-     *
      * in: NewDeviceHandle (ui2)
      * out: NewName (string)
      * out: NewHardwareId (string)
@@ -128,7 +118,8 @@ class aura extends fritzsoap
     {
         $result = $this->client->GetDeviceByHandle(
             new \SoapParam($deviceHandle, 'NewDeviceHandle'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        $message = sprintf('Could not get device by handle %s from FRITZ!Box', $deviceHandle);
+        if ($this->errorHandling($result, $message)) {
             return;
         }
 
@@ -137,8 +128,6 @@ class aura extends fritzsoap
 
     /**
      * connectDevice
-     *
-     * automatically generated; complete coding if necessary!
      *
      * in: NewDeviceHandle (ui2)
      *
@@ -149,17 +138,12 @@ class aura extends fritzsoap
     {
         $result = $this->client->ConnectDevice(
             new \SoapParam($deviceHandle, 'NewDeviceHandle'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $message = sprintf('Could not connect device by handle %s at FRITZ!Box', $deviceHandle);
+        $this->errorHandling($result, $message);
     }
 
     /**
      * disconnectDevice
-     *
-     * automatically generated; complete coding if necessary!
      *
      * in: NewDeviceHandle (ui2)
      *
@@ -170,10 +154,7 @@ class aura extends fritzsoap
     {
         $result = $this->client->DisconnectDevice(
             new \SoapParam($deviceHandle, 'NewDeviceHandle'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $message = sprintf('Could not disconnect device by handle %s at FRITZ!Box', $deviceHandle);
+        $this->errorHandling($result, $message);
     }
 }

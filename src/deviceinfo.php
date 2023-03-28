@@ -71,11 +71,7 @@ class deviceinfo extends fritzsoap
     {
         $result = $this->client->SetProvisioningCode(
             new \SoapParam($provisioningCode, 'NewProvisioningCode'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**

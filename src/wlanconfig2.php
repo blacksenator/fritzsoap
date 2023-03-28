@@ -41,11 +41,7 @@ class wlanconfig2 extends fritzsoap
     {
         $result = $this->client->SetEnable(
             new \SoapParam($enable, 'NewEnable'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -116,11 +112,7 @@ class wlanconfig2 extends fritzsoap
             new \SoapParam($mACAddressControlEnabled, 'NewMACAddressControlEnabled'),
             new \SoapParam($basicEncryptionModes, 'NewBasicEncryptionModes'),
             new \SoapParam($basicAuthenticationMode, 'NewBasicAuthenticationMode'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -152,11 +144,7 @@ class wlanconfig2 extends fritzsoap
             new \SoapParam($wEPKey3, 'NewWEPKey3'),
             new \SoapParam($preSharedKey, 'NewPreSharedKey'),
             new \SoapParam($keyPassphrase, 'NewKeyPassphrase'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -197,11 +185,7 @@ class wlanconfig2 extends fritzsoap
     {
         $result = $this->client->SetDefaultWEPKeyIndex(
             new \SoapParam($defaultWEPKeyIndex, 'NewDefaultWEPKeyIndex'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -240,11 +224,7 @@ class wlanconfig2 extends fritzsoap
         $result = $this->client->SetBasBeaconSecurityProperties(
             new \SoapParam($basicEncryptionModes, 'NewBasicEncryptionModes'),
             new \SoapParam($basicAuthenticationMode, 'NewBasicAuthenticationMode'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -359,11 +339,7 @@ class wlanconfig2 extends fritzsoap
     {
         $result = $this->client->SetSSID(
             new \SoapParam($sSID, 'NewSSID'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -400,11 +376,7 @@ class wlanconfig2 extends fritzsoap
     {
         $result = $this->client->SetBeaconType(
             new \SoapParam($beaconType, 'NewBeaconType'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -441,11 +413,7 @@ class wlanconfig2 extends fritzsoap
     {
         $result = $this->client->SetChannel(
             new \SoapParam($channel, 'NewChannel'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -481,11 +449,7 @@ class wlanconfig2 extends fritzsoap
     {
         $result = $this->client->SetBeaconAdvertisement(
             new \SoapParam($beaconAdvertisementEnabled, 'NewBeaconAdvertisementEnabled'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -616,11 +580,7 @@ class wlanconfig2 extends fritzsoap
     {
         $result = $this->client->{'X_AVM-DE_SetStickSurfEnable'}(
             new \SoapParam($stickSurfEnable, 'NewStickSurfEnable'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -656,11 +616,7 @@ class wlanconfig2 extends fritzsoap
     {
         $result = $this->client->{'X_AVM-DE_SetIPTVOptimized'}(
             new \SoapParam($x_AVM_DE_IPTVoptimize, 'NewX_AVM-DE_IPTVoptimize'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -748,11 +704,7 @@ class wlanconfig2 extends fritzsoap
             new \SoapParam($manualSpeed, 'NewManualSpeed'),
             new \SoapParam($maxSpeedDS, 'NewMaxSpeedDS'),
             new \SoapParam($maxSpeedUS, 'NewMaxSpeedUS'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -838,11 +790,7 @@ class wlanconfig2 extends fritzsoap
     {
         $result = $this->client->{'X_AVM-DE_SetWPSEnable'}(
             new \SoapParam($x_AVM_DE_WPSEnable, 'NewX_AVM-DE_WPSEnable'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -859,11 +807,7 @@ class wlanconfig2 extends fritzsoap
     {
         $result = $this->client->{'X_AVM-DE_SetWLANGlobalEnable'}(
             new \SoapParam($x_AVM_DE_WLANGlobalEnable, 'NewX_AVM-DE_WLANGlobalEnable'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**

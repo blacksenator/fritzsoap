@@ -8,12 +8,6 @@ namespace blacksenator\fritzsoap;
  *
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/wandslifconfigSCPD.pdf
  *
- * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
- * THIS FILE IS AUTOMATIC ASSEMBLED!
- * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
- * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
- * +++++++++++++++++++++++++++++++++++++++++++++++++++++
- *
  * @author Volker Püschel <knuffy@anasco.de>
  * @copyright Volker Püschel 2019 - 2023
  * @license MIT
@@ -29,8 +23,6 @@ class wandslifconfig1 extends fritzsoap
 
     /**
      * getInfo
-     *
-     * automatically generated; complete coding if necessary!
      *
      * out: NewEnable (boolean)
      * out: NewStatus (string)
@@ -53,7 +45,7 @@ class wandslifconfig1 extends fritzsoap
     public function getInfo()
     {
         $result = $this->client->GetInfo();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get info from FRITZ!Box')) {
             return;
         }
 
@@ -62,8 +54,6 @@ class wandslifconfig1 extends fritzsoap
 
     /**
      * getStatisticsTotal
-     *
-     * automatically generated; complete coding if necessary!
      *
      * out: NewReceiveBlocks (ui4)
      * out: NewTransmitBlocks (ui4)
@@ -86,7 +76,7 @@ class wandslifconfig1 extends fritzsoap
     public function getStatisticsTotal()
     {
         $result = $this->client->GetStatisticsTotal();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get statistics total from FRITZ!Box')) {
             return;
         }
 
@@ -110,7 +100,7 @@ class wandslifconfig1 extends fritzsoap
     public function x_AVM_DE_GetDSLDiagnoseInfo()
     {
         $result = $this->client->{'X_AVM-DE_GetDSLDiagnoseInfo'}();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get DSL diagnose info from FRITZ!Box')) {
             return;
         }
 
@@ -153,7 +143,7 @@ class wandslifconfig1 extends fritzsoap
     public function x_AVM_DE_GetDSLInfo()
     {
         $result = $this->client->{'X_AVM-DE_GetDSLInfo'}();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get DSL info from FRITZ!Box')) {
             return;
         }
 

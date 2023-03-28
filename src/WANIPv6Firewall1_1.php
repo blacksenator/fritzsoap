@@ -135,11 +135,7 @@ class WANIPv6Firewall1_1 extends fritzsoap
         $result = $this->client->UpdatePinhole(
             new \SoapParam($uniqueID, 'UniqueID'),
             new \SoapParam($leaseTime, 'NewLeaseTime'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -156,11 +152,7 @@ class WANIPv6Firewall1_1 extends fritzsoap
     {
         $result = $this->client->DeletePinhole(
             new \SoapParam($uniqueID, 'UniqueID'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**

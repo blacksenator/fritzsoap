@@ -8,12 +8,6 @@ namespace blacksenator\fritzsoap;
  *
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/x_remoteSCPD.pdf
  *
- * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
- * THIS FILE IS AUTOMATIC ASSEMBLED BUT PARTLY REVIEWED!
- * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
- * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
- * +++++++++++++++++++++++++++++++++++++++++++++++++++++
- *
  * @author Volker Püschel <knuffy@anasco.de>
  * @copyright Volker Püschel 2019 - 2023
  * @license MIT
@@ -51,8 +45,6 @@ class x_remote extends fritzsoap
     /**
      * setConfig
      *
-     * automatically generated; complete coding if necessary!
-     *
      * in: NewEnabled (boolean)
      * in: NewPort (string)
      * in: NewUsername (string)
@@ -71,17 +63,11 @@ class x_remote extends fritzsoap
             new \SoapParam($port, 'NewPort'),
             new \SoapParam($username, 'NewUsername'),
             new \SoapParam($password, 'NewPassword'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not set config on FRITZ!Box');
     }
 
     /**
      * setEnable
-     *
-     * automatically generated; complete coding if necessary!
      *
      * in: NewEnabled (boolean)
      * out: NewPort (string)
@@ -93,7 +79,9 @@ class x_remote extends fritzsoap
     {
         $result = $this->client->SetEnable(
             new \SoapParam($enabled, 'NewEnabled'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        $state = $this->boolToState($enabled);
+        $message = sprintf('Could not %s port at FRITZ!Box', $state);
+        if ($this->errorHandling($result, $message)) {
             return;
         }
 
@@ -191,10 +179,8 @@ class x_remote extends fritzsoap
             new \SoapParam($serverIPv4, 'NewServerIPv4'),
             new \SoapParam($serverIPv6, 'NewServerIPv6'),
             new \SoapParam($password, 'NewPassword'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $state = $this->boolToState($enabled);
+        $message = sprintf('Could not %s DDNS config at FRITZ!Box', $state);
+        $this->errorHandling($result, $message);
     }
 }

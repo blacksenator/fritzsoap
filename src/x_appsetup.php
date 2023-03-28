@@ -164,11 +164,7 @@ class x_appsetup extends fritzsoap
             new \SoapParam($phoneRight, 'NewPhoneRight'),
             new \SoapParam($homeautoRight, 'NewHomeautoRight'),
             new \SoapParam($appInternetRights, 'NewAppInternetRights'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -198,11 +194,7 @@ class x_appsetup extends fritzsoap
             new \SoapParam($iPSecPreSharedKey, 'NewIPSecPreSharedKey'),
             new \SoapParam($iPSecXauthUsername, 'NewIPSecXauthUsername'),
             new \SoapParam($iPSecXauthPassword, 'NewIPSecXauthPassword'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -232,11 +224,7 @@ class x_appsetup extends fritzsoap
             new \SoapParam($iPSecPreSharedKey, 'NewIPSecPreSharedKey'),
             new \SoapParam($iPSecXauthUsername, 'NewIPSecXauthUsername'),
             new \SoapParam($iPSecXauthPassword, 'NewIPSecXauthPassword'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -259,11 +247,7 @@ class x_appsetup extends fritzsoap
             new \SoapParam($appId, 'NewAppId'),
             new \SoapParam($type, 'NewType'),
             new \SoapParam($filter, 'NewFilter'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -313,11 +297,7 @@ class x_appsetup extends fritzsoap
     {
         $result = $this->client->ResetEvent(
             new \SoapParam($eventId, 'NewEventId'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**

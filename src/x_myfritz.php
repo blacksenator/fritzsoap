@@ -8,12 +8,6 @@ namespace blacksenator\fritzsoap;
  *
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/x_myfritzSCPD.pdf
  *
- * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
- * THIS FILE IS AUTOMATIC ASSEMBLED BUT PARTLY REVIEWED!
- * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
- * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
- * +++++++++++++++++++++++++++++++++++++++++++++++++++++
- *
  * @author Volker Püschel <knuffy@anasco.de>
  * @copyright Volker Püschel 2019 - 2023
  * @license MIT
@@ -29,8 +23,6 @@ class x_myfritz extends fritzsoap
 
     /**
      * getInfo
-     *
-     * automatically generated; complete coding if necessary!
      *
      * out: NewEnabled (boolean)
      * out: NewDeviceRegistered (boolean)
@@ -52,8 +44,6 @@ class x_myfritz extends fritzsoap
     /**
      * getNumberOfServices
      *
-     * automatically generated; complete coding if necessary!
-     *
      * out: NewNumberOfServices (ui4)
      *
      * @return int
@@ -61,7 +51,7 @@ class x_myfritz extends fritzsoap
     public function getNumberOfServices()
     {
         $result = $this->client->GetNumberOfServices();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get number of services from FRITZ!Box')) {
             return;
         }
 
@@ -70,8 +60,6 @@ class x_myfritz extends fritzsoap
 
     /**
      * getServiceByIndex
-     *
-     * automatically generated; complete coding if necessary!
      *
      * in: NewIndex (ui4)
      * out: NewEnabled (boolean)
@@ -96,7 +84,8 @@ class x_myfritz extends fritzsoap
     {
         $result = $this->client->GetServiceByIndex(
             new \SoapParam($index, 'NewIndex'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        $message = sprintf('Could not get service by index %s on FRITZ!Box', $index);
+        if ($this->errorHandling($result, $message)) {
             return;
         }
 
@@ -105,8 +94,6 @@ class x_myfritz extends fritzsoap
 
     /**
      * setServiceByIndex
-     *
-     * automatically generated; complete coding if necessary!
      *
      * in: NewIndex (ui4)
      * in: NewEnabled (boolean)
@@ -150,17 +137,13 @@ class x_myfritz extends fritzsoap
             new \SoapParam($iPv6InterfaceID, 'NewIPv6InterfaceID'),
             new \SoapParam($mACAddress, 'NewMACAddress'),
             new \SoapParam($hostName, 'NewHostName'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $state = $this->boolToState($enabled);
+        $message = sprintf('Could not %s service by index %s on FRITZ!Box', $state, $index);
+        $this->errorHandling($result, $message);
     }
 
     /**
      * deleteServiceByIndex
-     *
-     * automatically generated; complete coding if necessary!
      *
      * in: NewIndex (ui4)
      *
@@ -171,10 +154,7 @@ class x_myfritz extends fritzsoap
     {
         $result = $this->client->DeleteServiceByIndex(
             new \SoapParam($index, 'NewIndex'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $message = sprintf('Could not get service by index %s on FRITZ!Box', $index);
+        $this->errorHandling($result, $message);
     }
 }

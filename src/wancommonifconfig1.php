@@ -139,11 +139,7 @@ class wancommonifconfig1 extends fritzsoap
     {
         $result = $this->client->{'X_AVM-DE_SetWANAccessType'}(
             new \SoapParam($accessType, 'NewAccessType'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**

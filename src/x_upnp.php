@@ -42,8 +42,6 @@ class x_upnp extends fritzsoap
     /**
      * setConfig
      *
-     * automatically generated; complete coding if necessary!
-     *
      * in: NewEnable (boolean)
      * in: NewUPnPMediaServer (boolean)
      *
@@ -56,10 +54,6 @@ class x_upnp extends fritzsoap
         $result = $this->client->SetConfig(
             new \SoapParam($enable, 'NewEnable'),
             new \SoapParam($uPnPMediaServer, 'NewUPnPMediaServer'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not set UPnP config at FRITZ!Box');
     }
 }

@@ -110,11 +110,7 @@ class wanpppconn1 extends fritzsoap
     {
         $result = $this->client->SetConnectionType(
             new \SoapParam($connectionType, 'NewConnectionType'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -171,11 +167,7 @@ class wanpppconn1 extends fritzsoap
     {
         $result = $this->client->SetUserName(
             new \SoapParam($userName, 'NewUserName'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -192,11 +184,7 @@ class wanpppconn1 extends fritzsoap
     {
         $result = $this->client->SetPassword(
             new \SoapParam($password, 'NewPassword'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -233,11 +221,7 @@ class wanpppconn1 extends fritzsoap
     {
         $result = $this->client->SetConnectionTrigger(
             new \SoapParam($connectionTrigger, 'NewConnectionTrigger'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -250,11 +234,7 @@ class wanpppconn1 extends fritzsoap
     public function forceTermination()
     {
         $result = $this->client->ForceTermination();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -267,11 +247,7 @@ class wanpppconn1 extends fritzsoap
     public function requestConnection()
     {
         $result = $this->client->RequestConnection();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -370,11 +346,7 @@ class wanpppconn1 extends fritzsoap
             new \SoapParam($enabled, 'NewEnabled'),
             new \SoapParam($portMappingDescription, 'NewPortMappingDescription'),
             new \SoapParam($leaseDuration, 'NewLeaseDuration'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -397,11 +369,7 @@ class wanpppconn1 extends fritzsoap
             new \SoapParam($remoteHost, 'NewRemoteHost'),
             new \SoapParam($externalPort, 'NewExternalPort'),
             new \SoapParam($protocol, 'NewProtocol'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -495,11 +463,7 @@ class wanpppconn1 extends fritzsoap
     {
         $result = $this->client->SetRouteProtocolRx(
             new \SoapParam($routeProtocolRx, 'NewRouteProtocolRx'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -516,11 +480,7 @@ class wanpppconn1 extends fritzsoap
     {
         $result = $this->client->SetIdleDisconnectTime(
             new \SoapParam($idleDisconnectTime, 'NewIdleDisconnectTime'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -560,10 +520,6 @@ class wanpppconn1 extends fritzsoap
         $result = $this->client->{'X_AVM-DE_SetAutoDisconnectTimeSpan'}(
             new \SoapParam($x_AVM_DE_DisconnectPreventionEnable, 'NewX_AVM-DE_DisconnectPreventionEnable'),
             new \SoapParam($x_AVM_DE_DisconnectPreventionHour, 'NewX_AVM-DE_DisconnectPreventionHour'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 }

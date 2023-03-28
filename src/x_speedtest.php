@@ -8,12 +8,6 @@ namespace blacksenator\fritzsoap;
  *
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/x_speedtestSCPD.pdf
  *
- * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
- * THIS FILE IS AUTOMATIC ASSEMBLED BUT PARTLY REVIEWED!
- * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
- * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
- * +++++++++++++++++++++++++++++++++++++++++++++++++++++
- *
  * @author Volker Püschel <knuffy@anasco.de>
  * @copyright Volker Püschel 2019 - 2023
  * @license MIT
@@ -56,8 +50,6 @@ class x_speedtest extends fritzsoap
     /**
      * setConfig
      *
-     * automatically generated; complete coding if necessary!
-     *
      * in: NewEnableTcp (boolean)
      * in: NewEnableUdp (boolean)
      * in: NewEnableUdpBidirect (boolean)
@@ -79,10 +71,6 @@ class x_speedtest extends fritzsoap
             new \SoapParam($enableUdpBidirect, 'NewEnableUdpBidirect'),
             new \SoapParam($wANEnableTcp, 'NewWANEnableTcp'),
             new \SoapParam($wANEnableUdp, 'NewWANEnableUdp'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not set config on FRITZ!Box');
     }
 }

@@ -8,12 +8,6 @@ namespace blacksenator\fritzsoap;
  *
  * @see https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/deviceconfigSCPD.pdf
  *
- * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
- * THIS FILE IS AUTOMATIC ASSEMBLED!
- * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
- * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
- * +++++++++++++++++++++++++++++++++++++++++++++++++++++
- *
  * @author Volker Püschel <knuffy@anasco.de>
  * @copyright Volker Püschel 2019 - 2023
  * @license MIT
@@ -30,8 +24,6 @@ class deviceconfig extends fritzsoap
     /**
      * getPersistentData
      *
-     * automatically generated; complete coding if necessary!
-     *
      * out: NewPersistentData (string)
      *
      * @return string
@@ -39,7 +31,7 @@ class deviceconfig extends fritzsoap
     public function getPersistentData()
     {
         $result = $this->client->GetPersistentData();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get persistent data from FRITZ!Box')) {
             return;
         }
 
@@ -48,8 +40,6 @@ class deviceconfig extends fritzsoap
 
     /**
      * setPersistentData
-     *
-     * automatically generated; complete coding if necessary!
      *
      * in: NewPersistentData (string)
      *
@@ -60,17 +50,11 @@ class deviceconfig extends fritzsoap
     {
         $result = $this->client->SetPersistentData(
             new \SoapParam($persistentData, 'NewPersistentData'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not set persistent data at FRITZ!Box');
     }
 
     /**
      * configurationStarted
-     *
-     * automatically generated; complete coding if necessary!
      *
      * in: NewSessionID (string)
      *
@@ -81,17 +65,11 @@ class deviceconfig extends fritzsoap
     {
         $result = $this->client->ConfigurationStarted(
             new \SoapParam($sessionID, 'NewSessionID'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not start configuration at FRITZ!Box');
     }
 
     /**
      * configurationFinished
-     *
-     * automatically generated; complete coding if necessary!
      *
      * out: NewStatus (string)
      *
@@ -100,7 +78,7 @@ class deviceconfig extends fritzsoap
     public function configurationFinished()
     {
         $result = $this->client->ConfigurationFinished();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not finish configuration at FRITZ!Box')) {
             return;
         }
 
@@ -110,41 +88,27 @@ class deviceconfig extends fritzsoap
     /**
      * factoryReset
      *
-     * automatically generated; complete coding if necessary!
-     *
      * @return void
      */
     public function factoryReset()
     {
         $result = $this->client->FactoryReset();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not set factor reset of FRITZ!Box');
     }
 
     /**
      * reboot
-     *
-     * automatically generated; complete coding if necessary!
      *
      * @return void
      */
     public function reboot()
     {
         $result = $this->client->Reboot();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not reboot FRITZ!Box');
     }
 
     /**
      * x_GenerateUUID
-     *
-     * automatically generated; complete coding if necessary!
      *
      * out: NewUUID (uuid)
      *
@@ -153,7 +117,7 @@ class deviceconfig extends fritzsoap
     public function x_GenerateUUID()
     {
         $result = $this->client->X_GenerateUUID();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not generate UUID at FRITZ!Box')) {
             return;
         }
 
@@ -162,8 +126,6 @@ class deviceconfig extends fritzsoap
 
     /**
      * x_AVM_DE_GetConfigFile
-     *
-     * automatically generated; complete coding if necessary!
      *
      * in: NewX_AVM-DE_Password (string)
      * out: NewX_AVM-DE_ConfigFileUrl (string)
@@ -175,7 +137,7 @@ class deviceconfig extends fritzsoap
     {
         $result = $this->client->{'X_AVM-DE_GetConfigFile'}(
             new \SoapParam($x_AVM_DE_Password, 'NewX_AVM-DE_Password'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get config file from FRITZ!Box')) {
             return;
         }
 
@@ -184,8 +146,6 @@ class deviceconfig extends fritzsoap
 
     /**
      * x_AVM_DE_SetConfigFile
-     *
-     * automatically generated; complete coding if necessary!
      *
      * in: NewX_AVM-DE_Password (string)
      * in: NewX_AVM-DE_ConfigFileUrl (string)
@@ -199,17 +159,11 @@ class deviceconfig extends fritzsoap
         $result = $this->client->{'X_AVM-DE_SetConfigFile'}(
             new \SoapParam($x_AVM_DE_Password, 'NewX_AVM-DE_Password'),
             new \SoapParam($x_AVM_DE_ConfigFileUrl, 'NewX_AVM-DE_ConfigFileUrl'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not set config file on FRITZ!Box');
     }
 
     /**
      * x_AVM_DE_CreateUrlSID
-     *
-     * automatically generated; complete coding if necessary!
      *
      * out: NewX_AVM-DE_UrlSID (string)
      *
@@ -218,7 +172,7 @@ class deviceconfig extends fritzsoap
     public function x_AVM_DE_CreateUrlSID()
     {
         $result = $this->client->{'X_AVM-DE_CreateUrlSID'}();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not create URL SID at FRITZ!Box')) {
             return;
         }
 
@@ -227,8 +181,6 @@ class deviceconfig extends fritzsoap
 
     /**
      * x_AVM_DE_SendSupportData
-     *
-     * automatically generated; complete coding if necessary!
      *
      * in: NewX_AVM-DE_SupportDataMode (string)
      *
@@ -239,17 +191,11 @@ class deviceconfig extends fritzsoap
     {
         $result = $this->client->{'X_AVM-DE_SendSupportData'}(
             new \SoapParam($x_AVM_DE_SupportDataMode, 'NewX_AVM-DE_SupportDataMode'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not send support data from FRITZ!Box');
     }
 
     /**
      * x_AVM_DE_GetSupportDataInfo
-     *
-     * automatically generated; complete coding if necessary!
      *
      * out: NewX_AVM-DE_SupportDataMode (string)
      * out: NewX_AVM-DE_SupportDataID (string)
@@ -261,7 +207,7 @@ class deviceconfig extends fritzsoap
     public function x_AVM_DE_GetSupportDataInfo()
     {
         $result = $this->client->{'X_AVM-DE_GetSupportDataInfo'}();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get support data from FRITZ!Box')) {
             return;
         }
 

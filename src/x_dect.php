@@ -121,10 +121,7 @@ class x_dect extends fritzsoap
     {
         $result = $this->client->DectDoUpdate(
             new \SoapParam($iD, 'NewID'));
-        if ($this->errorHandling($result, sprintf('Could not update DECT device #%s at FRITZ!Box', $iD))) {
-            return;
-        }
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**

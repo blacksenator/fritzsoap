@@ -41,11 +41,7 @@ class lanethernetifcfg extends fritzsoap
     {
         $result = $this->client->SetEnable(
             new \SoapParam($enable, 'NewEnable'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**

@@ -8,12 +8,6 @@ namespace blacksenator\fritzsoap;
  *
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/x_webdavSCPD.pdf
  *
- * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
- * THIS FILE IS AUTOMATIC ASSEMBLED BUT PARTLY REVIEWED!
- * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
- * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
- * +++++++++++++++++++++++++++++++++++++++++++++++++++++
- *
  * @author Volker Püschel <knuffy@anasco.de>
  * @copyright Volker Püschel 2019 - 2023
  * @license MIT
@@ -52,8 +46,6 @@ class x_webdav extends fritzsoap
     /**
      * setConfig
      *
-     * automatically generated; complete coding if necessary!
-     *
      * in: NewEnable (boolean)
      * in: NewHostURL (string)
      * in: NewUsername (string)
@@ -75,10 +67,8 @@ class x_webdav extends fritzsoap
             new \SoapParam($username, 'NewUsername'),
             new \SoapParam($password, 'NewPassword'),
             new \SoapParam($mountpointName, 'NewMountpointName'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $state = $this->boolToState($enable);
+        $message = sprintf('Could not %s WebDAV %s config at FRITZ!Box', $state, $mountpointName);
+        $this->errorHandling($result, $message);
     }
 }

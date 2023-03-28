@@ -41,11 +41,7 @@ class layer3forwarding extends fritzsoap
     {
         $result = $this->client->SetDefaultConnectionService(
             new \SoapParam($defaultConnectionService, 'NewDefaultConnectionService'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -121,11 +117,7 @@ class layer3forwarding extends fritzsoap
             new \SoapParam($gatewayIPAddress, 'NewGatewayIPAddress'),
             new \SoapParam($interface, 'NewInterface'),
             new \SoapParam($forwardingMetric, 'NewForwardingMetric'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -151,11 +143,7 @@ class layer3forwarding extends fritzsoap
             new \SoapParam($destSubnetMask, 'NewDestSubnetMask'),
             new \SoapParam($sourceIPAddress, 'NewSourceIPAddress'),
             new \SoapParam($sourceSubnetMask, 'NewSourceSubnetMask'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -251,10 +239,6 @@ class layer3forwarding extends fritzsoap
             new \SoapParam($sourceIPAddress, 'NewSourceIPAddress'),
             new \SoapParam($sourceSubnetMask, 'NewSourceSubnetMask'),
             new \SoapParam($enable, 'NewEnable'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 }

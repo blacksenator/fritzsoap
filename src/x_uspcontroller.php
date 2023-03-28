@@ -8,12 +8,6 @@ namespace blacksenator\fritzsoap;
  *
  * @see https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/x_uspcontrollerSCPD.pdf
  *
- * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
- * THIS FILE IS AUTOMATIC ASSEMBLED!
- * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
- * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
- * +++++++++++++++++++++++++++++++++++++++++++++++++++++
- *
  * @author Volker Püschel <knuffy@anasco.de>
  * @copyright Volker Püschel 2019 - 2023
  * @license MIT
@@ -29,8 +23,6 @@ class x_uspcontroller extends fritzsoap
 
     /**
      * getInfo
-     *
-     * automatically generated; complete coding if necessary!
      *
      * out: NewMinCharsEndpointID (ui2)
      * out: NewMaxCharsEndpointID (ui2)
@@ -50,7 +42,7 @@ class x_uspcontroller extends fritzsoap
     public function getInfo()
     {
         $result = $this->client->GetInfo();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get info from FRITZ!Box')) {
             return;
         }
 
@@ -86,7 +78,8 @@ class x_uspcontroller extends fritzsoap
     {
         $result = $this->client->GetUSPControllerByIndex(
             new \SoapParam($index, 'NewIndex'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        $message = sprintf('Could not get USP controller with index %s from FRITZ!Box', $index);
+        if ($this->errorHandling($result, $message)) {
             return;
         }
 
@@ -96,8 +89,6 @@ class x_uspcontroller extends fritzsoap
     /**
      * getUSPControllerNumberOfEntries
      *
-     * automatically generated; complete coding if necessary!
-     *
      * out: NewUSPControllerNumberOfEntries (ui4)
      *
      * @return int
@@ -105,7 +96,7 @@ class x_uspcontroller extends fritzsoap
     public function getUSPControllerNumberOfEntries()
     {
         $result = $this->client->GetUSPControllerNumberOfEntries();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get number of entries USP controller from FRITZ!Box')) {
             return;
         }
 
@@ -114,8 +105,6 @@ class x_uspcontroller extends fritzsoap
 
     /**
      * addUSPController
-     *
-     * automatically generated; complete coding if necessary!
      *
      * in: NewEnable (boolean)
      * in: NewEndpointID (string)
@@ -172,7 +161,9 @@ class x_uspcontroller extends fritzsoap
             new \SoapParam($accessRightVoIP, 'NewAccessRightVoIP'),
             new \SoapParam($username, 'NewUsername'),
             new \SoapParam($password, 'NewPassword'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        $state = $this->boolToState($enable);
+        $message = sprintf('Could not %s add USP controller %s at FRITZ!Box', $state, $endpointID);
+        if ($this->errorHandling($result, $message)) {
             return;
         }
 
@@ -181,8 +172,6 @@ class x_uspcontroller extends fritzsoap
 
     /**
      * deleteUSPControllerByIndex
-     *
-     * automatically generated; complete coding if necessary!
      *
      * in: NewIndex (ui4)
      *
@@ -193,17 +182,12 @@ class x_uspcontroller extends fritzsoap
     {
         $result = $this->client->DeleteUSPControllerByIndex(
             new \SoapParam($index, 'NewIndex'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $message = sprintf('Could not delete USP controller %s at FRITZ!Box', $index);
+        $this->errorHandling($result, $message);
     }
 
     /**
      * setUSPControllerEnableByIndex
-     *
-     * automatically generated; complete coding if necessary!
      *
      * in: NewIndex (ui4)
      * in: NewEnable (boolean)
@@ -217,17 +201,13 @@ class x_uspcontroller extends fritzsoap
         $result = $this->client->SetUSPControllerEnableByIndex(
             new \SoapParam($index, 'NewIndex'),
             new \SoapParam($enable, 'NewEnable'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $state = $this->boolToState($enable);
+        $message = sprintf('Could not %s USP controller with index %s at FRITZ!Box', $state, $index);
+        $this->errorHandling($result, $message);
     }
 
     /**
      * getUSPMyFRITZEnable
-     *
-     * automatically generated; complete coding if necessary!
      *
      * out: NewUSPMyFRITZEnabled (boolean)
      *
@@ -236,7 +216,7 @@ class x_uspcontroller extends fritzsoap
     public function getUSPMyFRITZEnable()
     {
         $result = $this->client->GetUSPMyFRITZEnable();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get USP myFritz status from FRITZ!Box')) {
             return;
         }
 
@@ -245,8 +225,6 @@ class x_uspcontroller extends fritzsoap
 
     /**
      * setUSPMyFRITZEnable
-     *
-     * automatically generated; complete coding if necessary!
      *
      * in: NewUSPMyFRITZEnabled (boolean)
      *
@@ -257,10 +235,8 @@ class x_uspcontroller extends fritzsoap
     {
         $result = $this->client->SetUSPMyFRITZEnable(
             new \SoapParam($uSPMyFRITZEnabled, 'NewUSPMyFRITZEnabled'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $state = $this->boolToState($uSPMyFRITZEnabled);
+        $message = sprintf('Could not %s USP myFRITZ at FRITZ!Box', $state);
+        $this->errorHandling($result, $message);
     }
 }

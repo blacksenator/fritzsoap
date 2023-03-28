@@ -39,7 +39,7 @@ class x_filelinks extends fritzsoap
     public function getNumberOfFilelinkEntries()
     {
         $result = $this->client->GetNumberOfFilelinkEntries();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get number of file link entries from FRITZ!Box')) {
             return;
         }
 
@@ -155,11 +155,7 @@ class x_filelinks extends fritzsoap
             new \SoapParam($iD, 'NewID'),
             new \SoapParam($accessCountLimit, 'NewAccessCountLimit'),
             new \SoapParam($expire, 'NewExpire'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -176,11 +172,7 @@ class x_filelinks extends fritzsoap
     {
         $result = $this->client->DeleteFilelinkEntry(
             new \SoapParam($iD, 'NewID'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**

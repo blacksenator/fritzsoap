@@ -8,12 +8,6 @@ namespace blacksenator\fritzsoap;
  *
  * @see https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/x_wanmobileconnSCPD.pdf
  *
- * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
- * THIS FILE IS AUTOMATIC ASSEMBLED BUT PARTLY REVIEWED!
- * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
- * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
- * +++++++++++++++++++++++++++++++++++++++++++++++++++++
- *
  * @author Volker Püschel <knuffy@anasco.de>
  * @copyright Volker Püschel 2019 - 2023
  * @license MIT
@@ -50,8 +44,6 @@ class x_wanmobileconn extends fritzsoap
     /**
      * getInfoEx
      *
-     * automatically generated; complete coding if necessary!
-     *
      * out: NewSerialNumber (string)
      * out: NewEnableVoIPPDN (boolean)
      * out: NewPPPUsername (string)
@@ -74,7 +66,7 @@ class x_wanmobileconn extends fritzsoap
     public function getInfoEx()
     {
         $result = $this->client->GetInfoEx();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get extended info from FRITZ!Box')) {
             return;
         }
 
@@ -83,8 +75,6 @@ class x_wanmobileconn extends fritzsoap
 
     /**
      * setPIN
-     *
-     * automatically generated; complete coding if necessary!
      *
      * in: NewPIN (string)
      *
@@ -95,17 +85,11 @@ class x_wanmobileconn extends fritzsoap
     {
         $result = $this->client->SetPIN(
             new \SoapParam($pIN, 'NewPIN'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not set PIN on FRITZ!Box');
     }
 
     /**
      * setPUK
-     *
-     * automatically generated; complete coding if necessary!
      *
      * in: NewPIN (string)
      * in: NewPUK (string)
@@ -119,17 +103,11 @@ class x_wanmobileconn extends fritzsoap
         $result = $this->client->SetPUK(
             new \SoapParam($pIN, 'NewPIN'),
             new \SoapParam($pUK, 'NewPUK'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not set PUK on FRITZ!Box');
     }
 
     /**
      * setAccessTechnology
-     *
-     * automatically generated; complete coding if necessary!
      *
      * in: NewAccessTechnology (string)
      *
@@ -140,17 +118,11 @@ class x_wanmobileconn extends fritzsoap
     {
         $result = $this->client->SetAccessTechnology(
             new \SoapParam($accessTechnology, 'NewAccessTechnology'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not set access technology at FRITZ!Box');
     }
 
     /**
      * getAccessTechnology
-     *
-     * automatically generated; complete coding if necessary!
      *
      * out: NewAccessTechnology (string)
      * out: NewPossibleAccessTechnology (string)
@@ -161,7 +133,7 @@ class x_wanmobileconn extends fritzsoap
     public function getAccessTechnology()
     {
         $result = $this->client->GetAccessTechnology();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get access technology from FRITZ!Box')) {
             return;
         }
 
@@ -170,8 +142,6 @@ class x_wanmobileconn extends fritzsoap
 
     /**
      * setEnabledBandCapabilities
-     *
-     * automatically generated; complete coding if necessary!
      *
      * in: NewBandCapabilitiesLTE (string)
      * in: NewBandCapabilities5GNSA (string)
@@ -188,17 +158,11 @@ class x_wanmobileconn extends fritzsoap
             new \SoapParam($bandCapabilitiesLTE, 'NewBandCapabilitiesLTE'),
             new \SoapParam($bandCapabilities5GNSA, 'NewBandCapabilities5GNSA'),
             new \SoapParam($bandCapabilities5GSA, 'NewBandCapabilities5GSA'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not set enabled band capabilities at FRITZ!Box');
     }
 
     /**
      * getEnabledBandCapabilities
-     *
-     * automatically generated; complete coding if necessary!
      *
      * out: NewBandCapabilitiesLTE (string)
      * out: NewBandCapabilities5GNSA (string)
@@ -209,7 +173,7 @@ class x_wanmobileconn extends fritzsoap
     public function getEnabledBandCapabilities()
     {
         $result = $this->client->GetEnabledBandCapabilities();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get enable band capabilities from FRITZ!Box')) {
             return;
         }
 
@@ -218,8 +182,6 @@ class x_wanmobileconn extends fritzsoap
 
     /**
      * getBandCapabilities
-     *
-     * automatically generated; complete coding if necessary!
      *
      * out: NewBandCapabilitiesLTE (string)
      * out: NewBandCapabilities5GNSA (string)
@@ -230,7 +192,7 @@ class x_wanmobileconn extends fritzsoap
     public function getBandCapabilities()
     {
         $result = $this->client->GetBandCapabilities();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get band capabilities from FRITZ!Box')) {
             return;
         }
 

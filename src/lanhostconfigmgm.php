@@ -69,11 +69,7 @@ class lanhostconfigmgm extends fritzsoap
     {
         $result = $this->client->SetDHCPServerEnable(
             new \SoapParam($dHCPServerEnable, 'NewDHCPServerEnable'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -99,11 +95,7 @@ class lanhostconfigmgm extends fritzsoap
             new \SoapParam($iPAddress, 'NewIPAddress'),
             new \SoapParam($subnetMask, 'NewSubnetMask'),
             new \SoapParam($iPAddressingType, 'NewIPAddressingType'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -143,11 +135,7 @@ class lanhostconfigmgm extends fritzsoap
         $result = $this->client->SetAddressRange(
             new \SoapParam($minAddress, 'NewMinAddress'),
             new \SoapParam($maxAddress, 'NewMaxAddress'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -183,11 +171,7 @@ class lanhostconfigmgm extends fritzsoap
     {
         $result = $this->client->SetIPRouter(
             new \SoapParam($iPRouters, 'NewIPRouters'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**
@@ -223,11 +207,7 @@ class lanhostconfigmgm extends fritzsoap
     {
         $result = $this->client->SetSubnetMask(
             new \SoapParam($subnetMask, 'NewSubnetMask'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**

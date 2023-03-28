@@ -102,11 +102,7 @@ class lanconfigsecurity extends fritzsoap
     {
         $result = $this->client->SetConfigPassword(
             new \SoapParam($password, 'NewPassword'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
     }
 
     /**

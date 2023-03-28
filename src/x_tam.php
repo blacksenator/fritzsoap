@@ -82,12 +82,7 @@ class x_tam extends fritzsoap
             new \SoapParam($index, 'NewIndex'),
             new \SoapParam($enable, 'NewEnable'));
         $bStr = $this->boolToState($enable);
-        $message = sprintf('Could not %s TAM #%s on FRITZ!Box', $bStr, $index);
-        if ($this->errorHandling($result, $message)) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, sprintf('Could not %s TAM #%s on FRITZ!Box', $bStr, $index));
     }
 
     /**
@@ -150,11 +145,7 @@ class x_tam extends fritzsoap
             new \SoapParam($markedAsRead, 'NewMarkedAsRead'));
         $bStr = $markedAsRead ? "read" : "unread";
         $message = sprintf('Could not mark message #%s as %s on answering machine #%s of FRITZ!Box', $messageIndex, $bStr, $index);
-        if ($this->errorHandling($result, $message)) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, $message);
     }
 
     /**
@@ -175,11 +166,7 @@ class x_tam extends fritzsoap
             new \SoapParam($index, 'NewIndex'),
             new \SoapParam($messageIndex, 'NewMessageIndex'));
         $message = sprintf('Could not delete message #%s from answering machine #%s on FRITZ!Box', $messageIndex, $index);
-        if ($this->errorHandling($result, $message)) {
-            return;
-        }
-
-        return $result;
+        $this->errorHandling($result, $message);
     }
 
     /**
