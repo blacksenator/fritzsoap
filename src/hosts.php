@@ -246,7 +246,7 @@ class hosts extends fritzsoap
     public function x_AVM_DE_HostsCheckUpdate()
     {
         $result = $this->client->{'X_AVM-DE_HostsCheckUpdate'}();
-        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
+        $this->errorHandling($result, 'Could not check update at FRITZ!Box');
     }
 
     /**

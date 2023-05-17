@@ -7,6 +7,8 @@ namespace blacksenator\fritzsoap;
  * on FRITZ!Box router from AVM:
  *
  * @see https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/IGD1.pdf
+ * @see http://upnp.org/specs/gw/UPnP-gw-InternetGatewayDevice-v1-Device.pdf
+ * @see http://upnp.org/specs/gw/UPnP-gw-WANCommonInterfaceConfig-v1-Service.pdf
  *
  * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
  * THIS FILE IS AUTOMATIC ASSEMBLED!
@@ -25,7 +27,7 @@ class WANCommonIFC1_1 extends fritzsoap
 {
     const
         SERVICE_TYPE = 'urn:schemas-upnp-org:service:WANCommonInterfaceConfig:1',
-        CONTROL_URL  = '/igd2upnp/control/WANCommonIFC1';
+        CONTROL_URL  = '/igdupnp/control/WANCommonIFC1';
 
     /**
      * getCommonLinkProperties

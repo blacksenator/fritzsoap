@@ -41,9 +41,6 @@ class fritzsoap
     use AdressTrait;
 
     const
-        FB_URL     = 'fritz.box',
-        HTTP_PORT  = '49000',
-        HTTPS_PORT = '49443',
         SERVICE_DESCR = [
             'aura.xml',
             'avmnexusdesc.xml',
@@ -86,7 +83,7 @@ class fritzsoap
      * @param string $password
      * @return void
      */
-    public function __construct($url = self::FB_URL, $user = '', $password = '')
+    public function __construct($url = null, $user = null, $password = null)
     {
         $this->setResourceAdresses($url);
         $this->user = $user;
@@ -186,7 +183,7 @@ class fritzsoap
      * @param bool $state
      * @return string
      */
-    protected function boolToState(bool $state)
+    public function boolToState(bool $state)
     {
         return $state ? "enable" : "disable";
     }
@@ -322,7 +319,7 @@ class fritzsoap
     {
         $result = [];
         $fileHeaders = @get_headers($xmlFile);
-        if (!strpos($fileHeaders[0], '404') && $fileHeaders !== false) {
+        if ($fileHeaders !== false && !strpos($fileHeaders[0], '404')) {
             $xml = @simplexml_load_file($xmlFile);
             if ($xml !== false) {
                 $xml->registerXPathNamespace('fb', $xml->getNameSpaces(false)[""]);

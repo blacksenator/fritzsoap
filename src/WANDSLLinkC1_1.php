@@ -6,7 +6,9 @@ namespace blacksenator\fritzsoap;
  * The class provides functions to read and manipulate data via TR-064 interface
  * on FRITZ!Box router from AVM:
  *
- * @see https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/IGD2.pdf
+ * @see https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/IGD1.pdf
+ * @see http://upnp.org/specs/gw/UPnP-gw-InternetGatewayDevice-v1-Device.pdf
+ * @see http://upnp.org/specs/gw/UPnP-gw-WANDSLLinkConfig-v1-Service.pdf
  *
  * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
  * THIS FILE IS AUTOMATIC ASSEMBLED!
@@ -31,6 +33,7 @@ class WANDSLLinkC1_1 extends fritzsoap
      * setDSLLinkType
      *
      * automatically generated; complete coding if necessary!
+     * ACTION IS NOT IN THE FILE ABOVE DOCUMENTED!
      *
      * in: NewLinkType (string)
      *
@@ -142,6 +145,7 @@ class WANDSLLinkC1_1 extends fritzsoap
      * setATMEncapsulation
      *
      * automatically generated; complete coding if necessary!
+     * ACTION IS NOT IN THE FILE ABOVE DOCUMENTED!
      *
      * in: NewATMEncapsulation (string)
      *
@@ -178,6 +182,7 @@ class WANDSLLinkC1_1 extends fritzsoap
      * setFCSPreserved
      *
      * automatically generated; complete coding if necessary!
+     * ACTION IS NOT IN THE FILE ABOVE DOCUMENTED!
      *
      * in: NewFCSPreserved (boolean)
      *

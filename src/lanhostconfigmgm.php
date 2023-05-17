@@ -9,7 +9,7 @@ namespace blacksenator\fritzsoap;
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/lanhostconfigmgmSCPD.pdf
  *
  * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
- * THIS FILE IS AUTOMATIC ASSEMBLED!
+ * THIS FILE IS AUTOMATIC ASSEMBLED BUT PARTLY REVIEWED!
  * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
  * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
  * +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -101,7 +101,7 @@ class lanhostconfigmgm extends fritzsoap
     /**
      * getAddressRange
      *
-     * automatically generated; complete coding if necessary!
+     * returns DHCP address range
      *
      * out: NewMinAddress (string)
      * out: NewMaxAddress (string)
@@ -111,7 +111,7 @@ class lanhostconfigmgm extends fritzsoap
     public function getAddressRange()
     {
         $result = $this->client->GetAddressRange();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get adress range from FRITZ!Box')) {
             return;
         }
 
@@ -141,7 +141,7 @@ class lanhostconfigmgm extends fritzsoap
     /**
      * getIPRoutersList
      *
-     * automatically generated; complete coding if necessary!
+     * returns FRITZ!Box IP
      *
      * out: NewIPRouters (string)
      *
@@ -150,7 +150,7 @@ class lanhostconfigmgm extends fritzsoap
     public function getIPRoutersList()
     {
         $result = $this->client->GetIPRoutersList();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get FRITZ!Box IP')) {
             return;
         }
 
@@ -177,7 +177,7 @@ class lanhostconfigmgm extends fritzsoap
     /**
      * getSubnetMask
      *
-     * automatically generated; complete coding if necessary!
+     * returns subnet mask
      *
      * out: NewSubnetMask (string)
      *
@@ -186,7 +186,7 @@ class lanhostconfigmgm extends fritzsoap
     public function getSubnetMask()
     {
         $result = $this->client->GetSubnetMask();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get subnet mask from FRITZ!Box')) {
             return;
         }
 
@@ -213,7 +213,7 @@ class lanhostconfigmgm extends fritzsoap
     /**
      * getDNSServers
      *
-     * automatically generated; complete coding if necessary!
+     * returns DNS IP
      *
      * out: NewDNSServers (string)
      *
@@ -222,7 +222,7 @@ class lanhostconfigmgm extends fritzsoap
     public function getDNSServers()
     {
         $result = $this->client->GetDNSServers();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get DNS IP from FRITZ!Box')) {
             return;
         }
 
@@ -232,7 +232,7 @@ class lanhostconfigmgm extends fritzsoap
     /**
      * getIPInterfaceNumberOfEntries
      *
-     * automatically generated; complete coding if necessary!
+     * returns number of entries
      *
      * out: NewIPInterfaceNumberOfEntries (ui2)
      *
@@ -241,7 +241,7 @@ class lanhostconfigmgm extends fritzsoap
     public function getIPInterfaceNumberOfEntries()
     {
         $result = $this->client->GetIPInterfaceNumberOfEntries();
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        if ($this->errorHandling($result, 'Could not get number of entries IP interface from FRITZ!Box')) {
             return;
         }
 

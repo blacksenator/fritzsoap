@@ -37,7 +37,7 @@ class fritzbox extends fritzsoap
         $result = $this->client->SetLogParam(
             new \SoapParam($logPort, 'NewLogPort'),
             new \SoapParam($logLevel, 'NewLogLevel'));
-        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
+        $this->errorHandling($result, 'Could not set log parameter at FRITZ!Box');
     }
 
     /**

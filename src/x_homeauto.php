@@ -103,7 +103,7 @@ class x_homeauto extends fritzsoap
         $result = $this->client->GetGenericDeviceInfos(
             new \SoapParam($index, 'NewIndex'));
         if ($error) {
-            $message = sprintf('Could not get info of device #%s from/to FRITZ!Box', $index);
+            $message = sprintf('Could not get info of device #%s from FRITZ!Box', $index);
             if ($this->errorHandling($result, $message)) {
                 return;
             }
@@ -114,8 +114,6 @@ class x_homeauto extends fritzsoap
 
     /**
      * getSpecificDeviceInfos
-     *
-     * automatically generated; complete coding if necessary!
      *
      * in: NewAIN (string)
      * out: NewDeviceId (ui2)
@@ -155,7 +153,8 @@ class x_homeauto extends fritzsoap
     {
         $result = $this->client->GetSpecificDeviceInfos(
             new \SoapParam($aIN, 'NewAIN'));
-        if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
+        $message = sprintf('Could not get info of device with AIN %s from FRITZ!Box', $aIN);
+        if ($this->errorHandling($result, $message)) {
             return;
         }
 
@@ -164,8 +163,6 @@ class x_homeauto extends fritzsoap
 
     /**
      * setDeviceName
-     *
-     * automatically generated; complete coding if necessary!
      *
      * in: NewAIN (string)
      * in: NewDeviceName (string)
@@ -179,13 +176,11 @@ class x_homeauto extends fritzsoap
         $result = $this->client->SetDeviceName(
             new \SoapParam($aIN, 'NewAIN'),
             new \SoapParam($deviceName, 'NewDeviceName'));
-        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
+        $this->errorHandling($result, 'Could not set new device name at FRITZ!Box');
     }
 
     /**
      * setSwitch
-     *
-     * automatically generated; complete coding if necessary!
      *
      * in: NewAIN (string)
      * in: NewSwitchState (string)
@@ -199,7 +194,7 @@ class x_homeauto extends fritzsoap
         $result = $this->client->SetSwitch(
             new \SoapParam($aIN, 'NewAIN'),
             new \SoapParam($switchState, 'NewSwitchState'));
-        $this->errorHandling($result, 'Could not ... from/to FRITZ!Box');
+        $this->errorHandling($result, 'Could not set switch state at FRITZ!Box');
     }
 
     // +++ Additional functions not directly related to an action +++

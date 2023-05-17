@@ -6,10 +6,12 @@ namespace blacksenator\fritzsoap;
  * The class provides functions to read and manipulate data via TR-064 interface
  * on FRITZ!Box router from AVM:
  *
- * @see https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/IGD2.pdf
+ * @see https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/IGD1.pdf
+ * @see http://upnp.org/specs/gw/UPnP-gw-InternetGatewayDevice-v1-Device.pdf
+ * @see http://upnp.org/specs/gw/UPnP-gw-WANIPv6FirewallControl-v1-Service.pdf
  *
  * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
- * THIS FILE IS AUTOMATIC ASSEMBLED!
+ * THIS FILE IS AUTOMATIC ASSEMBLED BUT PARTLY REVIEWED!
  * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
  * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
  * +++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -51,6 +53,7 @@ class WANIPv6Firewall1_1 extends fritzsoap
      * getOutboundPinholeTimeout
      *
      * automatically generated; complete coding if necessary!
+     * ACTION IS NOT IN THE FILE ABOVE DOCUMENTED!
      *
      * in: RemoteHost (string)
      * in: RemotePort (ui2)
@@ -159,6 +162,7 @@ class WANIPv6Firewall1_1 extends fritzsoap
      * getPinholePackets
      *
      * automatically generated; complete coding if necessary!
+     * ACTION IS NOT IN THE FILE ABOVE DOCUMENTED!
      *
      * in: UniqueID (ui2)
      * out: PinholePackets (ui4)
@@ -181,6 +185,7 @@ class WANIPv6Firewall1_1 extends fritzsoap
      * checkPinholeWorking
      *
      * automatically generated; complete coding if necessary!
+     * ACTION IS NOT IN THE FILE ABOVE DOCUMENTED!
      *
      * in: UniqueID (ui2)
      * out: IsWorking (boolean)

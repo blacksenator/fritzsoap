@@ -20,25 +20,33 @@ trait AdressTrait
      * @param string $url
      * @return void
      */
-    protected function setResourceAdresses(string $url)
+    protected function setResourceAdresses(string $url = null)
     {
         $validator = new fbvalidateurl;
-        $this->url = $validator->getValidURL($url);
-        $this->assembleServerAdress();
+        $adress = $url ?? $validator::HOSTNAME;
+        $this->url = $validator->getValidURL($adress);
+        $this->assembleServerAdress($validator);
     }
 
     /**
      * assemble the correct server address, depending on whether it is encrypted
      * or not
      *
+     * @param object $validator
      * @return void
      */
-    private function assembleServerAdress()
+    private function assembleServerAdress(object $validator)
     {
         if ($this->url['scheme'] == 'http') {
-            $this->fritzBoxURL = 'http://' . $this->url['host'] . ':' . self::HTTP_PORT;
+            $this->fritzBoxURL = 'http://' . $this->url['host'] . ':' . $validator->getOpenPorts()[1];
         } elseif ($this->url['scheme'] == 'https') {
-            $this->fritzBoxURL = 'https://' . $this->url['host'] . ':' . self::HTTPS_PORT;
+            $this->fritzBoxURL = 'https://' . $this->url['host'] . ':' . $validator->getSecurePorts()[1];
+            stream_context_set_default(
+                ['ssl' => [
+                    'verify_peer' => false,
+                    'verify_peer_name' => false,
+                   ],
+                ]);
         } else {
             throw new \Exception ('Could not assemble valid server address!');
         }
@@ -49,7 +57,7 @@ trait AdressTrait
      *
      * @return array
      */
-    public function getURL(): array
+    public function getURL()
     {
         return $this->url;
     }
@@ -59,7 +67,7 @@ trait AdressTrait
      *
      * @return string
      */
-    public function getServerAdress(): string
+    public function getServerAdress()
     {
         return $this->fritzBoxURL;
     }

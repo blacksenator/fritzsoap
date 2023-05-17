@@ -80,9 +80,13 @@ If you wanna know more more about this, have a closer look into the `fritzsoap.p
 
 If, contrary to expectations, **you receive services** with `getServiceDescription(true)` that are **not included here**, then simply send me the generated XML (email adress in every file header) and I will generate the missing class from it (Needless to say, there is no need to worry about privacy, as the XML does not contain any private data nor credentials).
 
+Such a case can occur if your FRITZ!Box provides more than three WLAN access points, then you may be missing the service `wlanconfig4`.
+
 ### Doublets
 
-"WAN*" services (capital letters!) refer to IGD resp. IGD2 descriptions and therefore appear twice: as `WAN*_1.php` and `WAN*_2.php`.
+* WAN* services (capital letters!) refer to IGD1 resp. IGD2 descriptions and therefore appear twice: as `WAN*1_1.php` and `WAN*1_2.php`.
+* wlanconfig* is found according to the number of access points provided (2400 GHz, 5000 GHz, guest, ...)
+* [Control_*](#control) see below
 
 ### Completion
 
@@ -124,6 +128,8 @@ But as I said before:
 
 ### Ghosts
 
+#### Services
+
 Automatic generation has also originate services that are not or not clearly [documented by AVM](https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/AVM_TR-064_overview.pdf#page=2). Accordingly, these classes have **no link to a reference document in the class comment!**
 
 These presumably refer to specifications from Open Connectivity Foundation (aka UPnP-Forum). But parsing that or keeping track of it manually is far beyond my capabilities.
@@ -134,25 +140,33 @@ In all other cases you will find a link like this:
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/*.pdf
 ```
 
-#### AURA (AVM USB Remote Access)
+##### AURA (AVM USB Remote Access)
 
 There is one exception so far: `AURA`. Through a [thread in the IP Phone Forum](https://www.ip-phone-forum.de/threads/v0-4-1-30-09-2009-fritzboxnet-net-bibliothek-f%C3%BCr-fritz-box.190718/) I learned how this service works. The six actions of this service are coded and an [unofficial documentation](docs/auraSCPD.pdf) can be found in the `/docs` folder.
 You must have activated the USB remote access function in the FRITZ!Box to be able to access this service!
 
-#### Some other ghosts
+##### Some other ghosts
 
 * `any` has no actions - generic template?
 * `avmnexus`
 * `fritzbox` disappeared with FRITZ!OS 7.29 (or before?) but reappeared with 7.50
 * `l2tpv3`
 
-#### Control
+##### Control
 
 Up to and including FRITZ!OS 7.29 there was a group of `Control` services of the same name, of which I found seven with different serviceType and controlURL. The services are therefore mapped accordingly in the classes **Control_1** to **Control_7**. With FRITZ!OS 7.50 no longer included in the description files, I keep them here for the sake of completeness.
 
+#### Actions
+
+In some cases actions are defined in the *SCPD.xml, which are not documented and/or do not exist. In the latter case, the result is SOAP fault 403 (Not available Action). As far as this was determined in the following note can be found in the header of the function:
+
+```PHP
+     * ACTION IS NOT IN THE FILE ABOVE DOCUMENTED!
+```
+
 ## Requirements
 
-* PHP 7.3 or higher
+* PHP 7.3 or higher (php-soap, php-xml)
 * Composer (follow the installation guide at <https://getcomposer.org/download/)>
 
 ## Installation
@@ -175,12 +189,15 @@ git clone https://github.com/blacksenator/fritzsoap.git
 
 ### Authentication
 
-There are a few services (IDG-related) that can be called without credentials:
+There are a few services (IGD-related) that can be called without any(*) credentials:
 
 * WANCommonIFC1
 * WANDSLLinkC1
 * WANIPConn1
 * WANIPv6Firewall1
+
+plus the above mentioned [additional public functions](#additional-functions)
+(*) because of the usage of [fbvalidator](#useful-dependency) `fritz.box` is used as default adress
 
 All others require the specification of the FRITZ!Box URL, user and password.
 
@@ -195,7 +212,7 @@ require_once('vendor/autoload.php');
 
 use blacksenator\fritzsoap\x_contact;
 
-$fritzbox = new x_contact($url, $user, $password);
+$fritzbox = new x_contact;  // no credentials needed in this particular case!
 $services = $fritzbox->getServiceDescription();
 $services->asXML('services.xml');
 ```
@@ -251,10 +268,11 @@ if (is_soap_fault($result)) {
 
 If calling a class or its functions leads to an error, possible causes could be:
 
-* that your FRITZ!Box/FRITZ!Repeater does not provide the service (range of functions depending on the FRITZ!Box model)
+* the [necessary php modules](#requirements) are not installed
+* your FRITZ!Box/FRITZ!Repeater does not provide the service (range of functions depending on the FRITZ!Box model?)
 * your settings:
   * the lack of activation of certain functions in the FRITZ!Box (e.g. UPnP or USB remote access)
-  * that the FRITZ!Box user does not have the appropriate rights (TR-064 access)
+  * that the FRITZ!Box [user does not have the appropriate rights](https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/AVM_TR-064_first_steps.pdf) (e.g. TR-064 access)
 
 ## Wishes
 

@@ -127,6 +127,12 @@ class deviceconfig extends fritzsoap
     /**
      * x_AVM_DE_GetConfigFile
      *
+     * Returns a URL where a file encrypted with the transmitted password is
+     * made available for download. The URL is secured by SSL (https://) using
+     * the TR-064 SSL certificate. The URL is secured by Digest authorization
+     * using the currently active username and password of the TR-064 service
+     * and is only valid for less than 30 seconds!
+     *
      * in: NewX_AVM-DE_Password (string)
      * out: NewX_AVM-DE_ConfigFileUrl (string)
      *
@@ -164,6 +170,8 @@ class deviceconfig extends fritzsoap
 
     /**
      * x_AVM_DE_CreateUrlSID
+     *
+     * returns a string "sid=*"
      *
      * out: NewX_AVM-DE_UrlSID (string)
      *

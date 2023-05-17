@@ -7,6 +7,8 @@ namespace blacksenator\fritzsoap;
  * on FRITZ!Box router from AVM:
  *
  * @see https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/IGD2.pdf
+ * @see http://upnp.org/specs/gw/UPnP-gw-InternetGatewayDevice-v2-Device.pdf
+ * @see http://upnp.org/specs/gw/UPnP-gw-WANDSLLinkConfig-v2-Service.pdf
  *
  * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
  * THIS FILE IS AUTOMATIC ASSEMBLED!
@@ -31,6 +33,7 @@ class WANDSLLinkC1_2 extends fritzsoap
      * setDSLLinkType
      *
      * automatically generated; complete coding if necessary!
+     * ACTION IS NOT IN THE FILE ABOVE DOCUMENTED!
      *
      * in: NewLinkType (string)
      *
@@ -106,6 +109,7 @@ class WANDSLLinkC1_2 extends fritzsoap
      * setDestinationAddress
      *
      * automatically generated; complete coding if necessary!
+     * ACTION IS NOT IN THE FILE ABOVE DOCUMENTED!
      *
      * in: NewDestinationAddress (string)
      *
@@ -142,6 +146,7 @@ class WANDSLLinkC1_2 extends fritzsoap
      * setATMEncapsulation
      *
      * automatically generated; complete coding if necessary!
+     * ACTION IS NOT IN THE FILE ABOVE DOCUMENTED!
      *
      * in: NewATMEncapsulation (string)
      *
@@ -178,6 +183,7 @@ class WANDSLLinkC1_2 extends fritzsoap
      * setFCSPreserved
      *
      * automatically generated; complete coding if necessary!
+     * ACTION IS NOT IN THE FILE ABOVE DOCUMENTED!
      *
      * in: NewFCSPreserved (boolean)
      *
