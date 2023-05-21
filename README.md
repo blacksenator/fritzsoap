@@ -147,7 +147,7 @@ You must have activated the USB remote access function in the FRITZ!Box to be ab
 
 ##### Some other ghosts
 
-* `any` has no actions - generic template?
+* `any` has no actions - generic template for [aura](https://github.com/blacksenator/fritzsoap/blob/ff3726759f92944af365e089a6ffb86a5902591a/src/aura.php#L27)?
 * `avmnexus`
 * `fritzbox` disappeared with FRITZ!OS 7.29 (or before?) but reappeared with 7.50
 * `l2tpv3`

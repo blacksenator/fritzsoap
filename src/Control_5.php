@@ -3,7 +3,7 @@
 namespace blacksenator\fritzsoap;
 
 /**
- * The class provides functions to read and manipulate data via TR-064 interface
+ * The class provides functions to read and manipulate data via SOAP interface
  * on FRITZ!Box router from AVM.
  * No specific documentation available! As of FRITZ!OS 7.50, control services
  * can no longer be found in the description files

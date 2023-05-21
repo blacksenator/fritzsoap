@@ -3,7 +3,7 @@
 namespace blacksenator\fritzsoap;
 
 /**
- * The class provides functions to read and manipulate data via TR-064 interface
+ * The class provides functions to read and manipulate data via SOAP interface
  * on FRITZ!Box router from AVM.
  *
  * There is no official AVM documentation about AURA (AVM USB Remote Access)

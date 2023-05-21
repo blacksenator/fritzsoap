@@ -3,28 +3,8 @@
 namespace blacksenator\fritzsoap;
 
 /**
- * The class provides the base functions to read and manipulate data via TR-064
- * interface on FRITZ!Box router from AVM:
- *
- * With the instantiation of this class or descendants, all available services
- * and actions of the addressed FRITZ!Box are available. The service parameters
- * and available actions are provided in a compressed form as XML and can be
- * output with getServiceDescription().
- * The matching SOAP client only needs to be called with the name of the
- * services <services name = "..."> as class name
- *
- * Example (get your avalaible services)
- *   $fritzbox = new x_contact($url, $user, $password);
- *   $services = $fritzbox->getServiceDescription();
- *   $services->asXML('services.xml');
- *
- * Example (get info of a service):
- *   $fritzbox = new x_voip($url, $user, $password);
- *   $info = $fritzbox->getInfo()
- *
- * Example (get list of network devices)
- *   $fritzbox = new hosts($url, $user, $password);
- *   $meshList = $fritzbox->x_AVM_DE_GetMeshListPath();
+ * The class provides the central base functions to read and manipulate data via
+ * SOAP interface on FRITZ!Box router or repeater from AVM
  *
  * @see https://boxmatrix.info/wiki/XML-Files ('*desc.xml (static)') as an
  * overview of service description files (self::SERVICE_DESCR)
@@ -106,7 +86,7 @@ class fritzsoap
      * before the automatic 10-minute timeout kicks in."
      *
      * You must therefore keep in mind that if programs have been running for a
-     * long time, the SID may need to be renewed by calling this function
+     * longer time, the SID may need to be renewed by calling this function
      *
      * @see https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/AVM_Technical_Note_-_Session_ID_english_2021-05-03.pdf
      *

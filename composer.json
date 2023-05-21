@@ -3,7 +3,7 @@
     "type": "library",
     "keywords": ["SOAP", "TR-064", "fritzbox"],
     "homepage": "https://github.com/blacksenator/fritzsoap",
-    "description": "Reading/writing FRITZ!Box data via TR-064 interface",
+    "description": "Reading/writing FRITZ!Box data via SOAP interface",
     "license": "MIT",
     "authors": [
         {

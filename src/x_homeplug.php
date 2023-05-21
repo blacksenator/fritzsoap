@@ -4,7 +4,7 @@ namespace blacksenator\fritzsoap;
 
 /**
  * The class provides functions to read and manipulate data for powerline
- * devices via TR-064 interface on FRITZ!Box router from AVM:
+ * devices via SOAP interface on FRITZ!Box router from AVM:
  *
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/x_homeplugSCPD.pdf
  *
