@@ -9,7 +9,7 @@ namespace blacksenator\fritzsoap;
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/x_myfritzSCPD.pdf
  *
  * @author Volker Püschel <knuffy@anasco.de>
- * @copyright Volker Püschel 2019 - 2023
+ * @copyright Volker Püschel 2019 - 2025
  * @license MIT
 **/
 

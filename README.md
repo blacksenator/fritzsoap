@@ -6,10 +6,10 @@
 
 <img align="right" src="assets/fritzsoap.png"/>
 
-This class provides functions to read and manipulate data via TR-064 and UPnP (IGD) interfaces on FRITZ!Box routers and FRITZ!Repeater from [AVM](https://en.avm.de/).
+This class provides functions to read and manipulate data via TR-064 and UPnP (IGD) interfaces on FRITZ!Box routers and FRITZ!Repeater from [AVM][AVM].
 For example, the FRITZ!Box 7590 provides over **500** interfaces (**actions**) in more than **50 services**.
 
-For reference, it is highly recommended to consult the [information AVM provides for interfaces](https://avm.de/service/schnittstellen/)!
+For reference, it is highly recommended to consult the [information AVM provides for interfaces][interfaces]!
 Despite the large number of actions, not everything that is displayed or parameterized via the FRITZ!OS GUI can be queried or adapted via these interfaces (see [Wishes](#wishes)).
 This library was created to make the large number of interfaces as easy to use as possible.
 
@@ -60,14 +60,14 @@ The use of the functions is described in their respective headers.
 
 ### Useful dependency
 
-In addition, this repository uses [fbvalidateurl](https://packagist.org/packages/blacksenator/fbvalidateurl) (is automatically installed by Composer). So you do not have to worry about whether you enter the router address with or without scheme (`http://`/`https://`), with hostname (`fritz.box`) or IP (`192.168.178.1`).
+In addition, this repository uses [fbvalidateurl][fbvalidateurl] (is automatically installed by Composer). So you do not have to worry about whether you enter the router address with or without scheme (`http://`/`https://`), with hostname (`fritz.box`) or IP (`192.168.178.1`).
 Based on the validated URL, the **correct SOAP port** is also determined automatically!
 
 ### Refreshing SID
 
-Keep in mind that if programs have been running for a longer time, the [SID](https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/AVM_Technical_Note_-_Session_ID.pdf) may need to be renewed by calling the `getClient()` function!
+Keep in mind that if programs have been running for a longer time, the [SID][sid] may need to be renewed by calling the `getClient()` function!
 So what does long time mean?
-The [AVM documentation](https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/AVM_Technical_Note_-_Session_ID_english_2021-05-03.pdf) is also imprecise here: "...*Once it has been assigned, a session ID is valid for **20** minutes. The validity is extended automatically whenever access to the FRITZ!Box is active*..." and in the same document: "...*A session can be ended at any time by deleting the session ID, even before the automatic **10**-minute timeout kicks in*..."
+The [AVM documentation][interfacetechnicalnote] is also imprecise here: "...*Once it has been assigned, a session ID is valid for **20** minutes. The validity is extended automatically whenever access to the FRITZ!Box is active*..." and in the same document: "...*A session can be ended at any time by deleting the session ID, even before the automatic **10**-minute timeout kicks in*..."
 
 ## Genesis
 
@@ -123,14 +123,14 @@ You will find the input or output parameter (arguments) in the comment section a
 
 But as I said before:
 
-* it is highly recommended to consult the information [AVM provides for interfaces](https://avm.de/service/schnittstellen/)
+* it is highly recommended to consult the information [AVM provides for interfaces][interfaces]
 * contributions are highly appreciated. Share your enhancements! With your PR, everyone benefits from further completion!
 
 ### Ghosts
 
 #### Services
 
-Automatic generation has also originate services that are not or not clearly [documented by AVM](https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/AVM_TR-064_overview.pdf#page=2). Accordingly, these classes have **no link to a reference document in the class comment!**
+Automatic generation has also originate services that are not or not clearly [documented by AVM][tr064overview]. Accordingly, these classes have **no link to a reference document in the class comment!**
 
 These presumably refer to specifications from Open Connectivity Foundation (aka UPnP-Forum). But parsing that or keeping track of it manually is far beyond my capabilities.
 
@@ -142,12 +142,12 @@ In all other cases you will find a link like this:
 
 ##### AURA (AVM USB Remote Access)
 
-There is one exception so far: `AURA`. Through a [thread in the IP Phone Forum](https://www.ip-phone-forum.de/threads/v0-4-1-30-09-2009-fritzboxnet-net-bibliothek-f%C3%BCr-fritz-box.190718/) I learned how this service works. The six actions of this service are coded and an [unofficial documentation](docs/auraSCPD.pdf) can be found in the `/docs` folder.
+There is one exception so far: `AURA`. Through a [thread in the IP Phone Forum][auradiscussion] I learned how this service works. The six actions of this service are coded and an [unofficial documentation](docs/auraSCPD.pdf) can be found in the `/docs` folder.
 You must have activated the USB remote access function in the FRITZ!Box to be able to access this service!
 
 ##### Some other ghosts
 
-* `any` has no actions - generic template for [aura](https://github.com/blacksenator/fritzsoap/blob/ff3726759f92944af365e089a6ffb86a5902591a/src/aura.php#L27)?
+* `any` has no actions - generic template for [aura][aura]?
 * `avmnexus`
 * `fritzbox` disappeared with FRITZ!OS 7.29 (or before?) but reappeared with 7.50
 * `l2tpv3`
@@ -166,8 +166,8 @@ In some cases actions are defined in the *SCPD.xml, which are not documented and
 
 ## Requirements
 
-* PHP 7.3 or higher (php-soap, php-xml)
-* Composer (follow the installation guide at <https://getcomposer.org/download/)>
+* PHP 8.2 or higher (php-soap, php-xml)
+* [Composer][composer]
 
 ## Installation
 
@@ -258,7 +258,7 @@ In certain cases it can make sense not to use this implemented routine
 if ($this->errorHandling($result, 'Could not ... from/to FRITZ!Box')) {
 ```
 
-and instead to [query it](https://www.php.net/manual/de/function.is-soap-fault.php) yourself
+and instead to [query it][query] yourself
 
 ```PHP
 if (is_soap_fault($result)) {
@@ -280,7 +280,7 @@ First of all, it has to be said that the TR-064 interface is a great thing. Alth
 From my point of view, actions (functions) are missing for some interesting output and tasks. Just to highlight a few:
 
 * telephony
-  * disconnect/reject inbound calls
+  * disconnect/reject inbound calls (for a workaround see [miniSIP4fb][minisip]))
 * parental controls
   * get connected devices with their profile
   * change filters/profile of devices
@@ -293,7 +293,7 @@ Apart from that, there are a number of actions where it is unclear which value i
 
 ## Disclaimer
 
-FRITZ!Box, FRITZ!Repeater, FRITZ!OS are trademarks of [AVM](https://avm.de/). This software is **in no way affiliated** with AVM and only uses the [interfaces published by them](https://avm.de/service/schnittstellen/).
+FRITZ!Box, FRITZ!Repeater, FRITZ!OS are trademarks of [AVM](https://avm.de/). This software is **in no way affiliated** with AVM and only uses the [interfaces published by them][interfaces].
 
 ## License
 
@@ -301,4 +301,16 @@ This script is released under MIT license.
 
 ## Author
 
-Copyright (c) 2019 - 2023 Volker Püschel
+Copyright (c) 2019 - 2025 Volker Püschel
+
+[minisip]: https://github.com/blacksenator/miniSIP4fb
+[query]: https://www.php.net/manual/de/function.is-soap-fault.php
+[aura]: https://github.com/blacksenator/fritzsoap/blob/ff3726759f92944af365e089a6ffb86a5902591a/src/aura.php#L27
+[auradiscussion]: https://www.ip-phone-forum.de/threads/v0-4-1-30-09-2009-fritzboxnet-net-bibliothek-f%C3%BCr-fritz-box.190718/
+[interfaces]: https://avm.de/service/schnittstellen/
+[AVM]: https://en.avm.de/
+[fbvalidateurl]: https://packagist.org/packages/blacksenator/fbvalidateurl
+[sid]: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/AVM_Technical_Note_-_Session_ID.pdf
+[interfacetechnicalnote]: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/AVM_Technical_Note_-_Session_ID_english_2021-05-03.pdf
+[tr064overview]: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/AVM_TR-064_overview.pdf#page=2
+[composer]: https://getcomposer.org/download/

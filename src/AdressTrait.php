@@ -5,7 +5,7 @@ namespace blacksenator\fritzsoap;
 /**
  * This trait provides basic functions to adress the FRITZ!Box properly
  *
- * Copyright (c) 2023 Volker Püschel
+ * Copyright (c) 2025 Volker Püschel
  * @license MIT
  */
 

@@ -13,7 +13,7 @@ namespace blacksenator\fritzsoap;
  * - getDectList()
  *
  * @author Volker Püschel <knuffy@anasco.de>
- * @copyright Volker Püschel 2019 - 2023
+ * @copyright Volker Püschel 2019 - 2025
  * @license MIT
 **/
 

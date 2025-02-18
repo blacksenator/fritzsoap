@@ -25,7 +25,7 @@ namespace blacksenator\fritzsoap;
  *   the ID of the dedicated phonebook and optional the phone type (quite simple!)
  *
  * @author Volker Püschel <knuffy@anasco.de>
- * @copyright Volker Püschel 2019 - 2023
+ * @copyright Volker Püschel 2019 - 2025
  * @license MIT
 **/
 

@@ -10,7 +10,7 @@ namespace blacksenator\fritzsoap;
  * @see: https://en.avm.de/service/knowledge-base/dok/FRITZ-Box-7590/3408_Extending-the-online-time-permitted-in-the-parental-controls-with-tickets/
  *
  * @author Volker Püschel <knuffy@anasco.de>
- * @copyright Volker Püschel 2019 - 2023
+ * @copyright Volker Püschel 2019 - 2025
  * @license MIT
 **/
 

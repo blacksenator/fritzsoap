@@ -8,18 +8,14 @@ namespace blacksenator\fritzsoap;
  *
  * @see: https://avm.de/fileadmin/user_upload/Global/Service/Schnittstellen/x_homeauto.pdf
  *
- * +++++++++++++++++++++ ATTENTION +++++++++++++++++++++
- * THIS FILE IS AUTOMATIC ASSEMBLED BUT PARTLY REVIEWED!
- * ALL FUNCTIONS ARE FRAMEWORKS AND HAVE TO BE CORRECTLY
- * CODED, IF THEIR COMMENT WAS NOT OVERWRITTEN!
- * +++++++++++++++++++++++++++++++++++++++++++++++++++++
- *
  * In addition to the designated functions for each action, this class contains
  * further functions:
- * - getDevices() extends getInfo()
+ * - getDevices() extends getGenericDeviceInfos() and returns an array of the 
+ *   implemented devices with index as key and name as value [1 => 'Switch A']
+ * - getDeviceAIN() returns the AIN to the given name
  *
  * @author Volker Püschel <knuffy@anasco.de>
- * @copyright Volker Püschel 2019 - 2023
+ * @copyright Volker Püschel 2019 - 2025
  * @license MIT
 **/
 
@@ -197,7 +193,7 @@ class x_homeauto extends fritzsoap
         $this->errorHandling($result, 'Could not set switch state at FRITZ!Box');
     }
 
-    // +++ Additional functions not directly related to an action +++
+    // +++ Additional functions +++
 
     /**
      * Returns an array with the installed homeauto devices
@@ -222,10 +218,27 @@ class x_homeauto extends fritzsoap
             if (!is_soap_fault($device)) {
                 $devices[$i] = $device['NewDeviceName'];
             } else {
-                break;          // interrupts loop with first appearing soapfault
+                break;      // interrupts loop with first appearing soapfault
             }
         }
 
         return $devices;
+    }
+
+    /**
+     * returns the AIN to a designated device by name
+     * If the given name is included in the list of defined devices, the AIN is 
+     * returned
+     * 
+     * @param string $name
+     * @return string|false
+     */
+    public function getDeviceAIN(string $name)
+    {
+        if (($index = array_search($name, $this->getDevices())) !== false) {
+            return $this->getGenericDeviceInfos($index)['NewAIN'];
+        }
+
+        return false;
     }
 }
